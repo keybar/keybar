@@ -1,0 +1,7 @@
+include CHANGES README.rst AUTHORS IDEAS LICENSE Makefile Procfile
+recursive-include tests *
+recursive-include docs *
+recursive-include examples *
+global-exclude *.pyc
+global-exclude *.pyo
+prune docs/_build

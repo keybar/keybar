@@ -1,0 +1,10 @@
+pid=
+cert=extras/stunnel/stunnel.pem
+foreground=yes
+debug=5
+sslVersion = SSLv3
+
+[https]
+accept=0.0.0.0:8443
+connect=0.0.0.0:8001
+TIMEOUTclose=1

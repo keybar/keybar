@@ -1,0 +1,2 @@
+# We depend on Django 1.7
+-e git+https://github.com/django/django.git@stable/1.7.x#egg=django

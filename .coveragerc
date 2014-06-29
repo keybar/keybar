@@ -1,0 +1,9 @@
+[run]
+branch = True
+source = keybar/
+include =  keybar*
+omit =
+     keybarsettings/*settings.py
+     keybarurls.py
+     keybarwsgi.py
+    *migrations*
