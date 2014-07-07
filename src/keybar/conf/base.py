@@ -149,11 +149,6 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose'
         },
-        'sentry': {
-            'level': 'WARNING',
-            'class': 'raven.contrib.django.handlers.SentryHandler',
-            'formatter': 'simple'
-        }
     },
     'formatters': {
         'verbose': {
