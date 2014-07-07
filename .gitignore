@@ -21,6 +21,9 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+.sass-cache
+bower_components/
+node_modules/
 
 # Installer logs
 pip-log.txt
