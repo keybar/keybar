@@ -9,5 +9,4 @@ class KeybarConfig(AppConfig):
     def ready(self):
         # We do like our application structure more than django's
         # so we import our modules manually.
-        # from keybar.models...
-        pass
+        from keybar.models import user  # noqa
