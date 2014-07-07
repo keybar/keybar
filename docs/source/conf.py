@@ -2,7 +2,7 @@
 import os
 import pkg_resources
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "keybar.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "keybar.conf.development")
 
 
 try:
