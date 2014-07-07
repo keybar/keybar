@@ -79,7 +79,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author='Christopher Grebs',
     author_email='cg@webshox.org',
-    url='https://github.com/EnTeQuAk/keybar/',
+    url='https://github.com/keybar/keybar/',
     package_dir={'': 'src'},
     packages=find_packages('src'),
     include_package_data=True,

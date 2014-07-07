@@ -171,5 +171,5 @@ Resources
 ---------
 
 * `Documentation <http://keybar.readthedocs.org>`_
-* `Bug Tracker <https://github.com/EnTeQuAk/keybar/issues>`_
-* `Code <https://github.com/EnTeQuAk/keybar>`_
+* `Bug Tracker <https://github.com/keybar/keybar/issues>`_
+* `Code <https://github.com/keybar/keybar>`_
