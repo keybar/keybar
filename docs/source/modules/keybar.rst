@@ -8,7 +8,6 @@ Subpackages
 
     keybar.conf
     keybar.models
-    keybar.utils
     keybar.web
 
 Submodules
