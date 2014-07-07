@@ -189,3 +189,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Application specific settings
 GPG_BIN = '/usr/bin/gpg'
+GPG_HOME = ''

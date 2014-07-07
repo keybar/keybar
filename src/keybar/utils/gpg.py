@@ -1,9 +1,10 @@
 import os
-import subprocess
+
+import gnupg
 
 from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
-from django.utils.encoding import force_bytes
+from django.utils.encoding import force_text, force_bytes
 
 
 if not os.access(settings.GPG_BIN, os.X_OK):
@@ -12,45 +13,25 @@ if not os.access(settings.GPG_BIN, os.X_OK):
     )
 
 
-class EncryptionError(Exception):
-    """
-    This exception is raised to indicate that an error occurred during the
-    encryption process. The exception value will be the STDERR output of gpg,
-    so this exception should be swallowed by the calling process unless running
-    in debug mode.
-    """
+def encrypt(raw_data, recipients):
+    gpg = gnupg.GPG(gnupghome=settings.GPG_HOME, gpgbinary=settings.GPG_BIN)
+
+    encrypted = gpg.encrypt(
+        force_bytes(raw_data),
+        recipients,
+        always_trust=True,
+        armor=True)
+
+    return force_text(encrypted)
 
 
-def encrypt(data, key_ids=None):
-    """
-    Encrypt data with the public keys as specified as key_ids of the
-    application keyring. Data may contain unicode characters, which are sent
-    to GPG as UTF-8 data.
-    """
-    args = [
-        settings.GPG_BIN,
-        '--encrypt',
-        '--no-options',
-        '--trust-model',
-        'always',
-        '--batch',
-        '--armor',
-    ]
+def decrypt(encrypted_data, passphrase=None):
+    gpg = gnupg.GPG(gnupghome=settings.GPG_HOME, gpgbinary=settings.GPG_BIN)
 
-    for key_id in key_ids:
-        args += ['--recipient', key_id]
+    kwargs = {}
 
-    try:
-        gpg = subprocess.Popen(
-            args,
-            bufsize = 4096,
-            stdin = subprocess.PIPE,
-            stdout = subprocess.PIPE,
-            stderr = subprocess.PIPE,
-        )
-        output = gpg.communicate(force_bytes(data))
-        if gpg.returncode != 0:
-            raise EncryptionError('{0:d}: {0}'.format(gpg.returncode, output[1]))
-        return output[0]
-    except OSError as exc:
-        raise EncryptionError(exc)
+    if passphrase:
+        kwargs['passphrase'] = passphrase
+
+    decrypted = gpg.decrypt(force_bytes(encrypted_data), **kwargs)
+    return force_text(decrypted.data)
