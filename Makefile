@@ -13,7 +13,7 @@ clean: clean-build clean-pyc
 
 deps:
 	pip install --upgrade -r requirements.txt
-	pip install -e . --allow-all-external
+	pip install -e .
 	pip install "file://`pwd`#egg=keybar[tox]"
 	pip install "file://`pwd`#egg=keybar[docs]"
 	pip install "file://`pwd`#egg=keybar[tests]"
