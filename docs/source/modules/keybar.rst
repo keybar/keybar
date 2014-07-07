@@ -53,22 +53,6 @@ keybar.testutils module
     :undoc-members:
     :show-inheritance:
 
-keybar.urls module
-------------------
-
-.. automodule:: keybar.urls
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-keybar.wsgi module
-------------------
-
-.. automodule:: keybar.wsgi
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 
 Module contents
 ---------------
