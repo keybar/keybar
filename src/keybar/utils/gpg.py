@@ -6,8 +6,10 @@ from django.conf import settings
 from django.utils.encoding import force_bytes
 
 
-if not os.access(GPG_BIN, os.X_OK):
-    raise ImproperlyConfigured('Cannot find GnuPG binary at {}'.format(GPG_BIN))
+if not os.access(settings.GPG_BIN, os.X_OK):
+    raise ImproperlyConfigured(
+        'Cannot find GnuPG binary at {}'.format(settings.GPG_BIN)
+    )
 
 
 class EncryptionError(Exception):
