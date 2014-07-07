@@ -42,7 +42,6 @@ install_requires = [
     'django-suit>=0.2.8,<0.3',
 
     'cryptography>=0.5,<1.0',
-    'python-gnupg>=0.3.6,<0.4',
 
     # Explicit for Python 3.4 compatibility
     'billiard>=3.3.0.17,<3.3.1',
