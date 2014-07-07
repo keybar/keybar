@@ -24,7 +24,7 @@ develop: deps
 	gem install foreman compass
 
 docs: clean-build
-	sphinx-apidoc --force -o docs/source/modules/ src/keybar src/keybar/*/migrations src/keybar/tests
+	sphinx-apidoc --force -o docs/source/modules/ src/keybar src/keybar/*/migrations src/keybar/tests src/keybar/settings.py
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 
