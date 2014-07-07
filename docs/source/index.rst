@@ -13,8 +13,6 @@ Keybar - secure password storage and exchange.
    :align: right
    :target: http://thenounproject.com/term/safe/1411/
 
-   by Simon Child
-
 
 More documentation
 ------------------
