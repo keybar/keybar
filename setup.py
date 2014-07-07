@@ -42,8 +42,9 @@ install_requires = [
     'django-suit>=0.2.8,<0.3',
 
     'cryptography>=0.5,<1.0',
+    'python-gnupg>=0.3.6,<0.4',
 
-    # For Python 3.4 compatibility
+    # Explicit for Python 3.4 compatibility
     'billiard>=3.3.0.17,<3.3.1',
 ]
 
@@ -55,6 +56,10 @@ dev_requires = [
 docs_requires = [
     'sphinx',
     'sphinx_rtd_theme'
+]
+
+postgresql_requires = [
+    'psycopg2',
 ]
 
 
@@ -90,6 +95,7 @@ setup(
         'docs': docs_requires,
         'tests': test_requires,
         'dev': dev_requires,
+        'postgresql': postgresql_requires,
     },
     zip_safe=False,
     license='BSD',

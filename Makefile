@@ -17,6 +17,7 @@ deps:
 	pip install "file://`pwd`#egg=keybar[tox]"
 	pip install "file://`pwd`#egg=keybar[docs]"
 	pip install "file://`pwd`#egg=keybar[tests]"
+	pip install "file://`pwd`#egg=keybar[postgresql]"
 
 develop: deps
 	npm install
