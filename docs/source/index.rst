@@ -1,7 +1,23 @@
-Welcome to keybar's documentation!
-==================================
+Keybar - secure password storage and exchange.
+==============================================
 
-Contents:
+
+.. warning::
+
+   Keybar is under heavy development. Don't use it.
+
+
+**Keybar** is a framework, service and client for secure password storage and exchange.
+
+.. figure:: logo.jpg
+   :align: right
+   :target: http://thenounproject.com/term/safe/1411/
+
+   by Simon Child
+
+
+More documentation
+------------------
 
 .. toctree::
    :maxdepth: 2

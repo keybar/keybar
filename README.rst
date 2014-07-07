@@ -2,6 +2,20 @@
 Keybar
 ======
 
+.. warning::
+
+   Keybar is under heavy development. Don't use it.
+
+
+**Keybar** is a framework, service and client for secure password storage and exchange.
+
+.. figure:: https://keybar.readthedocs.org/en/latest/_images/logo.jpg
+   :align: right
+   :target: http://thenounproject.com/term/safe/1411/
+
+   by Simon Child
+
+
 This project aims to implement a safe, open and easy to use password store.
 Basically it'll be a simple web-application that exposes it's functionality
 via a simple REST-Api.
