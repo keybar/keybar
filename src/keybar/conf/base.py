@@ -186,3 +186,6 @@ LOGGING = {
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Application specific settings
+GPG_BIN = 'gpg'
