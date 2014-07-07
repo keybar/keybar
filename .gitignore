@@ -24,6 +24,7 @@ var/
 .sass-cache
 bower_components/
 node_modules/
+src/keybar/static/css/
 
 # Installer logs
 pip-log.txt
