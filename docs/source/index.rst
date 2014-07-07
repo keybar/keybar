@@ -9,7 +9,7 @@ Keybar - secure password storage and exchange.
 
 **Keybar** is a framework, service and client for secure password storage and exchange.
 
-.. figure:: logo.jpg
+.. figure:: _static/logo.jpeg
    :align: right
    :target: http://thenounproject.com/term/safe/1411/
 
