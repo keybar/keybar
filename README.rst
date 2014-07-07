@@ -170,6 +170,6 @@ To start all of them (including the runserver):
 Resources
 ---------
 
-* `Documentation <http://keybar.readthedocs.org>`_
+* `Documentation <http://keybar.io/>`_
 * `Bug Tracker <https://github.com/keybar/keybar/issues>`_
 * `Code <https://github.com/keybar/keybar>`_
