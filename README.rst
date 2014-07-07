@@ -75,7 +75,7 @@ Installation
     $ mkvirtualenv keybar
 
     $ # Clone repository
-    $ git clone git@github.com:EnTeQuAk/keybar.git
+    $ git clone git@github.com:keybar/keybar.git
 
     $ # Activate Environment and install
     $ workon keybar
@@ -114,7 +114,7 @@ Create an empty new PostgreSQL database (any other supported by Django works too
 
 .. code-block:: bash
 
-    $ python manage.py syncdb --migrate --noinput
+    $ python manage.py migrate
 
 
 Superuser & example data
@@ -124,7 +124,6 @@ Superuser & example data
 
     $ # Create a new super user
     $ python manage.py createsuperuser
-    $ python import.py
 
 Now you can run the webserver and start using the site.
 
@@ -140,7 +139,7 @@ Run Celery and other services
 
 Other services being used:
 
-* Celery, is being used to run [regular] tasks, e.g for feed imports.
+* Celery, is being used to run [regular] tasks, e.g for mail output.
 * Compass, is being used to compile our scss files and the foundation framework.
 
 .. note::
