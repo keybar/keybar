@@ -3,6 +3,7 @@ language: python
 #   bundler: true
 #   directories:
 #     - node_modules
+sudo: false
 python: "3.4"
 services:
   - memcached
