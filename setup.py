@@ -26,9 +26,7 @@ test_requires = [
     'pytest-django>=2.6.1,<2.7',
     'factory-boy>=2.3.1,<2.4',
     'python-coveralls>=2.4.2,<2.5',
-    'cov-core>=1.7,<1.8',
     'coverage>=3.7.1,<3.8',
-    'execnet>=1.2.0,<1.3',
     'mock>=1.0.1,<1.1',
     'pep8>=1.4.6,<1.5',
     'httpretty>=0.8.0',
@@ -36,15 +34,11 @@ test_requires = [
 
 
 install_requires = [
-    'Django>=1.7b4',
+    'Django>=1.7rc1',
     'celery>=3.1,<3.2',
     'django-celery>=3.1,<3.2',
-    'django-suit>=0.2.8,<0.3',
 
     'cryptography>=0.5,<1.0',
-
-    # Explicit for Python 3.4 compatibility
-    'billiard>=3.3.0.17,<3.3.1',
 ]
 
 
@@ -52,10 +46,12 @@ dev_requires = [
     'ipdb'
 ]
 
+
 docs_requires = [
     'sphinx',
     'sphinx_rtd_theme'
 ]
+
 
 postgresql_requires = [
     'psycopg2',
