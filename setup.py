@@ -59,18 +59,45 @@ postgresql_requires = [
 
 
 class PyTest(TestCommand):
+    user_options = [
+        ('cov=', None, 'Run coverage'),
+        ('cov-xml=', None, 'Generate junit xml report'),
+        ('cov-html=', None, 'Generate junit html report'),
+        ('junitxml=', None, 'Generate xml of test results'),
+        ('clearcache', None, 'Clear cache first')
+    ]
+    boolean_options = ['clearcache']
 
-    def finalize_options(self):
-        TestCommand.finalize_options(self)
-        self.test_args = ['tests']
-        self.test_suite = True
+    def initialize_options(self):
+        TestCommand.initialize_options(self)
+        self.cov = None
+        self.cov_xml = False
+        self.cov_html = False
+        self.junitxml = None
+        self.clearcache = False
 
     def run_tests(self):
-        # import here, cause outside the eggs aren't loaded
         import pytest
-        errno = pytest.main(self.test_args)
-        sys.exit(errno)
 
+        params = {'args': self.test_args}
+
+        if self.cov is not None:
+            params['plugins'] = ['cov']
+            params['args'].extend(
+                ['--cov', self.cov, '--cov-report', 'term-missing'])
+            if self.cov_xml:
+                params['args'].extend(['--cov-report', 'xml'])
+            if self.cov_html:
+                params['args'].extend(['--cov-report', 'html'])
+        if self.junitxml is not None:
+            params['args'].extend(['--junitxml', self.junitxml])
+        if self.clearcache:
+            params['args'].extend(['--clearcache'])
+
+        self.test_suite = True
+
+        errno = pytest.main(**params)
+        sys.exit(errno)
 
 setup(
     name='keybar',
@@ -83,6 +110,7 @@ setup(
     package_dir={'': 'src'},
     packages=find_packages('src'),
     include_package_data=True,
+    test_suite='.',
     tests_require=test_requires,
     install_requires=install_requires,
     cmdclass={'test': PyTest},
