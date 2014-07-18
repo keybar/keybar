@@ -57,13 +57,13 @@ man_pages = [
 
 texinfo_documents = [
     ('index', 'keybar', u'keybar Documentation',
-     u'keybar', 'keybar', 'One line description of project.',
+     u'keybar', 'keybar', 'Secure password storage',
      'Miscellaneous'),
 ]
 
-epub_title = u'keybar'
-epub_author = u'keybar'
-epub_publisher = u'keybar'
-epub_copyright = u'2014, keybar'
+epub_title = u'Keybar - secure password storage'
+epub_author = u'Christopher Grebs'
+epub_publisher = u'Christopher Grebs'
+epub_copyright = u'2014, Christopher Grebs'
 
 intersphinx_mapping = {'http://docs.python.org/': None}
