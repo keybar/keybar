@@ -3,24 +3,32 @@ language: python
 #   bundler: true
 #   directories:
 #     - node_modules
+
 sudo: false
+
 python: "3.4"
+
 services:
   - memcached
   - postgresql
+
 addons:
   postgresql: 9.3
+
 env:
   matrix:
     - DB=postgres
   global:
     - PIP_DOWNLOAD_CACHE=".pip_download_cache"
+
 before_script:
   - psql -c 'create database keybar_test;' -U postgres
+
 script:
   - psql --version
   - make develop
   - make test
+
 after_success:
   - pip install "coveralls==0.4.1" coverage
   - coverage report
