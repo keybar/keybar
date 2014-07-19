@@ -33,7 +33,6 @@ def get_server_context():
     )
 
 
-
 def get_client_context():
     """Matching TLS configuration for the client."""
     client_ctx = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
