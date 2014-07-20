@@ -29,27 +29,20 @@ General ideas so that they don't get lost.
 
 Client:
 
- * Generate GnuPG Key
- * Share public key with server
- * Server sends gpg encrypted message with current token
- * From now on communication based on Fernet encryption
+ * Hardwire and force best TLS configuration for Client <-> Server communication.
+ * Optionally save all (Fernet-) encrypted data locally
 
- * Retrieve password
- * Set password
- * ...
+Server
 
-Server:
-
- * Register user with GnuPG key
- * Generate user specific token that expires in a short amount of time
- * Send the token gpg-encrypted to the user
- * Accept only Fernet based encryption communication for all other endpoints
+ * Forced (secure) TLS configuration for Client <-> Server communication
+ * Encrypt all data with Fernet based encryption
+ * Allow for optional server-side encryption key generation
 
 Storage:
 
  * `cryptography` provides a simple PBKDF2HMAC KDF interface
- * With high enough iterations, a huge random salt (at least 256 bit) and a `length` of at least 256
-   the encryption will take hopefully enough time (10s on my laptop) to make it quite hard to actually break through.
+ * With high enough iterations, a huge random salt (e.g 256 bit) it should be hard enough to brute force it
+ * This key will be used for Fernet based AES encryption
 
 Why yet another password storage?
 =================================
