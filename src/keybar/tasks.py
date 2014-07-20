@@ -2,7 +2,7 @@ import logging
 
 from django.core.mail import send_mail as django_send_mail
 
-from keybar.celery import celery
+from keybar.core.celery import celery
 
 
 @celery.task(ignore_result=True, bind=True)
