@@ -135,17 +135,8 @@ Other services being used:
 * Celery, is being used to run [regular] tasks, e.g for mail output.
 * Compass, is being used to compile our scss files and the foundation framework.
 
-.. note::
 
-   To test oauth services we require using a SSL server for local development.
-   It's not required for regular development but the default setup is using SSL.
-
-   Please install ``stunnel``.
-
-   $ brew install stunnel
-
-
-To start all of them (including the runserver):
+To start all of them (including the tls-server):
 
 .. code-block:: bash
 
