@@ -7,9 +7,22 @@ assert ssl.HAS_ECDH
 assert ssl.HAS_SNI
 
 
+try:
+    import certifi
+except ImportError:
+    certifi = None
+
+
+def _default_ca_certs():
+    if certifi is None:
+        raise Exception('The \'certifi\' package is required to use https')
+    return certifi.where()
+
+
 def get_server_context():
     """Our TLS configuration for the server"""
     server_ctx = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+
     server_ctx.set_ecdh_curve('prime256v1')
     server_ctx.verify_mode = ssl.CERT_REQUIRED
 
@@ -32,17 +45,22 @@ def get_server_context():
         settings.KEYBAR_SERVER_KEY
     )
 
+    server_ctx.load_verify_locations(_default_ca_certs())
+
+    return server_ctx
+
 
 def get_client_context():
     """Matching TLS configuration for the client."""
     client_ctx = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+
     client_ctx.verify_mode = ssl.CERT_REQUIRED
 
     # Require checking the hostname
     client_ctx.check_hostname = True
 
     # ECDHE appears to be preferred to RSA in many ways. Same as the server.
-    client_ctx.set_ciphers('ECDHE-ECDSA-AES256-SHA384')
+    client_ctx.set_ciphers('ECDHE-ECDSA-AES256-GCM-SHA384')
 
     # Mitigate CRIME
     client_ctx.options |= ssl.OP_NO_COMPRESSION
@@ -52,3 +70,7 @@ def get_client_context():
         settings.KEYBAR_CLIENT_CERTIFICATE,
         settings.KEYBAR_CLIENT_KEY
     )
+
+    client_ctx.load_verify_locations(_default_ca_certs())
+
+    return client_ctx

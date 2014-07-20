@@ -41,6 +41,7 @@ install_requires = [
     'tornado>=4.0,<5.0',
 
     'cryptography>=0.5,<1.0',
+    'certifi',
 ]
 
 
