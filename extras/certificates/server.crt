@@ -1,29 +1,47 @@
+Certificate:
+    Data:
+        Version: 1 (0x0)
+        Serial Number: 1 (0x1)
+    Signature Algorithm: md5WithRSAEncryption
+        Issuer: C=DE, ST=Berlin, L=Berlin, O=Keybar, CN=local.keybar.io
+        Validity
+            Not Before: Jul 21 20:55:48 2014 GMT
+            Not After : Jul 21 20:55:48 2015 GMT
+        Subject: C=DE, ST=Berlin, L=Berlin, O=Keybar, CN=local.keybar.io
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (1024 bit)
+                Modulus:
+                    00:ea:6f:3e:da:e6:ac:9f:06:29:4a:f1:e6:c3:cc:
+                    07:ca:3e:76:3c:c0:29:aa:57:b6:c2:9c:fc:4b:9a:
+                    09:30:3a:f6:e5:1c:f6:36:c1:9b:12:6e:0f:a7:5c:
+                    0c:ed:b1:60:52:12:a9:eb:e8:95:f6:d0:f7:2f:ea:
+                    50:53:9f:f3:48:61:64:69:e2:9a:21:cc:0f:41:27:
+                    d7:b0:dd:ac:19:92:e5:8a:2a:94:69:22:64:e6:7a:
+                    54:e3:ed:4f:a3:c8:9c:b0:6c:63:cb:41:e3:b1:b4:
+                    b0:2e:c0:91:87:e1:68:cf:f7:65:fd:c4:4e:07:e2:
+                    ba:90:71:07:64:6a:a9:be:69
+                Exponent: 65537 (0x10001)
+    Signature Algorithm: md5WithRSAEncryption
+         43:87:f0:65:0a:49:c7:9c:40:14:b2:93:75:b7:3a:8a:87:71:
+         e2:03:11:2c:8c:59:fb:ee:19:64:72:4d:e1:51:17:96:aa:ff:
+         02:ce:8c:58:f6:32:2b:a6:ef:b5:58:30:c6:7e:6c:c0:f9:39:
+         ba:5f:d9:7a:10:10:45:7a:12:49:06:49:7f:34:0a:11:48:de:
+         50:d1:03:1b:cc:2a:4b:b7:b7:9c:ac:27:d2:bc:6f:e1:83:a8:
+         15:fe:00:2d:ed:3f:49:93:6c:ac:17:85:6e:d8:58:00:9e:38:
+         72:17:f9:34:fc:d9:fe:7a:9b:a0:d1:b3:80:04:e9:c4:b3:61:
+         8e:49
 -----BEGIN CERTIFICATE-----
-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
+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
+AJ44chf5NPzZ/nqboNGzgATpxLNhjkk=
 -----END CERTIFICATE-----

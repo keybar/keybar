@@ -17,17 +17,35 @@ def run_server():
         (r".*", web.FallbackHandler, dict(fallback=container)),
     ])
 
-    server = httpserver.HTTPServer(application, ssl_options=get_server_context())
+    # TODO: enable verify
+    server = httpserver.HTTPServer(
+        application,
+        ssl_options=get_server_context(verify=False))
 
-    print('Start server on https://0.0.0.0:8443')
+    print('Start server on https://local.keybar.io:8443')
 
-    server.listen(8443, '0.0.0.0')
+    server.listen(8443, 'local.keybar.io')
 
     try:
         ioloop.IOLoop.instance().start()
     except KeyboardInterrupt:
         sys.exit(0)
 
+
+# Another, simpler method
+"""
+import BaseHTTPServer, SimpleHTTPServer
+import ssl
+
+httpd = BaseHTTPServer.HTTPServer(
+    ('localhost', 4443),
+    SimpleHTTPServer.SimpleHTTPRequestHandler)
+httpd.socket = ssl.wrap_socket(
+    httpd.socket,
+    certfile='path/to/localhost.pem',
+    server_side=True)
+httpd.serve_forever()
+"""
 
 if __name__ == '__main__':
     run_server()

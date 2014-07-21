@@ -19,15 +19,17 @@ def _default_ca_certs():
     return certifi.where()
 
 
-def get_server_context():
+def get_server_context(verify=True):
     """Our TLS configuration for the server"""
     server_ctx = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
 
     server_ctx.set_ecdh_curve('prime256v1')
-    server_ctx.verify_mode = ssl.CERT_REQUIRED
+    server_ctx.verify_mode = ssl.CERT_NONE if not verify else ssl.CERT_REQUIRED
 
-    # ECDHE appears to be preferred to RSA in many ways
-    server_ctx.set_ciphers('ECDHE-ECDSA-AES256-SHA384')
+    # ECDHE appears to be preferred to RSA in many ways,
+    # unfortunately it does not seem to work (getting handshake failures)
+    # server_ctx.set_ciphers('ECDH-ECDSA-AES256-GCM-SHA384')
+    server_ctx.set_ciphers('ECDHE-RSA-AES256-GCM-SHA384')
 
     # Mitigate CRIME
     server_ctx.options |= ssl.OP_NO_COMPRESSION
@@ -50,17 +52,18 @@ def get_server_context():
     return server_ctx
 
 
-def get_client_context():
+def get_client_context(verify=True):
     """Matching TLS configuration for the client."""
     client_ctx = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
 
-    client_ctx.verify_mode = ssl.CERT_REQUIRED
+    client_ctx.verify_mode = ssl.CERT_NONE if not verify else ssl.CERT_REQUIRED
 
     # Require checking the hostname
-    client_ctx.check_hostname = True
+    # TODO: enable for SNI
+    # client_ctx.check_hostname = True
 
-    # ECDHE appears to be preferred to RSA in many ways. Same as the server.
-    client_ctx.set_ciphers('ECDHE-ECDSA-AES256-GCM-SHA384')
+    # Same as the server.
+    client_ctx.set_ciphers('ECDHE-RSA-AES256-GCM-SHA384')
 
     # Mitigate CRIME
     client_ctx.options |= ssl.OP_NO_COMPRESSION
