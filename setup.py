@@ -14,32 +14,41 @@ with open('CHANGES') as fobj:
 
 
 test_requires = [
+    # General test libraries
     'tox>=1.7.1,<1.8',
     'py>=1.4.20,<1.5',
+    'pytest>=2.5.2,<2.6',
+    'pytest-django>=2.6.1,<2.7',
+
+    # Pep8 and code quality checkers
     'pyflakes>=0.8.1,<0.9',
     'coverage>=3.7.1,<3.8',
-    'pytest>=2.5.2,<2.6',
-    'pytest-cache>=1.0,<2.0',
     'pytest-cov>=1.6,<1.7',
     'pytest-flakes>=0.2,<1.0',
     'pytest-pep8>=1.0.5,<1.1',
-    'pytest-django>=2.6.1,<2.7',
-    'factory-boy>=2.3.1,<2.4',
-    'python-coveralls>=2.4.2,<2.5',
-    'coverage>=3.7.1,<3.8',
-    'mock>=1.0.1,<1.1',
     'pep8>=1.4.6,<1.5',
+    'coverage>=3.7.1,<3.8',
+
+    # Fixtures, test helpers
+    'factory-boy>=2.3.1,<2.4',
+    'mock>=1.0.1,<1.1',
     'httpretty>=0.8.0',
 ]
 
 
 install_requires = [
+    # General dependencies
     'django>=1.7rc1',
+
+    # For async worker support
     'celery>=3.1,<3.2',
     'django-celery>=3.1,<3.2',
 
+    # For our development (and probably production?) tls pre-configured
+    # server.
     'tornado>=4.0,<5.0',
 
+    # All the crypto libs we ever need
     'cryptography>=0.5,<1.0',
     'certifi',
 ]

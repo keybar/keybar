@@ -32,20 +32,5 @@ def run_server():
         sys.exit(0)
 
 
-# Another, probably simpler method
-"""
-import BaseHTTPServer, SimpleHTTPServer
-import ssl
-
-httpd = BaseHTTPServer.HTTPServer(
-    ('localhost', 4443),
-    SimpleHTTPServer.SimpleHTTPRequestHandler)
-httpd.socket = ssl.wrap_socket(
-    httpd.socket,
-    certfile='path/to/localhost.pem',
-    server_side=True)
-httpd.serve_forever()
-"""
-
 if __name__ == '__main__':
     run_server()
