@@ -3,3 +3,6 @@
 
 # To fix https://bitbucket.org/vinay.sajip/python-gnupg/issue/4/error-encrypting-and-decrypting-with
 -e hg+https://bitbucket.org/vinay.sajip/python-gnupg@e8fadcf#egg=python-gnupg
+
+# Python3 enabled versions
+-e git+https://github.com/EnTeQuAk/py-http-signature.git@feature/py3k#egg=py-http-signature
