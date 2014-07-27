@@ -44,6 +44,9 @@ install_requires = [
     'celery>=3.1,<3.2',
     'django-celery>=3.1,<3.2',
 
+    # For our REST Api
+    'djangorestframework>=2.3.14,<2.4',
+
     # For our development (and probably production?) tls pre-configured
     # server.
     'tornado>=4.0,<5.0',

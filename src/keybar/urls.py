@@ -10,4 +10,8 @@ urlpatterns = patterns('',
     # Admin
     url(r'^admin/', include(admin.site.urls)),
 
+    # Browsable API docs
+    url(r'^/api/docs/',
+        include('rest_framework.urls', namespace='rest_framework'))
+
 )

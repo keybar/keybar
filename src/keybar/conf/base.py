@@ -13,6 +13,7 @@ TEMPLATE_DEBUG = False
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = (
+    # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -20,9 +21,14 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Asyncronous worker support
     'celery',
     'kombu.transport.django',
 
+    # For our REST Api
+    'rest_framework',
+
+    # Keybar apps
     'keybar',
 )
 
