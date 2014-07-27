@@ -22,9 +22,9 @@ def run_server():
         application,
         ssl_options=get_server_context(verify=False))
 
-    print('Start server on https://local.keybar.io:8443')
+    print('Start server on https://keybar.local:8443')
 
-    server.listen(8443, 'local.keybar.io')
+    server.listen(8443, 'keybar.local')
 
     try:
         ioloop.IOLoop.instance().start()
@@ -32,7 +32,7 @@ def run_server():
         sys.exit(0)
 
 
-# Another, simpler method
+# Another, probably simpler method
 """
 import BaseHTTPServer, SimpleHTTPServer
 import ssl

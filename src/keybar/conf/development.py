@@ -39,4 +39,4 @@ KEYBAR_SERVER_KEY = os.path.join(certificates_dir, 'server.key')
 KEYBAR_CLIENT_CERTIFICATE = os.path.join(certificates_dir, 'ca.crt')
 KEYBAR_CLIENT_KEY = os.path.join(certificates_dir, 'ca.key')
 
-print(KEYBAR_SERVER_KEY)
+KEYBAR_CA_BUNDLE = os.path.join(certificates_dir, 'ca.db.certs', '01.pem')

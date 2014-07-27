@@ -32,5 +32,8 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'keybar.settings')
 # print(kdf.verify(b"my great password", key))
 
 import requests
+from django.conf import settings
 
-print(requests.get('https://local.keybar.io:8443', verify=False))
+print(requests.get(
+    'https://keybar.local:8443',
+    verify=settings.KEYBAR_CA_BUNDLE))

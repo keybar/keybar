@@ -7,24 +7,12 @@ assert ssl.HAS_ECDH
 assert ssl.HAS_SNI
 
 
-try:
-    import certifi
-except ImportError:
-    certifi = None
-
-
-def _default_ca_certs():
-    if certifi is None:
-        raise Exception('The \'certifi\' package is required to use https')
-    return certifi.where()
-
-
 def get_server_context(verify=True):
     """Our TLS configuration for the server"""
     server_ctx = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
 
     server_ctx.set_ecdh_curve('prime256v1')
-    server_ctx.verify_mode = ssl.CERT_NONE if not verify else ssl.CERT_REQUIRED
+    server_ctx.verify_mode = ssl.CERT_OPTIONAL if not verify else ssl.CERT_REQUIRED
 
     # ECDHE appears to be preferred to RSA in many ways,
     # unfortunately it does not seem to work (getting handshake failures)
@@ -47,7 +35,7 @@ def get_server_context(verify=True):
         settings.KEYBAR_SERVER_KEY
     )
 
-    server_ctx.load_verify_locations(_default_ca_certs())
+    server_ctx.load_verify_locations(settings.KEYBAR_CA_BUNDLE)
 
     return server_ctx
 
@@ -56,11 +44,10 @@ def get_client_context(verify=True):
     """Matching TLS configuration for the client."""
     client_ctx = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
 
-    client_ctx.verify_mode = ssl.CERT_NONE if not verify else ssl.CERT_REQUIRED
+    client_ctx.verify_mode = ssl.CERT_OPTIONAL if not verify else ssl.CERT_REQUIRED
 
     # Require checking the hostname
-    # TODO: enable for SNI
-    # client_ctx.check_hostname = True
+    client_ctx.check_hostname = True
 
     # Same as the server.
     client_ctx.set_ciphers('ECDHE-RSA-AES256-GCM-SHA384')
@@ -74,6 +61,6 @@ def get_client_context(verify=True):
         settings.KEYBAR_CLIENT_KEY
     )
 
-    client_ctx.load_verify_locations(_default_ca_certs())
+    client_ctx.load_verify_locations(settings.KEYBAR_CA_BUNDLE)
 
     return client_ctx

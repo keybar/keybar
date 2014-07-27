@@ -195,3 +195,18 @@ KEYBAR_SERVER_KEY = None
 
 KEYBAR_CLIENT_CERTIFICATE = None
 KEYBAR_CLIENT_KEY = None
+
+
+try:
+    import certifi
+except ImportError:
+    certifi = None
+
+
+def _default_ca_certs():
+    if certifi is None:
+        raise Exception('The \'certifi\' package is required to use https')
+    return certifi.where()
+
+
+KEYBAR_CA_BUNDLE = _default_ca_certs()
