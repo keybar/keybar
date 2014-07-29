@@ -9,6 +9,6 @@ class KeybarApiSignatureAuthentication(SignatureAuthentication):
     def fetch_user_data(self, api_key):
         try:
             user = User.objects.get(api_key=api_key)
-            return (user, user.secret)
+            return (user, 'my secret string')
         except User.DoesNotExist:
             return None

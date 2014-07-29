@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.conf.urls import url, include, patterns
-from keybar.web import views
+
+from keybar.web import api, views
 
 
 urlpatterns = patterns('',
@@ -10,8 +11,6 @@ urlpatterns = patterns('',
     # Admin
     url(r'^admin/', include(admin.site.urls)),
 
-    # Browsable API docs
-    url(r'^/api/docs/',
-        include('rest_framework.urls', namespace='rest_framework'))
-
+    # Hookup our REST Api
+    url(r'^api/users/', api.ListUsersView.as_view())
 )

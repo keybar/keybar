@@ -15,7 +15,7 @@ def run_server():
         (r'/static/(.*)', web.StaticFileHandler, {'path': settings.STATIC_ROOT}),
         (r'/media/(.*)', web.StaticFileHandler, {'path': settings.MEDIA_ROOT}),
         (r".*", web.FallbackHandler, dict(fallback=container)),
-    ])
+    ], debug=True)
 
     # TODO: enable verify
     server = httpserver.HTTPServer(

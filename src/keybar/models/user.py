@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 """
-    keybar.models.auth
+    keybar.models.user
     ~~~~~~~~~~~~~~~~~~
 
-    auth models.
+    User model.
 """
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser
+from uuidfield import UUIDField
 
 from keybar.managers import UserManager
 
@@ -34,6 +35,9 @@ class User(AbstractBaseUser):
 
     email_verified = models.BooleanField(default=False)
     enable_notifications = models.BooleanField(default=False)
+
+    # TODO: implement device-based tokens
+    api_key = UUIDField(auto=True)
 
     objects = UserManager()
 

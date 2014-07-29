@@ -27,6 +27,7 @@ INSTALLED_APPS = (
 
     # For our REST Api
     'rest_framework',
+    'rest_framework_httpsignature',
 
     # Keybar apps
     'keybar',
@@ -206,6 +207,16 @@ SECURE_BROWSER_XSS_FILTER = True
 # Force cookies to be https only (or at least tell the browsers to do so...)
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
+
+# Django REST Framework related settings.
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+       'keybar.core.auth.KeybarApiSignatureAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
+}
 
 # Application specific settings
 GPG_BIN = '/usr/bin/gpg'

@@ -33,7 +33,24 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'keybar.settings')
 
 import requests
 from django.conf import settings
+from http_signature.requests_auth import HTTPSignatureAuth
 
-print(requests.get(
-    'https://keybar.local:8443',
-    verify=settings.KEYBAR_CA_BUNDLE))
+API_KEY_ID = '418a3fdbd04b4ee2833d6cfd3a122c2c'
+SECRET = 'my secret string'
+
+signature_headers = ['request-line', 'accept', 'date', 'host']
+headers = {
+    'Host': 'keybar.local:8443',
+    'Accept': 'application/json',
+    'X-Api-Key': API_KEY_ID,
+}
+
+auth = HTTPSignatureAuth(key_id=API_KEY_ID, secret=SECRET,
+                         algorithm='hmac-sha256',
+                         headers=signature_headers)
+
+response = requests.get('https://keybar.local:8443/api/users/',
+                   auth=auth, headers=headers,
+                   verify=settings.KEYBAR_CA_BUNDLE)
+
+print(response.content)
