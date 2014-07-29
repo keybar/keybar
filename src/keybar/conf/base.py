@@ -136,10 +136,6 @@ CELERYD_HIJACK_ROOT_LOGGER = False
 # want that to be our first-citizen config.
 CELERY_REDIRECT_STDOUTS_LEVEL = 'INFO'
 
-# Disable South in tests as it is sending incorrect create signals
-SOUTH_TESTS_MIGRATE = True
-
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
@@ -191,6 +187,25 @@ LOGGING = {
 }
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# Django security related settings.
+SECURE_SSL_REDIRECT = True
+
+# Commit to HTTPS only for 12 months (HSTS)
+SECURE_HSTS_SECONDS = 31536000
+
+# prevent framing
+SECURE_FRAME_DENY = True
+
+# Don't let the browser guess content-types
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Enable browser XSS Filter
+SECURE_BROWSER_XSS_FILTER = True
+
+# Force cookies to be https only (or at least tell the browsers to do so...)
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
 
 # Application specific settings
 GPG_BIN = '/usr/bin/gpg'
