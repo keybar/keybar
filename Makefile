@@ -43,7 +43,7 @@ test:
 	python setup.py test --clearcache
 
 test-coverage:
-	python setup.py test --clearcache --cov {toxinidir}/src/keybar
+	python setup.py test --clearcache --cov src/keybar
 
 test-all:
 	tox
