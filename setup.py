@@ -126,7 +126,7 @@ setup(
     package_dir={'': 'src'},
     packages=find_packages('src'),
     include_package_data=True,
-    test_suite='.',
+    test_suite='src',
     tests_require=test_requires,
     install_requires=install_requires,
     cmdclass={'test': PyTest},
