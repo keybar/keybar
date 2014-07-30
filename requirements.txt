@@ -5,7 +5,7 @@
 -e hg+https://bitbucket.org/vinay.sajip/python-gnupg@e8fadcf#egg=python-gnupg
 
 # Python3 enabled versions
--e git+https://github.com/EnTeQuAk/py-http-signature.git@feature/py3k#egg=py-http-signature
+-e git+https://github.com/EnTeQuAk/py-http-signature.git@feature/py3k#egg=http-signature
 -e git+https://github.com/julienaubert/django-uuidfield.git@python3#egg=django-uuidfield
 
 # Django 1.7 fixes
