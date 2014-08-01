@@ -31,12 +31,21 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'keybar.settings')
 
 # print(kdf.verify(b"my great password", key))
 
+import django
+django.setup()
+
+
 import requests
+
 from django.conf import settings
 from http_signature.requests_auth import HTTPSignatureAuth
 
-API_KEY_ID = '418a3fdbd04b4ee2833d6cfd3a122c2c'
-SECRET = 'my secret string'
+from keybar.models.user import User
+
+u = User.objects.get(username='admin')
+
+API_KEY_ID = str(u.api_key)
+SECRET = b'my secret string'
 
 signature_headers = ['request-line', 'accept', 'date', 'host']
 headers = {
