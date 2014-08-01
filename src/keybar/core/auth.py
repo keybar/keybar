@@ -11,4 +11,4 @@ class KeybarApiSignatureAuthentication(SignatureAuthentication):
             user = User.objects.get(api_key=api_key)
             return (user, 'my secret string')
         except User.DoesNotExist:
-            return None
+            return (None, None)
