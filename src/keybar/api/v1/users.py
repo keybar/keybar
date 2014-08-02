@@ -1,11 +1,10 @@
-from rest_framework.views import APIView
+from rest_framework import generics
 from rest_framework.response import Response
 
 from keybar.models.user import User
+from keybar.serializers.user import UserSerializer
 
 
-class ListView(APIView):
-
-    def get(self, request, format=None):
-        usernames = [user.username for user in User.objects.all()]
-        return Response(usernames)
+class ListView(generics.ListAPIView):
+    model = User
+    serializer_class = UserSerializer
