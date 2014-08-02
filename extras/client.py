@@ -58,8 +58,8 @@ auth = HTTPSignatureAuth(key_id=API_KEY_ID, secret=SECRET,
                          algorithm='hmac-sha256',
                          headers=signature_headers)
 
-response = requests.get('https://keybar.local:8443/api/users/',
+response = requests.get('https://keybar.local:8443/api/v1/users/',
                    auth=auth, headers=headers,
                    verify=settings.KEYBAR_CA_BUNDLE)
 
-print(response.content)
+print(str(response.content))
