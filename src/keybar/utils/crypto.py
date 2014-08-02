@@ -1,3 +1,5 @@
+from itertools import cycle
+
 import ssl
 from django.conf import settings
 
@@ -5,6 +7,15 @@ from django.conf import settings
 # Verify we can use all feature we require.
 assert ssl.HAS_ECDH
 assert ssl.HAS_SNI
+
+
+def xor_strings(string, key):
+    assert isinstance(string, (bytes, bytearray))
+    assert isinstance(key, (bytes, bytearray))
+
+    base = bytearray(string)
+
+    return bytearray(char ^ k for char, k in zip(base, cycle(key)))
 
 
 def get_server_context(verify=True):

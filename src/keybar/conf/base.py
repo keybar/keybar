@@ -242,3 +242,12 @@ def _default_ca_certs():
 
 
 KEYBAR_CA_BUNDLE = _default_ca_certs()
+
+# NOTE: CHANGING THOSE VALUES REQUIRES RE-ENCRYPTION OF EVERYTHING
+# AND HAS SOME DEEP IMPACT. JUST DONT!
+KEYBAR_KDF_SALT_LENGTH = 16
+KEYBAR_KDF_LENGTH = 32
+
+# In 2013 100,000 was the recommended value, so we settle with one million
+# for now.
+KEYBAR_KDF_ITERATIONS = 1000000

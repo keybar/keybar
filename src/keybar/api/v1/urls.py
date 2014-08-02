@@ -1,5 +1,4 @@
-from django.contrib import admin
-from django.conf.urls import url, include, patterns
+from django.conf.urls import url, patterns
 
 from keybar.api.v1 import users
 

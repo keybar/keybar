@@ -5,7 +5,7 @@ from tornado import wsgi, web, httpserver, ioloop
 from django.conf import settings
 
 from keybar.wsgi import application as django_application
-from keybar.utils.security import get_server_context
+from keybar.utils.crypto import get_server_context
 
 
 def run_server():
