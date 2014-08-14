@@ -1,6 +1,11 @@
 ======
 Keybar
 ======
+.. image:: https://badge.fury.io/py/keybar.png
+    :target: http://badge.fury.io/py/keybar
+
+.. image:: https://travis-ci.org/keybar/keybar.png?branch=master
+        :target: https://travis-ci.org/keybar/keybar
 
 .. warning::
 
@@ -13,11 +18,6 @@ Keybar
    :align: right
    :target: http://thenounproject.com/term/safe/1411/
 
-.. image:: https://badge.fury.io/py/keybar.png
-    :target: http://badge.fury.io/py/keybar
-
-.. image:: https://travis-ci.org/keybar/keybar.png?branch=master
-        :target: https://travis-ci.org/keybar/keybar
 
 This project aims to implement a safe, open and easy to use password store.
 Basically it'll be a simple web-application that exposes it's functionality
