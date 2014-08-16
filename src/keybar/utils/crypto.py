@@ -28,7 +28,13 @@ def get_server_context(verify=True):
     # ECDHE appears to be preferred to RSA in many ways,
     # unfortunately it does not seem to work (getting handshake failures)
     # server_ctx.set_ciphers('ECDH-ECDSA-AES256-GCM-SHA384')
-    server_ctx.set_ciphers('ECDHE-RSA-AES256-GCM-SHA384')
+
+    # (cg) unfortunately somehow on my dev machine chromium does not support
+    # aes256 + sha384 so I'm degrading for now to allow for
+    # Web UI development without hassles :-/
+
+    #server_ctx.set_ciphers('ECDHE-RSA-AES256-GCM-SHA384')
+    server_ctx.set_ciphers('ECDHE-RSA-AES128-GCM-SHA256')
 
     # Mitigate CRIME
     server_ctx.options |= ssl.OP_NO_COMPRESSION
@@ -61,7 +67,8 @@ def get_client_context(verify=True):
     client_ctx.check_hostname = True
 
     # Same as the server.
-    client_ctx.set_ciphers('ECDHE-RSA-AES256-GCM-SHA384')
+    #server_ctx.set_ciphers('ECDHE-RSA-AES256-GCM-SHA384')
+    client_ctx.set_ciphers('ECDHE-RSA-AES128-GCM-SHA256')
 
     # Mitigate CRIME
     client_ctx.options |= ssl.OP_NO_COMPRESSION
