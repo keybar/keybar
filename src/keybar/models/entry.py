@@ -1,13 +1,9 @@
 import os
-import base64
 import hashlib
 
 from django.conf import settings
 from django.db import models
 from cryptography.fernet import Fernet
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
-from cryptography.hazmat.backends import default_backend
 
 from keybar.utils.crypto import xor_strings
 
