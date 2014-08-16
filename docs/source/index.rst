@@ -1,6 +1,6 @@
-.. include:: ../../../README.rst
+.. include:: ../../README.rst
 
-.. include:: ../../../CHANGES.rst
+.. include:: ../../CHANGES.rst
 
 
 More documentation

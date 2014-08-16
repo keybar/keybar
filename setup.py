@@ -8,7 +8,7 @@ from setuptools.command.test import test as TestCommand
 with open('README.rst') as fobj:
     readme = fobj.read()
 
-with open('CHANGES') as fobj:
+with open('CHANGES.rst') as fobj:
     history = fobj.read()
     history.replace('.. :changelog:', '')
 
