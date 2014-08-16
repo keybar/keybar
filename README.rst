@@ -15,10 +15,9 @@ Keybar - secure password storage and exchange.
 
 **Keybar** is a framework, service and client for secure password storage and exchange.
 
-.. figure:: https://keybar.readthedocs.org/en/latest/_images/logo.jpeg
+.. figure:: https://keybar.readthedocs.org/en/latest/_static/logo.jpeg
    :align: right
    :target: http://thenounproject.com/term/safe/1411/
-
 
 This project aims to implement a safe, open and easy to use password store.
 Basically it'll be a simple web-application that exposes it's functionality
