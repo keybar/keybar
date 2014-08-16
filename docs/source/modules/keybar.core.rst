@@ -4,6 +4,14 @@ keybar.core package
 Submodules
 ----------
 
+keybar.core.auth module
+-----------------------
+
+.. automodule:: keybar.core.auth
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 keybar.core.celery module
 -------------------------
 

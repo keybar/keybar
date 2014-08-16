@@ -6,6 +6,7 @@ Subpackages
 
 .. toctree::
 
+    keybar.api
     keybar.conf
     keybar.core
     keybar.models

@@ -4,18 +4,18 @@ keybar.utils package
 Submodules
 ----------
 
-keybar.utils.gpg module
------------------------
+keybar.utils.crypto module
+--------------------------
 
-.. automodule:: keybar.utils.gpg
+.. automodule:: keybar.utils.crypto
     :members:
     :undoc-members:
     :show-inheritance:
 
-keybar.utils.security module
-----------------------------
+keybar.utils.gpg module
+-----------------------
 
-.. automodule:: keybar.utils.security
+.. automodule:: keybar.utils.gpg
     :members:
     :undoc-members:
     :show-inheritance:
