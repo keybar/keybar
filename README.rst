@@ -1,6 +1,7 @@
-======
-Keybar
-======
+==============================================
+Keybar - secure password storage and exchange.
+==============================================
+
 .. image:: https://badge.fury.io/py/keybar.png
     :target: http://badge.fury.io/py/keybar
 

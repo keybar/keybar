@@ -1,4 +1,4 @@
-Keybar Changelog
+Keybar ChangeLog
 ================
 
 Version 0.1

@@ -1,4 +1,4 @@
-include CHANGES README.rst AUTHORS IDEAS LICENSE Makefile Procfile
+include CHANGES.rst README.rst AUTHORS LICENSE Makefile Procfile
 recursive-include tests *
 recursive-include docs *
 recursive-include examples *

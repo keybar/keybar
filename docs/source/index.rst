@@ -1,17 +1,6 @@
-Keybar - secure password storage and exchange.
-==============================================
+.. include:: ../../../README.rst
 
-
-.. warning::
-
-   Keybar is under heavy development. Don't use it.
-
-
-**Keybar** is a framework, service and client for secure password storage and exchange.
-
-.. figure:: _static/logo.jpeg
-   :align: right
-   :target: http://thenounproject.com/term/safe/1411/
+.. include:: ../../../CHANGES.rst
 
 
 More documentation
@@ -29,4 +18,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
