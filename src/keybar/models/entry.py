@@ -54,11 +54,10 @@ class Entry(models.Model):
         # very simplified xor-implementation.
         visible_key = xor_strings(fernet_key, hashed_value)
 
-        print(visible_key, '::', fernet_key)
-        return salt + b'::::' + visible_key
+        return salt + b'$' + visible_key
 
     def get_encryption_key(self, password):
-        salt, visible_key = bytes(self.key).split(b'::::', 1)
+        salt, visible_key = bytes(self.key).split(b'$', 1)
         hashed_value = pbkdf2(salt, password)
 
         # Ordering of the xor-arguments is important, because of
