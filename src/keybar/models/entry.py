@@ -47,7 +47,7 @@ class Entry(models.Model):
         :return: A string of ``16-byte-salt$key``.
         """
         fernet_key = Fernet.generate_key()
-        salt = os.urandom(4)
+        salt = os.urandom(16)
         hashed_value = pbkdf2(salt, password)
 
         # Ordering of the xor-arguments is important, because of
