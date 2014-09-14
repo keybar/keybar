@@ -16,14 +16,14 @@ with open('CHANGES.rst') as fobj:
 test_requires = [
     # General test libraries
     'tox>=1.7.1,<1.8',
-    'py>=1.4.20,<1.5',
-    'pytest>=2.5.2,<2.6',
+    'py>=1.4.24,<1.5',
+    'pytest>=2.6,<2.7',
     'pytest-django>=2.6.1,<2.7',
 
     # Pep8 and code quality checkers
     'pyflakes>=0.8.1,<0.9',
     'coverage>=3.7.1,<3.8',
-    'pytest-cov>=1.6,<1.7',
+    'pytest-cov>=1.8,<1.9',
     'pytest-flakes>=0.2,<1.0',
     'pytest-pep8>=1.0.5,<1.1',
     'pep8>=1.4.6,<1.5',
@@ -38,22 +38,23 @@ test_requires = [
 
 install_requires = [
     # General dependencies
-    'django>=1.7rc1',
+    'django>=1.7,<1.8',
 
     # For async worker support
     'celery>=3.1,<3.2',
     'django-celery>=3.1,<3.2',
 
     # For our REST Api
-    'djangorestframework>=2.3.14,<2.4',
-    'djangorestframework-httpsignature',
+    'djangorestframework>=2.4.2,<2.5',
+    'djangorestframework-httpsignature>=0.2.1,<0.3',
+    'requests>=2.4.1,<2.5',
 
     # For our development (and probably production?) tls pre-configured
     # server.
-    'tornado>=4.0,<5.0',
+    'tornado>=4.0.2,<5.0',
 
     # All the crypto libs we ever need
-    'cryptography>=0.5,<1.0',
+    'cryptography>=0.5.4,<1.0',
     'certifi',
 ]
 

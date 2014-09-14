@@ -1,12 +1,5 @@
-# We depend on Django 1.7
--e git+https://github.com/django/django.git@stable/1.7.x#egg=django
-
 # To fix https://bitbucket.org/vinay.sajip/python-gnupg/issue/4/error-encrypting-and-decrypting-with
 -e hg+https://bitbucket.org/vinay.sajip/python-gnupg@e8fadcf#egg=python-gnupg
 
 # Python3 enabled versions
--e git+https://github.com/EnTeQuAk/py-http-signature.git@feature/py3k#egg=http-signature
 -e git+https://github.com/julienaubert/django-uuidfield.git@python3#egg=django-uuidfield
-
-# Django 1.7 fixes
--e git+https://github.com/EnTeQuAk/django-rest-framework-httpsignature#egg=django-rest-framework-httpsignature
