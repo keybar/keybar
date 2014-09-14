@@ -1,3 +1,4 @@
+import os
 from rest_framework_httpsignature.authentication import SignatureAuthentication
 
 from keybar.models.user import User
@@ -9,6 +10,6 @@ class KeybarApiSignatureAuthentication(SignatureAuthentication):
     def fetch_user_data(self, api_key):
         try:
             user = User.objects.get(api_key=api_key)
-            return (user, 'my secret string')
+            return (user, 'my little secret')
         except User.DoesNotExist:
             return (None, None)
