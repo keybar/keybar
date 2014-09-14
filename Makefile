@@ -27,8 +27,10 @@ develop: deps
 	gem install foreman compass
 
 	# Install nodejs into this virtualenv.
-	pip install nodeenv
-	nodeenv -p
+	ifneq ($(TRAVIS), true)
+		pip install nodeenv
+		nodeenv -p
+	endif
 
 	# Install nodejs dependencies
 	npm install
