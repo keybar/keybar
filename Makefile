@@ -22,7 +22,7 @@ deps:
 	pip install "file://`pwd`#egg=keybar[tests]"
 	pip install "file://`pwd`#egg=keybar[postgresql]"
 
-develop:
+develop: deps
 	# Install ruby dependencies.
 	gem install foreman compass --conservative
 
