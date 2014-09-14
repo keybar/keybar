@@ -22,15 +22,11 @@ deps:
 	pip install "file://`pwd`#egg=keybar[tests]"
 	pip install "file://`pwd`#egg=keybar[postgresql]"
 
-develop: deps
+develop:
 	# Install ruby dependencies.
-	gem install foreman compass
+	gem install foreman compass --conservative
 
-	# Install nodejs into this virtualenv.
-	ifneq ($(TRAVIS), true)
-		pip install nodeenv
-		nodeenv -p
-	endif
+	if test -z "$$TRAVIS"; then pip install nodeenv && nodeenv -p; fi; \
 
 	# Install nodejs dependencies
 	npm install
