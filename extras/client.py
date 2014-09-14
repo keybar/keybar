@@ -17,8 +17,7 @@ import requests
 from keybar.models.user import User
 
 # TODO: Use a secret RSA key as secret.
-#secret = open('example_keys/private_key.pem', 'rb').read()
-secret = 'my little secret'
+secret = open('example_keys/private_key.pem', 'rb').read()
 user = User.objects.get(username='admin')
 
 signature_headers = ['(request-target)', 'accept', 'date', 'host']
