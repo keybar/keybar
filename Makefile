@@ -1,4 +1,4 @@
-.PHONY: clean-pyc clean-build docs
+.PHONY: help clean deps develop docs clean-build lint test test-coverage test-all
 
 help:
 	@echo "clean-build - remove build artifacts"
@@ -20,9 +20,18 @@ deps:
 	pip install "file://`pwd`#egg=keybar[postgresql]"
 
 develop: deps
-	npm install
-	bower update
+	# Install ruby dependencies.
 	gem install foreman compass
+
+	# Install nodejs into this virtualenv.
+	pip install nodeenv
+	nodeenv -p
+
+	# Install nodejs dependencies
+	npm install
+
+	# Install bower dependencies
+	bower update
 
 docs: clean-build
 	sphinx-apidoc --force -o docs/source/modules/ src/keybar src/keybar/migrations src/keybar/tests src/keybar/settings.py
