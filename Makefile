@@ -1,4 +1,7 @@
 .PHONY: help clean deps develop docs clean-build lint test test-coverage test-all
+PYTEST_OPTS=-vs
+COVER=bilor
+APP=src/
 
 help:
 	@echo "clean-build - remove build artifacts"
@@ -49,10 +52,15 @@ lint:
 	flake8 keybar --ignore='E122,E124,E125,E126,E128,E501,F403' --exclude="**/migrations/**"
 
 test:
-	python setup.py test --clearcache
+	py.test ${PYTEST_OPTS} ${APP}
 
-test-coverage:
-	python setup.py test --clearcache --cov src/keybar
 
-test-all:
+coverage:
+	py.test --cov=${COVER} --cov-report=term-missing ${PYTEST_OPTS} ${APP}
+
+
+coverage-html:
+	py.test --cov=${COVER} --cov-report=html ${PYTEST_OPTS} ${APP}
+
+tox:
 	tox
