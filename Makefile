@@ -1,4 +1,4 @@
-.PHONY: help clean deps develop docs clean-build lint test test-coverage test-all
+.PHONY: clean deps develop docs clean-build lint test coverage coverage-html tox
 PYTEST_OPTS=-vs
 COVER=bilor
 APP=src/
@@ -9,8 +9,11 @@ help:
 	@echo "develop - install all packages required for development"
 	@echo "lint - check style with flake8"
 	@echo "test - run tests quickly with the default Python"
-	@echo "test-all - run tests on every Python version with tox"
 	@echo "docs - generate Sphinx HTML documentation, including API docs"
+	@echo "coverage - generate test coverage report"
+	@echo "coverage-html - generate test coverage report, html output"
+	@echo "tox - Run all tests in a tox container"
+
 
 clean: clean-build clean-pyc
 
