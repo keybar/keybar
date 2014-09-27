@@ -18,7 +18,6 @@ from keybar.utils.crypto import _patch_ssl_for_tlsv12_default
 
 _patch_ssl_for_tlsv12_default()
 
-# TODO: Use a secret RSA key as secret.
 secret = open('extras/example_keys/private_key.pem', 'rb').read()
 user = User.objects.get(username='admin')
 
