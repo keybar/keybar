@@ -14,9 +14,6 @@ from httpsig.requests_auth import HTTPSignatureAuth
 import requests
 
 from keybar.models.user import User
-from keybar.utils.crypto import _patch_ssl_for_tlsv12_default
-
-_patch_ssl_for_tlsv12_default()
 
 secret = open('extras/example_keys/private_key.pem', 'rb').read()
 user = User.objects.get(username='admin')
