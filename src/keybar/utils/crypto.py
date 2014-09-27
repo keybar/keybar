@@ -33,7 +33,7 @@ def get_server_context(verify=True):
     # aes256 + sha384 so I'm degrading for now to allow for
     # Web UI development without hassles :-/
 
-    #server_ctx.set_ciphers('ECDHE-RSA-AES256-GCM-SHA384')
+    # server_ctx.set_ciphers('ECDHE-RSA-AES256-GCM-SHA384')
     server_ctx.set_ciphers('ECDHE-RSA-AES128-GCM-SHA256')
 
     # Mitigate CRIME
@@ -67,7 +67,7 @@ def get_client_context(verify=True):
     client_ctx.check_hostname = True
 
     # Same as the server.
-    #server_ctx.set_ciphers('ECDHE-RSA-AES256-GCM-SHA384')
+    # server_ctx.set_ciphers('ECDHE-RSA-AES256-GCM-SHA384')
     client_ctx.set_ciphers('ECDHE-RSA-AES128-GCM-SHA256')
 
     # Mitigate CRIME
