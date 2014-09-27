@@ -5,11 +5,12 @@ from kebar.models.user import User
 
 
 class UserFactory(factory.DjangoModelFactory):
-    FACTORY_FOR = User
-
     username = factory.Sequence(lambda i: 'user{0}')
     email = factory.Sequence(lambda i: '{0}@none.none'.format(i))
     is_active = True
+
+    class Meta:
+        model = User
 
     @classmethod
     def _prepare(cls, create, **kwargs):
