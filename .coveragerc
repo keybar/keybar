@@ -3,7 +3,7 @@ branch = True
 source = src/keybar/
 include = src/keybar*
 omit =
-    src/keybar/settings/*settings.py
+    src/keybar/conf/*.py
     *urls.py
     src/keybar/wsgi.py
     *migrations*
