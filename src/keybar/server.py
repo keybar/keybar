@@ -8,7 +8,7 @@ from keybar.wsgi import application as django_application
 from keybar.utils.crypto import get_server_context
 
 
-def run_server():
+def get_server():
     container = wsgi.WSGIContainer(django_application)
 
     application = web.Application([
@@ -21,6 +21,11 @@ def run_server():
     server = httpserver.HTTPServer(
         application,
         ssl_options=get_server_context(verify=False))
+    return server
+
+
+def run_server():
+    server = get_server()
 
     print('Start server on https://keybar.local:8443')
 
