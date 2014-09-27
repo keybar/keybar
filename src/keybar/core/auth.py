@@ -7,6 +7,7 @@ from keybar.models.user import User
 
 class KeybarApiSignatureAuthentication(SignatureAuthentication):
     API_KEY_HEADER = 'X-Api-Key'
+    ALGORITHM = 'rsa-sha256'
 
     def fetch_user_data(self, api_key):
         try:

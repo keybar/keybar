@@ -3,3 +3,6 @@
 
 # Python3 enabled versions
 -e git+https://github.com/julienaubert/django-uuidfield.git@python3#egg=django-uuidfield
+
+# Custom patch to customize algorithm
+-e git+https://github.com/EnTeQuAk/django-rest-framework-httpsignature@feature/allow-algorithm-overwrite#egg=django-rest-framework-httpsignature
