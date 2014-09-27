@@ -4,6 +4,10 @@ sudo: false
 
 python: "3.4"
 
+addons:
+  hosts:
+    - keybar.local
+
 services:
   - memcached
   - postgresql
