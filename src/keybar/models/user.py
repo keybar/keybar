@@ -12,8 +12,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser
 from uuidfield import UUIDField
 
-from keybar.managers import UserManager
-
 
 class User(AbstractBaseUser):
     username = models.CharField(_('Username'), max_length=50, null=True, unique=True)
@@ -35,8 +33,6 @@ class User(AbstractBaseUser):
 
     # TODO: implement device-based tokens
     api_key = UUIDField(auto=True)
-
-    objects = UserManager()
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']
