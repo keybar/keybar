@@ -45,7 +45,6 @@ class User(AbstractBaseUser):
         return self.username
 
     def has_module_perms(self, app_label):
-        # the admin requires this method
         return self.is_superuser
 
     def send_mail(self, subject, message, from_email=None, **kwargs):
