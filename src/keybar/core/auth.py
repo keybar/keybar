@@ -1,5 +1,6 @@
 import os
 from rest_framework_httpsignature.authentication import SignatureAuthentication
+from django.conf import settings
 
 from keybar.models.user import User
 
@@ -11,8 +12,7 @@ class KeybarApiSignatureAuthentication(SignatureAuthentication):
         try:
             user = User.objects.get(api_key=api_key)
             fpath = os.path.join(
-                os.path.abspath(os.path.dirname((__name__))),
-                'extras/example_keys/private_key.pem')
+                settings.PROJECT_DIR, 'extras', 'example_keys', 'private_key.pem')
 
             with open(fpath, 'rb') as fobj:
                 secret = fobj.read()
