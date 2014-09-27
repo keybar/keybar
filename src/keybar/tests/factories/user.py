@@ -1,11 +1,11 @@
 import factory
 from django.contrib.auth.hashers import make_password
 
-from kebar.models.user import User
+from keybar.models.user import User
 
 
 class UserFactory(factory.DjangoModelFactory):
-    username = factory.Sequence(lambda i: 'user{0}')
+    username = factory.Sequence(lambda i: 'user{0}'.format(i))
     email = factory.Sequence(lambda i: '{0}@none.none'.format(i))
     is_active = True
 
