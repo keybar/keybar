@@ -52,7 +52,7 @@ class TestHttpSignatureAuth(object):
         session = requests.Session()
         session.mount(keybar_liveserver.url, SSLAdapter(ssl.PROTOCOL_TLSv1_2))
 
-        response = requests.get(
+        response = session.get(
             '{0}/api/v1/users/'.format(keybar_liveserver.url),
             auth=auth,
             headers=headers,
