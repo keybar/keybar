@@ -13,9 +13,9 @@ with open('CHANGES.rst') as fobj:
 
 test_requires = [
     # General test libraries
-    'tox>=1.7.1,<1.8',
-    'py>=1.4.24,<1.5',
-    'pytest>=2.6,<2.7',
+    'tox>=1.8,<1.9',
+    'py>=1.4.25,<1.5',
+    'pytest>=2.6.3,<2.7',
     'pytest-django>=2.6.1,<2.7',
 
     # Pep8 and code quality checkers
@@ -24,11 +24,11 @@ test_requires = [
     'pytest-cov>=1.8,<1.9',
     'pytest-flakes>=0.2,<1.0',
     'pytest-pep8>=1.0.5,<1.1',
-    'pep8>=1.4.6,<1.5',
+    'pep8>=1.5.7,<1.6',
     'coverage>=3.7.1,<3.8',
 
     # Fixtures, test helpers
-    'factory-boy>=2.3.1,<2.4',
+    'factory-boy>=2.4.1,<2.5',
     'mock>=1.0.1,<1.1',
     'httpretty>=0.8.0',
 ]
@@ -39,11 +39,11 @@ install_requires = [
     'django>=1.7,<1.8',
 
     # For async worker support
-    'celery>=3.1,<3.2',
-    'django-celery>=3.1,<3.2',
+    'celery>=3.1.15,<3.2',
+    'django-celery>=3.1.16,<3.2',
 
     # For our REST Api
-    'djangorestframework>=2.4.2,<2.5',
+    'djangorestframework>=2.4.3,<2.5',
     'djangorestframework-httpsignature>=0.2.1,<0.3',
     'requests>=2.4.1,<2.5',
 
@@ -63,13 +63,13 @@ dev_requires = [
 
 
 docs_requires = [
-    'sphinx',
+    'sphinx>=1.2.3',
     'sphinx_rtd_theme'
 ]
 
 
 postgresql_requires = [
-    'psycopg2',
+    'psycopg2>=2.5.4',
 ]
 
 setup(
