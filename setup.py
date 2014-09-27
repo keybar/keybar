@@ -45,6 +45,7 @@ install_requires = [
     'djangorestframework>=2.4.3,<2.5',
     'djangorestframework-httpsignature>=0.2.1,<0.3',
     'requests>=2.4.1,<2.5',
+    'requests-toolbelt',
 
     # For our development (and probably production?) tls pre-configured
     # server.

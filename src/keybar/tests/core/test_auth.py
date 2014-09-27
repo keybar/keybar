@@ -1,10 +1,12 @@
 import os
+import ssl
 from email.utils import formatdate
 from datetime import datetime
 from time import mktime
 
 import pytest
 import requests
+from requests_toolbelt import SSLAdapter
 from django.conf import settings
 from django.utils import timezone
 from httpsig.requests_auth import HTTPSignatureAuth
@@ -46,6 +48,9 @@ class TestHttpSignatureAuth(object):
             secret=secret,
             headers=signature_headers,
             algorithm='rsa-sha256')
+
+        session = requests.Session()
+        session.mount(keybar_liveserver.url, SSLAdapter(ssl.PROTOCOL_TLSv1_2))
 
         response = requests.get(
             '{0}/api/v1/users/'.format(keybar_liveserver.url),
