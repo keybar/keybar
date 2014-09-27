@@ -1,4 +1,5 @@
 import os
+import ssl
 from email.utils import formatdate
 from datetime import datetime
 from time import mktime
@@ -13,6 +14,9 @@ from httpsig.requests_auth import HTTPSignatureAuth
 import requests
 
 from keybar.models.user import User
+from keybar.utils.crypto import _patch_ssl_for_tlsv12_default
+
+_patch_ssl_for_tlsv12_default()
 
 # TODO: Use a secret RSA key as secret.
 secret = open('extras/example_keys/private_key.pem', 'rb').read()
@@ -37,6 +41,7 @@ auth = HTTPSignatureAuth(
     secret=secret,
     headers=signature_headers,
     algorithm='rsa-sha256')
+
 
 response = requests.get(
     'https://keybar.local:8443/api/v1/users/',

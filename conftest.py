@@ -4,6 +4,7 @@ import os
 import pytest
 from django.conf import settings
 from pytest_django.lazy_django import skip_if_no_django
+from keybar.utils.crypto import _patch_ssl_for_tlsv12_default
 
 
 def pytest_configure(config):
@@ -15,7 +16,7 @@ def pytest_configure(config):
         'keybar.tests',
     )
 
-    settings.DEBUG = True
+    _patch_ssl_for_tlsv12_default()
 
 
 @pytest.fixture(scope='session')
