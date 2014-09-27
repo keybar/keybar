@@ -1,6 +1,6 @@
 .PHONY: clean deps develop docs clean-build lint test coverage coverage-html tox
 PYTEST_OPTS=-vs
-COVER=bilor
+COVER=keybar
 APP=src/
 
 help:
