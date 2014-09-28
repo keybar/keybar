@@ -1,5 +1,7 @@
 import os
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+from django.utils.translation import ugettext_lazy as _
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_DIR = os.path.join(BASE_DIR, '..', '..')
@@ -24,6 +26,10 @@ INSTALLED_APPS = (
     # Asyncronous worker support
     'celery',
     'kombu.transport.django',
+
+    # i18n/l10n
+    'django_babel',
+    'statici18n',
 
     # For our REST Api
     'rest_framework',
@@ -66,7 +72,7 @@ STATICFILES_DIRS = (
 )
 
 TEMPLATE_DIRS = (
-    os.path.join(PROJECT_DIR, 'templates'),
+    os.path.join(PROJECT_DIR, 'src', 'keybar', 'templates'),
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -74,6 +80,20 @@ AUTHENTICATION_BACKENDS = (
 )
 
 LANGUAGE_CODE = 'en-us'
+
+LANGUAGES = (
+    ('de', _('German')),
+    ('en', _('English')),
+)
+
+LOCALE_PATHS = (
+    os.path.join(PROJECT_DIR, 'src/keybar/locale'),
+    os.path.join(PROJECT_DIR, 'src/templates/locale'),
+)
+
+# Do not make the session and csrf cookie secure (https:// only)
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 TIME_ZONE = 'UTC'
 

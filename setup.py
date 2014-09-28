@@ -41,6 +41,12 @@ install_requires = [
     'celery>=3.1.15,<3.2',
     'django-celery>=3.1.16,<3.2',
 
+    # i18n/l10n,
+    'babel>=1.3',
+    'django-babel-underscore>=0.1.0',
+    'django-statici18n>=1.1',
+    'django-babel>=0.3.5',
+
     # For our REST Api
     'djangorestframework>=2.4.3,<2.5',
     'djangorestframework-httpsignature>=0.2.1,<0.3',

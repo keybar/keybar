@@ -1,7 +1,7 @@
 .PHONY: clean deps develop docs clean-build lint test coverage coverage-html tox
-PYTEST_OPTS=-vs
-COVER=keybar
-APP=src/
+PYTEST_OPTS :=
+COVER := keybar
+APP := src/
 
 help:
 	@echo "clean-build - remove build artifacts"
@@ -37,6 +37,9 @@ develop: deps
 	# Install bower dependencies
 	bower update
 
+	# Extract CLDR from babel source installation
+	$(shell ./extras/import_cldr.sh)
+
 docs: clean-build
 	sphinx-apidoc --force -o docs/source/modules/ src/keybar src/keybar/migrations src/keybar/tests src/keybar/settings.py
 	$(MAKE) -C docs clean
@@ -65,3 +68,10 @@ coverage-html:
 
 tox:
 	tox
+
+i18n:
+	python manage.py babel makemessages -d django -l de
+	python manage.py babel compilemessages -d django -l de
+	python manage.py babel makemessages -d djangojs -l de
+	python manage.py babel compilemessages -d djangojs -l de
+	python manage.py compilejsi18n -d djangojs -l de
