@@ -3,6 +3,7 @@ import hashlib
 
 from django.conf import settings
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 from cryptography.fernet import Fernet
 
 from keybar.utils.crypto import xor_strings
@@ -17,13 +18,13 @@ def pbkdf2(salt, password):
 
 
 class Entry(models.Model):
+    title = models.TextField(_('Title'), blank=True, default='')
+    description = models.TextField(_('Description'), blank=True, default='')
 
-    title = models.CharField(max_length=256, blank=True, default='')
-    description = models.TextField(blank=True)
-
-    # Is max_length=256 sufficient?
-    username = models.CharField(max_length=256)
-    value = models.TextField()
+    identifier = models.TextField(_('Identifier for login'),
+        help_text=_('Usually a username or email address'))
+    value = models.TextField(_('The value for the entry.'),
+        help_text=_('Usually a password.'))
 
     # Those parts ar for encrypting/decrypting the stored values
     # The values are stored as 16-byte-salt$key where `key`
