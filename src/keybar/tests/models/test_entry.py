@@ -12,6 +12,6 @@ class TestEntry:
         expected = b'e5cigLxMyXhKx41ClDT8OqiBDdszhh7oeCA-nOqzWHE='
         Fernet.generate_key.return_value = expected
 
-        entry = Entry(username='Someone')
+        entry = Entry(identifier='Something')
         entry.key = Entry.derive_encryption_key_spec(b'password')
         assert entry.get_encryption_key(b'password') == expected

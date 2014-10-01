@@ -14,7 +14,8 @@ from uuidfield import UUIDField
 
 
 class User(AbstractBaseUser):
-    username = models.TextField(_('Username'), max_length=50, null=True, unique=True)
+    username = models.TextField(_('Username'),
+        max_length=50, null=True, unique=True)
     email = models.EmailField(_('Email'), max_length=254, unique=True)
     name = models.TextField(_('Name'), max_length=100, blank=True, null=True)
     is_staff = models.BooleanField(

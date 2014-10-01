@@ -54,7 +54,8 @@ class Entry(models.Model):
         return salt + b'$' + visible_key
 
     def get_encryption_key(self, password):
-        # We must split only once. The Fernet key can also contain `$` characters
+        # We must split only once. The Fernet key can also contain
+        # `$` characters
         salt, visible_key = bytes(self.key).split(b'$', 1)
         hashed_value = pbkdf2(salt, password)
 
