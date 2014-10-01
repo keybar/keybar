@@ -31,7 +31,6 @@ class User(AbstractBaseUser):
                     'explicitly assigning them.'))
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
 
-    # TODO: implement device-based tokens
     api_key = UUIDField(auto=True)
 
     objects = UserManager()
