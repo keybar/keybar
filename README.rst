@@ -101,6 +101,12 @@ Edit and adapt this file to your specific environment.
 Setup the database
 ------------------
 
+.. note::
+
+    Please note that Keybar was developed with PostgreSQL in mind. It may not be
+    performant enough on other datastores or may not even support them.
+
+
 Create an empty new PostgreSQL database (any other supported by Django works too).
 
 .. code-block:: bash
