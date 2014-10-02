@@ -4,6 +4,3 @@
 # Python3 enabled versions
 -e git+https://github.com/julienaubert/django-uuidfield.git@python3#egg=django-uuidfield
 -e git+https://github.com/EnTeQuAk/babel.git@support/py3k#egg=babel
-
-# Custom patch to customize algorithm
--e git+https://github.com/EnTeQuAk/django-rest-framework-httpsignature@feature/allow-algorithm-overwrite#egg=django-rest-framework-httpsignature

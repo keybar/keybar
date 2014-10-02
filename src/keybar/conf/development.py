@@ -40,3 +40,5 @@ KEYBAR_CLIENT_CERTIFICATE = os.path.join(certificates_dir, 'ca.crt')
 KEYBAR_CLIENT_KEY = os.path.join(certificates_dir, 'ca.key')
 
 KEYBAR_CA_BUNDLE = os.path.join(certificates_dir, 'ca.db.certs', '01.pem')
+
+KEYBAR_HOST = 'keybar.local:8443'

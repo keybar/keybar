@@ -49,7 +49,7 @@ install_requires = [
 
     # For our REST Api
     'djangorestframework>=2.4.3,<2.5',
-    'djangorestframework-httpsignature>=0.2.1,<0.3',
+    'httpsig': '1.1.0',
     'requests>=2.4.1,<2.5',
     'requests-toolbelt',
 

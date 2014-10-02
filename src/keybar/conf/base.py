@@ -33,7 +33,6 @@ INSTALLED_APPS = (
 
     # For our REST Api
     'rest_framework',
-    'rest_framework_httpsignature',
 
     # Keybar apps
     'keybar',
@@ -271,3 +270,5 @@ KEYBAR_KDF_LENGTH = 32
 # In 2013 100,000 was the recommended value, so we settle with one million
 # for now.
 KEYBAR_KDF_ITERATIONS = 1000000
+
+KEYBAR_HOST = None

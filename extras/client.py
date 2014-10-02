@@ -15,7 +15,7 @@ import requests
 
 from keybar.models.user import User
 
-secret = open('extras/example_keys/private_key.pem', 'rb').read()
+secret = open('extras/example_keys/id_rsa', 'rb').read()
 user = User.objects.get(username='admin')
 
 signature_headers = ['(request-target)', 'accept', 'date', 'host']
@@ -28,7 +28,7 @@ headers = {
     'Method': 'GET',
     'Path': '/api/v1/users/',
     'Accept': 'application/json',
-    'X-Api-Key': user.api_key.hex,
+    'X-Device-Id': user.devices.all().first().id.hex,
     'Date': formatdate(timeval=stamp, localtime=False, usegmt=True)
 }
 
@@ -37,7 +37,6 @@ auth = HTTPSignatureAuth(
     secret=secret,
     headers=signature_headers,
     algorithm='rsa-sha256')
-
 
 response = requests.get(
     'https://keybar.local:8443/api/v1/users/',

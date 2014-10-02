@@ -13,6 +13,7 @@ from httpsig.requests_auth import HTTPSignatureAuth
 
 from keybar.models.user import User
 from keybar.tests.factories.user import UserFactory
+from keybar.tests.factories.device import DeviceFactory
 
 
 @pytest.mark.django_db(transaction=True)
@@ -22,12 +23,13 @@ class TestHttpSignatureAuth(object):
         settings.DEBUG = True
 
         fpath = os.path.join(
-                settings.PROJECT_DIR, 'extras', 'example_keys', 'private_key.pem')
+                settings.PROJECT_DIR, 'extras', 'example_keys', 'id_rsa')
 
         with open(fpath, 'rb') as fobj:
             secret = fobj.read()
 
         user = UserFactory.create(is_superuser=True)
+        device = DeviceFactory.create(user=user)
 
         signature_headers = ['(request-target)', 'accept', 'date', 'host']
 
@@ -39,12 +41,12 @@ class TestHttpSignatureAuth(object):
             'Method': 'GET',
             'Path': '/api/v1/users/',
             'Accept': 'application/json',
-            'X-Api-Key': user.api_key.hex,
+            'X-Device-Id': device.id.hex,
             'Date': formatdate(timeval=stamp, localtime=False, usegmt=True)
         }
 
         auth = HTTPSignatureAuth(
-            key_id=user.api_key.hex,
+            key_id=device.id.hex,
             secret=secret,
             headers=signature_headers,
             algorithm='rsa-sha256')
