@@ -21,5 +21,5 @@ class Device(models.Model):
     first request.
     """
     id = UUIDField(auto=True, primary_key=True)
-    user = models.ForeignKey('keybar.User')
+    user = models.ForeignKey('keybar.User', related_name='devices')
     name = models.TextField(_('Device name'), blank=True, default='')
