@@ -166,6 +166,19 @@ To start all of them (including the tls-server):
     You can find the SSL version on `port 8443 <https://localhost:8443/>`_
 
 
+Run the test-suite
+------------------
+
+.. note::
+
+    The test-suite requires to have access to the ``keybar.local`` domain.
+    You might need to add it to your ``/etc/hosts`` or use a DNS server like
+    ``dnsmasq``.
+
+.. code-block:: bash
+
+    $ make test
+
 Resources
 ---------
 
