@@ -1,21 +1,29 @@
 @import "settings";
-@import "foundation";
+
+@import "foundation/components/grid";
+@import "foundation/components/button-groups";
+@import "foundation/components/buttons";
+@import "foundation/components/clearing";
+@import "foundation/components/forms";
+@import "foundation/components/type";
+@import "foundation/components/visibility";
+
 
 section {
     &.home {
-        padding: 2em 0;
+        padding: 2rem 0;
         background-color: #eee;
 
         .logo {
             img {
-                padding-right: 10px;
+                padding-right: 2rem;
             }
         }
     }
 
     &.footer {
         background-color: #eee;
-        padding: 2em 0;
+        padding: 2rem 0;
     }
 
 }
@@ -23,7 +31,7 @@ section {
 .row {
     .tagline, .pricing {
         text-align: center;
-        margin: 2em 0;
+        margin: 2rem 0;
 
         strong {
             color: #000;
