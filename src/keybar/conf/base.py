@@ -68,6 +68,7 @@ TEMPLATE_CONTEXT_PROCESSORS = TEMPLATE_CONTEXT_PROCESSORS + (
 
 STATICFILES_DIRS = (
     os.path.join(PROJECT_DIR, 'bower_components'),
+    os.path.join(PROJECT_DIR, 'src', 'keybar', 'static'),
 )
 
 TEMPLATE_DIRS = (
@@ -104,11 +105,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'web', 'static')
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'web', 'media')
 
 # Celery / Queue configuration
 from kombu import Queue
