@@ -13,4 +13,6 @@ urlpatterns = patterns('',
 
     # Hookup our REST Api
     url(r'^api/v1/', include('keybar.api.v1.urls', namespace='api-v1')),
+
+    url(r'^api/docs/', include('rest_framework.urls', namespace='rest_framework'))
 )
