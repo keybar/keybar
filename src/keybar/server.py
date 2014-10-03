@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 import sys
 
 from tornado import wsgi, web, httpserver, ioloop
@@ -8,14 +9,34 @@ from keybar.wsgi import application as django_application
 from keybar.utils.crypto import get_server_context
 
 
+class MultiStaticFileHandler(web.StaticFileHandler):
+    def initialize(self, paths):
+        self.paths = paths
+
+    def get(self, path):
+        for try_path in self.paths:
+            try:
+                super(MultiStaticFileHandler, self).initialize(try_path)
+                # HACK… no idea how to properly put a try/except around a future
+                # expression
+                return super(MultiStaticFileHandler, self).get(path).result()
+            except web.HTTPError as exc:
+                if exc.status_code == 404:
+                    continue
+                raise
+
+        raise web.HTTPError(404)
+
+
 def get_server():
     container = wsgi.WSGIContainer(django_application)
 
+    static_media_paths = settings.STATICFILES_DIRS + (settings.MEDIA_ROOT,)
+
     application = web.Application([
-        (r'/static/(.*)', web.StaticFileHandler, {'path': settings.STATIC_ROOT}),
-        (r'/media/(.*)', web.StaticFileHandler, {'path': settings.MEDIA_ROOT}),
+        (r'/static/(.*)', MultiStaticFileHandler, {'paths': static_media_paths}),
         (r".*", web.FallbackHandler, dict(fallback=container)),
-    ], debug=True)
+    ])
 
     # TODO: enable verify
     server = httpserver.HTTPServer(
