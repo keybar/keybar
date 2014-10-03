@@ -25,7 +25,10 @@ module.exports = function(grunt) {
 				files: ["Gruntfile.js"]
 			},
 			sass: {
-				files: "src/keybar/static/scss/app.scss",
+				files: [
+					"src/keybar/static/scss/app.scss",
+					"src/keybar/static/scss/_settings.scss"
+				],
 				tasks: ["sass"],
 			},
 			html: {
