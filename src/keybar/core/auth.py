@@ -9,6 +9,10 @@ from httpsig.utils import HttpSigException, parse_authorization_header, generate
 from keybar.models.device import Device
 
 
+ALGORITHM = 'rsa-sha256'
+REQUIRED_HEADERS = ['(request-target)', 'accept', 'date', 'host']
+
+
 def normalize(value):
     if value.startswith('HTTP_'):
         return value[5:].lower().replace('_', '-')
@@ -77,10 +81,6 @@ class KeybarApiSignatureAuthentication(BaseAuthentication):
     (e.g using HeaderVerifier)
     """
 
-    API_KEY_HEADER = 'X-Api-Key'
-    ALGORITHM = 'rsa-sha256'
-    REQUIRED_HEADERS = ['(request-target)', 'accept', 'date', 'host']
-
     def get_verify_secret(self, request):
         # TODO: Fetch that public key from the device
         fpath = os.path.join(
@@ -105,7 +105,7 @@ class KeybarApiSignatureAuthentication(BaseAuthentication):
             verifier = HeaderVerifier(
                 request=request,
                 secret=self.get_verify_secret(request),
-                required_headers=self.REQUIRED_HEADERS,
+                required_headers=REQUIRED_HEADERS,
                 host=self.get_host(request),
                 method=request.method,
                 path=request.path)
