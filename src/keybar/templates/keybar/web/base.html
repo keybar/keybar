@@ -7,7 +7,6 @@
     <title>{% block title %}Keybar{% endblock title %}</title>
 
     {% block styles %}
-    <link rel="stylesheet" href="{% static "css/social.css" %}">
     <link rel="stylesheet" href="{% static "css/app.css" %}">
     {% endblock styles %}
 </head>
@@ -19,6 +18,7 @@
 <script type="text/javascript" src="{% static "jquery/dist/jquery.min.js" %}"></script>
 <script type="text/javascript" src="{% static "foundation/js/foundation.min.js" %}"></script>
 <script type="text/javascript" src="{% static "js/app.js" %}"></script>
+<script type="text/javascript" src="{% static "js/livereload.js" %}?host=keybar.local"></script>
 {% endblock content-js %}
 </body>
 </html>
