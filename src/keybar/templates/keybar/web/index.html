@@ -1,15 +1,56 @@
 {% extends "keybar/web/base.html" %}
-{% load i18n %}
+{% load i18n static %}
 {% block content %}
 
-<div class="row">
-  <div class="large-12 columns">
-    <h1>Welcome to keybar.io!</h1>
-</div>
-</div>
+<section class="home">
+    <div class="row">
+        <div class="large-12 columns">
+            <div class="large-8 columns">
+                <h1 class="logo"><img src="{% static 'img/logo-small.png' %}">keybar.io</h1>
+            </div>
+            <div class="large-4 columns">
+                <ul class="button-group">
+                    <li><a href="#" class="button">{% trans 'Sign In' %}</a></li>
+                </ul>
+            </div>
+        </div>
 
-<div class="row">
-dude
-</div>
+        <div class="row">
+            <div class="large-10 columns tagline">
+                <h3>
+                    <strong>
+                        Secure password management
+                    </strong>
+                    to simplify your life.
+                </h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="large-10 columns pricing">
+                <p><sup>$</sup>3 per month or <sup>$</sup>30 per year</p>
+                <a href="#" class="button success">{% trans 'Register now' %}</a>
+            </div>
+        </div>
+    </div>
+</section>
 
+<section>
+    <div class="row">
+        <div class="large-10 columns">
+            <img src="https://placehold.io/1400/400.png?text=Previw Image&retina=true">
+        </div>
+    </div>
+</section>
+
+<section class="footer">
+    <footer class="row">
+        <div class="large-12 columns horizontal-ruler">
+            <div class="row">
+                <div class="large-6 columns">
+                    <p>© 2014 Christopher Grebs and contributors.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</section>
 {% endblock content %}

@@ -1,2 +1,42 @@
 @import "settings";
 @import "foundation";
+
+section {
+    &.home {
+        padding: 2em 0;
+        background-color: #eee;
+
+        .logo {
+            img {
+                padding-right: 10px;
+            }
+        }
+    }
+
+    &.footer {
+        background-color: #eee;
+        padding: 2em 0;
+    }
+
+}
+
+.row {
+    .tagline, .pricing {
+        text-align: center;
+        margin: 2em 0;
+
+        strong {
+            color: #000;
+        }
+
+        h3 {
+            color: #999;
+        }
+    }
+}
+
+footer {
+    &.horizontal-ruler {
+        border-bottom: 1px solid #000;
+    }
+}
