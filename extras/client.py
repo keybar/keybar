@@ -1,8 +1,10 @@
+import hashlib
 import os
 import ssl
 from email.utils import formatdate
 from datetime import datetime
 from time import mktime
+from base64 import encodebytes
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'keybar.settings')
 
@@ -23,12 +25,16 @@ signature_headers = ['(request-target)', 'accept', 'date', 'host']
 now = datetime.now()
 stamp = mktime(now.timetuple())
 
+data = {}
+content_md5 = encodebytes(hashlib.md5(json.dumps(data)).digest()).strip()
+
 headers = {
     'Host': 'keybar.local:8443',
     'Method': 'GET',
     'Path': '/api/v1/users/',
     'Accept': 'application/json',
     'X-Device-Id': user.devices.all().first().id.hex,
+    'Content-MD5': content_md5,
     'Date': formatdate(timeval=stamp, localtime=False, usegmt=True)
 }
 

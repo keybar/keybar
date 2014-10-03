@@ -11,8 +11,8 @@ from keybar.models.device import Device
 
 def normalize(value):
     if value.startswith('HTTP_'):
-        return value[5:].lower()
-    return value.lower()
+        return value[5:].lower().replace('_', '-')
+    return value.lower().replace('_', '-')
 
 
 class PrefixStripingCaseInsensitiveDict(dict):
@@ -36,7 +36,7 @@ class HeaderVerifier(Verifier):
     """Custom header verifier to support django specific header-names..."""
 
     def __init__(self, request, secret, required_headers=None, method=None,
-                path=None, host=None):
+                 path=None, host=None):
         self.request = request
         required_headers = required_headers or ['date']
 
@@ -79,6 +79,7 @@ class KeybarApiSignatureAuthentication(BaseAuthentication):
 
     API_KEY_HEADER = 'X-Api-Key'
     ALGORITHM = 'rsa-sha256'
+    REQUIRED_HEADERS = ['(request-target)', 'accept', 'date', 'host']
 
     def get_verify_secret(self, request):
         # TODO: Fetch that public key from the device
@@ -104,6 +105,7 @@ class KeybarApiSignatureAuthentication(BaseAuthentication):
             verifier = HeaderVerifier(
                 request=request,
                 secret=self.get_verify_secret(request),
+                required_headers=self.REQUIRED_HEADERS,
                 host=self.get_host(request),
                 method=request.method,
                 path=request.path)
@@ -113,7 +115,7 @@ class KeybarApiSignatureAuthentication(BaseAuthentication):
         try:
             if not verifier.verify():
                 raise exceptions.AuthenticationFailed('Bad signature')
-        except HttpSigException:
+        except HttpSigException as exc:
             raise exceptions.AuthenticationFailed(exc.message)
 
         try:

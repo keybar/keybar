@@ -50,3 +50,8 @@ kdf = PBKDF2HMAC(
 )
 
 print(kdf.verify(b"my great password", key))
+
+
+TODOS:
+
+ * Verify Content-MD5
