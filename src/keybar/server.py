@@ -13,6 +13,9 @@ class MultiStaticFileHandler(web.StaticFileHandler):
     def initialize(self, paths):
         self.paths = paths
 
+    def set_extra_headers(self, path):
+        self.set_header("Cache-control", "no-cache")
+
     def get(self, path):
         for try_path in self.paths:
             try:
