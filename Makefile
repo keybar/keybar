@@ -26,9 +26,6 @@ deps:
 	pip install "file://`pwd`#egg=keybar[postgresql]"
 
 develop: deps
-	# Install ruby dependencies.
-	gem install foreman compass --conservative
-
 	if test -z "$$TRAVIS"; then pip install nodeenv && nodeenv -p; fi; \
 
 	# Install nodejs dependencies
