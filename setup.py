@@ -53,6 +53,12 @@ install_requires = [
     'requests>=2.4.1,<2.5',
     'requests-toolbelt',
 
+    # Markdown support for browsable api
+    'markdown',
+
+    # Filtering support for the API
+    'django-filter',
+
     # For our development (and probably production?) tls pre-configured
     # server.
     'tornado>=4.0.2,<5.0',
