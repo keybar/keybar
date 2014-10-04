@@ -1,8 +1,10 @@
+import hashlib
+import ssl
+import os
 from itertools import cycle
 
-import ssl
 from django.conf import settings
-
+from cryptography.fernet import Fernet
 
 # Verify we can use all feature we require.
 assert ssl.HAS_ECDH
@@ -16,6 +18,44 @@ def xor_strings(string, key):
     base = bytearray(string)
 
     return bytearray(char ^ k for char, k in zip(base, cycle(key)))
+
+
+def pbkdf2(salt, password):
+    iterations = settings.KEYBAR_KDF_ITERATIONS
+    return hashlib.pbkdf2_hmac('sha256', salt, password, iterations)
+
+
+def derive_encryption_key_spec(password):
+    """Get the real encryption key.
+
+    Don't use the password directly but derive a encryption key
+    dynamically based on the password and a stored key.
+
+    This allows for password and encryption key to be changed
+    independently, e.g in case of a security breach.
+
+    :return: A string of ``16-byte-salt$key``.
+    """
+    fernet_key = Fernet.generate_key()
+    salt = os.urandom(16)
+    hashed_value = pbkdf2(salt, password)
+
+    # Ordering of the xor-arguments is important, because of
+    # very simplified xor-implementation.
+    visible_key = xor_strings(fernet_key, hashed_value)
+
+    return salt + b'$' + visible_key
+
+
+def get_encryption_key(key, password):
+    # We must split only once. The Fernet key can also contain
+    # `$` characters
+    salt, visible_key = bytes(key).split(b'$', 1)
+    hashed_value = pbkdf2(salt, password)
+
+    # Ordering of the xor-arguments is important, because of
+    # very simplified xor-implementation.
+    return xor_strings(visible_key, hashed_value)
 
 
 def get_server_context(verify=True):

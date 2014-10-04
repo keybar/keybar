@@ -1,4 +1,4 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 import sys
 
 from tornado import wsgi, web, httpserver, ioloop
