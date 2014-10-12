@@ -88,7 +88,7 @@ LANGUAGES = (
 
 LOCALE_PATHS = (
     os.path.join(PROJECT_DIR, 'src/keybar/locale'),
-    os.path.join(PROJECT_DIR, 'src/templates/locale'),
+    os.path.join(PROJECT_DIR, 'src/keybar/templates/locale'),
 )
 
 # Do not make the session and csrf cookie secure (https:// only)
