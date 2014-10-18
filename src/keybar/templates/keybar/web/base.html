@@ -1,9 +1,19 @@
 {% load static from staticfiles %}
-<!doctype html>
-<html class="no-js" lang="en">
+<!--[if lt IE 7]>   <html class="no-js ie6 oldie msie"> <![endif]-->
+<!--[if IE 7]>      <html class="no-js ie7 oldie msie"> <![endif]-->
+<!--[if IE 8]>      <html class="no-js ie8 oldie msie"> <![endif]-->
+<!--[if IE 9]>      <html class="no-js ie9 msie"> <![endif]-->
+<!--[if gt IE 9]><!--> <html itemscope itemtype="http://schema.org/WebPage"> <!--<![endif]-->
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="siteinfo" content="{% static 'robots.txt' %}" />
+    <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0,width=device-width" />
+
     <title>{% block title %}Keybar{% endblock title %}</title>
 
     {% block styles %}
