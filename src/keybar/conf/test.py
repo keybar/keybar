@@ -19,3 +19,7 @@ KEYBAR_CA_BUNDLE = os.path.join(certificates_dir, 'ca.db.certs', '01.pem')
 
 KEYBAR_DOMAIN = 'keybar.local'
 KEYBAR_HOST = 'keybar.local:8443'
+
+PASSWORD_HASHERS = (
+    'django.contrib.auth.hashers.MD5PasswordHasher',
+)
