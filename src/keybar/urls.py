@@ -5,8 +5,12 @@ from keybar.web import views
 
 
 urlpatterns = patterns('',
-    url(r'^$', views.IndexView.as_view(),
+    url(r'^$',
+        views.IndexView.as_view(),
         name='keybar-index'),
+    url(r'^register/$',
+        views.RegisterView.as_view(),
+        name='keybar-register'),
 
     # Admin
     url(r'^admin/', include(admin.site.urls)),

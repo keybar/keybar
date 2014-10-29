@@ -1,0 +1,28 @@
+{% extends "keybar/web/base.html" %}
+{% load i18n static %}
+{% load floppyforms %}
+
+
+{% block home_content %}
+
+<form action="{% url 'keybar-register' %}" method="post">
+    {% csrf_token %}
+
+    {% form form using %}
+        <div class="row">
+            <div class="large-4 columns">
+                {% formrow form.username %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="large-4 columns">
+                {% formrow form.password %}
+            </div>
+        </div>
+    {% endform %}
+
+    <input type="submit" value="Sign Up">
+</form>
+
+{% endblock %}

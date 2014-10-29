@@ -1,4 +1,7 @@
 {% load static from staticfiles %}
+{% load i18n %}
+
+
 <!--[if lt IE 7]>   <html class="no-js ie6 oldie msie"> <![endif]-->
 <!--[if IE 7]>      <html class="no-js ie7 oldie msie"> <![endif]-->
 <!--[if IE 8]>      <html class="no-js ie8 oldie msie"> <![endif]-->
@@ -22,7 +25,45 @@
 </head>
 <body>
 {% block content %}
-{% endblock content %}
+    <section class="home">
+        <div class="row">
+            {% block home_header %}
+                <div class="large-12 columns">
+                    <div class="large-8 columns">
+                        <h1 class="logo"><img src="{% static 'img/logo-small.png' %}">keybar.io</h1>
+                    </div>
+                    <div class="large-4 columns">
+                        <ul class="button-group">
+                            {% if not request.user.is_authenticated %}
+                            <li><a href="{% url 'keybar-register' %}" class="button">{% trans 'Sign Up' %}</a></li>
+                            <li><a href="#" class="button">{% trans 'Login' %}</a></li>
+                            {% else %}
+                            <li><a href="#" class="button">{% trans 'Logout' %}</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            {% endblock %}
+
+            {% block home_content %}
+            {% endblock %}
+        </div>
+    </section>
+{% endblock %}
+
+{% block footer %}
+    <section class="footer">
+        <footer class="row">
+            <div class="large-12 columns horizontal-ruler">
+                <div class="row">
+                    <div class="large-6 columns">
+                        <p>© 2014 Christopher Grebs and contributors.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </section>
+{% endblock %}
 
 {% block content-js %}
 <script type="text/javascript" src="{% static "jquery/dist/jquery.min.js" %}"></script>
