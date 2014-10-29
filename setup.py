@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import codecs
 from setuptools import setup, find_packages
 
-with open('README.rst') as fobj:
-    readme = fobj.read()
 
-with open('CHANGES.rst') as fobj:
-    history = fobj.read()
-    history.replace('.. :changelog:', '')
+def read(*parts):
+    filename = os.path.join(os.path.dirname(__file__), *parts)
+    with codecs.open(filename, encoding='utf-8') as fp:
+        return fp.read()
 
 
 test_requires = [
@@ -88,7 +88,7 @@ setup(
     name='keybar',
     version='0.1.0',
     description='secure your life!',
-    long_description=readme + '\n\n' + history,
+    long_description=read('README.rst') + '\n\n' + read('CHANGES.rst'),
     author='Christopher Grebs',
     author_email='cg@webshox.org',
     url='https://github.com/keybar/keybar/',
