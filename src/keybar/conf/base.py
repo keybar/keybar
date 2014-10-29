@@ -34,6 +34,9 @@ INSTALLED_APPS = (
     # For our REST Api
     'rest_framework',
 
+    # Form helpers
+    'floppyforms',
+
     # Keybar apps
     'keybar',
 )

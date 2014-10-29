@@ -60,6 +60,9 @@ install_requires = [
     # Filtering support for the API
     'django-filter',
 
+    # Form helpers
+    'django-floppyforms>=1.2.0',
+
     # For our development (and probably production?) tls pre-configured
     # server.
     'tornado>=4.0.2,<5.0',
