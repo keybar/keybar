@@ -42,7 +42,7 @@ install_requires = [
     'django-celery>=3.1.16,<3.2',
 
     # i18n/l10n,
-    'babel>=1.3',
+    # 'babel>=1.3', -> requirements.txt
     'django-babel-underscore>=0.1.0',
     'django-statici18n>=1.1',
     'django-babel>=0.3.6',
