@@ -18,21 +18,21 @@ help:
 clean: clean-build clean-pyc
 
 deps:
-	pip install --upgrade pip setuptools wheel
-	pip install --use-wheel --upgrade -r requirements.txt
-	pip install --use-wheel -e .
-	pip install --use-wheel "file://`pwd`#egg=keybar[tox]"
-	pip install --use-wheel "file://`pwd`#egg=keybar[tests]"
-	pip install --use-wheel "file://`pwd`#egg=keybar[postgresql]"
+	@pip install --upgrade pip setuptools wheel
+	@pip install --use-wheel --upgrade -r requirements.txt
+	@pip install --use-wheel -e .
+	@pip install --use-wheel "file://`pwd`#egg=keybar[tox]"
+	@pip install --use-wheel "file://`pwd`#egg=keybar[tests]"
+	@pip install --use-wheel "file://`pwd`#egg=keybar[postgresql]"
 
 develop: deps
-	if test -z "$$TRAVIS"; then pip install nodeenv && nodeenv -p; fi; \
+	if test -z "$$TRAVIS"; then @pip install nodeenv && nodeenv -p; fi; \
 
 	# Install nodejs dependencies
-	npm install
+	@npm install
 
 	# Install bower dependencies
-	bower update
+	@bower update
 
 	# Extract CLDR from babel source installation
 	@python extras/import_cldr.py
@@ -44,23 +44,17 @@ docs: clean-build
 	$(MAKE) -C docs html
 
 clean-build:
-	rm -fr build/ src/build
-	rm -fr dist/ src/dist
-	rm -fr *.egg-info src/*.egg-info
-	rm -fr htmlcov/
+	@rm -fr build/ src/build
+	@rm -fr dist/ src/dist
+	@rm -fr *.egg-info src/*.egg-info
+	@rm -fr htmlcov/
 	$(MAKE) -C docs clean
 
 lint:
 	flake8 keybar --ignore='E122,E124,E125,E126,E128,E501,F403' --exclude="**/migrations/**"
 
 test:
-	py.test ${PYTEST_OPTS} ${APP}
-
-migrate:
-	python manage.py migrate
-
-runserver:
-	python manage.py runserver
+	@py.test ${PYTEST_OPTS} ${APP}
 
 coverage:
 	py.test --cov=${COVER} --cov-report=term-missing ${PYTEST_OPTS} ${APP}
@@ -69,11 +63,11 @@ coverage-html:
 	py.test --cov=${COVER} --cov-report=html ${PYTEST_OPTS} ${APP}
 
 tox:
-	tox
+	@tox
 
 i18n:
-	python manage.py babel makemessages -d django -l de
-	python manage.py babel compilemessages -d django -l de
-	python manage.py babel makemessages -d djangojs -l de
-	python manage.py babel compilemessages -d djangojs -l de
-	python manage.py compilejsi18n -d djangojs -l de
+	@python manage.py babel makemessages -d django -l de
+	@python manage.py babel compilemessages -d django -l de
+	@python manage.py babel makemessages -d djangojs -l de
+	@python manage.py babel compilemessages -d djangojs -l de
+	@python manage.py compilejsi18n -d djangojs -l de
