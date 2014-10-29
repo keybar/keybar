@@ -127,26 +127,17 @@ Create an empty new PostgreSQL database (any other supported by Django works too
     $ python manage.py migrate
 
 
-Superuser & example data
-------------------------
+Superuser
+---------
 
 .. code-block:: bash
 
     $ # Create a new super user
     $ python manage.py createsuperuser
 
-Now you can run the webserver and start using the site.
 
-.. code-block:: bash
-
-   $ python manage.py runserver
-
-This starts a local webserver on `localhost:8000 <http://localhost:8000/>`_. To view the administration
-interface visit `/admin/ <http://localhost:8000/admin/>`_
-
-
-Run Celery and other services
------------------------------
+Run the server, celery and other services
+-----------------------------------------
 
 Other services being used:
 
@@ -166,7 +157,7 @@ To start all of them (including the tls-server):
 
 .. note::
 
-    You can find the SSL version on `port 8443 <https://localhost:8443/>`_
+    You can find the SSL version on `port 8443 <https://keybar.local:8443/>`_
 
 
 Run the test-suite
