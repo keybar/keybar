@@ -4,6 +4,14 @@ keybar.models package
 Submodules
 ----------
 
+keybar.models.device module
+---------------------------
+
+.. automodule:: keybar.models.device
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 keybar.models.entry module
 --------------------------
 

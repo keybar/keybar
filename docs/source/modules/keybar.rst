@@ -24,14 +24,6 @@ keybar.apps module
     :undoc-members:
     :show-inheritance:
 
-keybar.managers module
-----------------------
-
-.. automodule:: keybar.managers
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 keybar.server module
 --------------------
 

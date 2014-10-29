@@ -20,6 +20,22 @@ keybar.core.celery module
     :undoc-members:
     :show-inheritance:
 
+keybar.core.client module
+-------------------------
+
+.. automodule:: keybar.core.client
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+keybar.core.logging module
+--------------------------
+
+.. automodule:: keybar.core.logging
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 Module contents
 ---------------
