@@ -22,7 +22,6 @@ deps:
 	pip install --use-wheel --upgrade -r requirements.txt
 	pip install --use-wheel -e .
 	pip install --use-wheel "file://`pwd`#egg=keybar[tox]"
-	pip install --use-wheel "file://`pwd`#egg=keybar[docs]"
 	pip install --use-wheel "file://`pwd`#egg=keybar[tests]"
 	pip install --use-wheel "file://`pwd`#egg=keybar[postgresql]"
 
@@ -39,6 +38,7 @@ develop: deps
 	$(shell ./extras/import_cldr.sh)
 
 docs: clean-build
+	pip install --use-wheel "file://`pwd`#egg=keybar[docs]"
 	sphinx-apidoc --force -o docs/source/modules/ src/keybar src/keybar/migrations src/keybar/tests src/keybar/settings.py
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
