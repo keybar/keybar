@@ -41,7 +41,7 @@ def get_server():
     application = web.Application([
         (r'/static/(.*)', MultiStaticFileHandler, {'paths': static_media_paths}),
         (r".*", web.FallbackHandler, dict(fallback=container)),
-    ])
+    ], debug=True)
 
     # TODO: enable verify
     server = httpserver.HTTPServer(
