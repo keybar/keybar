@@ -67,6 +67,9 @@ install_requires = [
     # All the crypto libs we ever need
     'cryptography>=0.5.4,<1.0',
     'certifi',
+
+    # WSGI utilities
+    'werkzeug>=0.9',
 ]
 
 

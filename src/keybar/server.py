@@ -2,8 +2,8 @@
 import sys
 
 from tornado import wsgi, web, httpserver, ioloop
-
 from django.conf import settings
+from werkzeug.debug import DebuggedApplication
 
 from keybar.wsgi import application as django_application
 from keybar.utils.crypto import get_server_context
@@ -32,7 +32,9 @@ class MultiStaticFileHandler(web.StaticFileHandler):
 
 
 def get_server():
-    container = wsgi.WSGIContainer(django_application)
+    app = DebuggedApplication(django_application, evalex=True)
+
+    container = wsgi.WSGIContainer(app)
 
     static_media_paths = settings.STATICFILES_DIRS + (settings.MEDIA_ROOT,)
 
