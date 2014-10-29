@@ -151,7 +151,7 @@ Run Celery and other services
 Other services being used:
 
 * Celery, is being used to run [regular] tasks, e.g for mail output.
-* Compass, is being used to compile our scss files and the foundation framework.
+* grunt-sass, is being used to compile our scss files and the foundation framework.
 
 
 To start all of them (including the tls-server):
