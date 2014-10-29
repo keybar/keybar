@@ -35,7 +35,7 @@ develop: deps
 	bower update
 
 	# Extract CLDR from babel source installation
-	$(shell ./extras/import_cldr.sh)
+	@python extras/import_cldr.py
 
 docs: clean-build
 	pip install --use-wheel "file://`pwd`#egg=keybar[docs]"
