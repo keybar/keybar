@@ -6,7 +6,10 @@ Keybar - secure password storage and exchange.
     :target: http://badge.fury.io/py/keybar
 
 .. image:: https://travis-ci.org/keybar/keybar.png?branch=master
-        :target: https://travis-ci.org/keybar/keybar
+    :target: https://travis-ci.org/keybar/keybar
+
+.. image:: https://readthedocs.org/projects/keybar/badge/?version=latest
+    :target: http://keybar.readthedocs.org/en/latest/
 
 .. warning::
 
