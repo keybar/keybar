@@ -64,11 +64,11 @@ class LiveServer(object):
 
     @property
     def url(self):
-        return 'https://%s' % self.domain
+        return 'https://{0}'.format(self.domain)
 
     @property
     def domain(self):
-        return '%s:%s' % (self.thread.host, self.thread.port)
+        return '{0}:{1}'.format(self.thread.host, self.thread.port)
 
     def __str__(self):
         return self.url
@@ -77,4 +77,4 @@ class LiveServer(object):
         return str(self) + other
 
     def __repr__(self):
-        return '<LiveServer listening at %s>' % self.url
+        return '<LiveServer listening at {0}>'.format(self.url)

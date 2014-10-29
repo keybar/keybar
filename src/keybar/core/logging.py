@@ -89,7 +89,7 @@ def enable_error_logging_in_debug_mode():
             """
             logger = logging.getLogger('django.request')
             logger.error(
-                u'Internal Server Error: %s' % request.path,
+                u'Internal Server Error: {0}'.format(request.path),
                 exc_info=(exc_type, exc_value, tb),
                 extra={'status_code': 500, 'request': request}
             )
