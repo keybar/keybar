@@ -22,7 +22,9 @@ class Client(requests.Session):
 
     def __init__(self, device_id, secret):
         super(Client, self).__init__()
-        self.mount(settings.KEYBAR_HOST, SSLAdapter(ssl.PROTOCOL_TLSv1_2))
+
+        keybar_url = 'https://{0}'.format(settings.KEYBAR_HOST)
+        self.mount(keybar_url, SSLAdapter(ssl.PROTOCOL_TLSv1_2))
         self.device_id = device_id
 
         # TODO: find a way to avoid holding this in-memory for too long.
@@ -65,8 +67,5 @@ class Client(requests.Session):
             'verify': settings.KEYBAR_CA_BUNDLE
         })
 
-        return super(Client, self).request(
-            method,
-            'https:{url}'.format(url=url),
-            *args,
-            **kwargs)
+        endpoint = 'https:{url}'.format(url=url)
+        return super(Client, self).request(method, endpoint, *args, **kwargs)
