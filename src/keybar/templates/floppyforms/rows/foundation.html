@@ -4,45 +4,41 @@
 {% for field in fields %}
     <div class="row">
         {% with label=label|default:field.label help_text=help_text|default:field.help_text %}
-            {% block label %}
-                {% if field|id %}
-                    <label class="{% if field.errors %}error{% endif %}">
+            {% if field|id %}
+                <label class="{% if field.errors %}error{% endif %}">
+            {% endif %}
+
+                {{ label }}
+
+                {% if field.field.required %}
+                    <span>*</span>
                 {% endif %}
 
-                    {{ label }}
+                {% if label|last not in ".:!?" %}:{% endif %}
 
-                    {% if field.field.required %}
-                        <span>*</span>
-                    {% endif %}
+                {% block field %}
+                    {% block widget %}
+                        {% formfield field %}
+                    {% endblock %}
 
-                    {% if label|last not in ".:!?" %}:{% endif %}
+                    {% block help_text %}
+                        {% if field.help_text %}
+                            <p>{{ field.help_text }}</p>
+                        {% endif %}
+                    {% endblock %}
 
-                {% if field|id %}
-                    </label>
-                {% endif %}
-            {% endblock %}
+                    {% block hidden_fields %}
+                        {% for field in hidden_fields %}
+                            {{ field.as_hidden }}
+                        {% endfor %}
+                    {% endblock %}
 
-            {% block field %}
-                {% block widget %}
-                    {% formfield field %}
-                {% endblock %}
-
-                {% block errors %}
                     {% include "floppyforms/errors.html" with errors=field.errors %}
                 {% endblock %}
 
-                {% block help_text %}
-                    {% if field.help_text %}
-                        <p>{{ field.help_text }}</p>
-                    {% endif %}
-                {% endblock %}
-
-                {% block hidden_fields %}
-                    {% for field in hidden_fields %}
-                        {{ field.as_hidden }}
-                    {% endfor %}
-                {% endblock %}
-            {% endblock %}
+            {% if field|id %}
+                </label>
+            {% endif %}
         {% endwith %}
     </div>
 {% endfor %}

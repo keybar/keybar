@@ -1,4 +1,5 @@
 {% load floppyforms %}
+{% load i18n %}
 
 
 {% block formconfig %}
@@ -7,27 +8,49 @@
 
 {% block forms %}
     {% for form in forms %}
-        {% block errors %}
-            {% for error in form.non_field_errors %}
-                <div data-alert="" class="alert-box alert radius">
-                    {{ error }}
-                    <a href="" class="close">×</a>
-                </div>
-            {% endfor %}
+        <form action="" method="post">
+            {% csrf_token %}
 
-            {% for error in form|hidden_field_errors %}
-                <div data-alert="" class="alert-box alert radius">
-                    {{ error }}
-                    <a href="" class="close">×</a>
+            {% block errors %}
+                {% for error in form.non_field_errors %}
+                    <div data-alert="" class="alert-box alert radius">
+                        {{ error }}
+                        <a href="" class="close">×</a>
+                    </div>
+                {% endfor %}
+
+                {% for error in form|hidden_field_errors %}
+                    <div data-alert="" class="alert-box alert radius">
+                        {{ error }}
+                        <a href="" class="close">×</a>
+                    </div>
+                {% endfor %}
+            {% endblock errors %}
+            {% block rows %}
+                <div class="row">
+                    <div class="small-4 small-centered columns">
+                        {% for field in form.visible_fields %}
+                            {% if forloop.last %}
+                                {% formconfig row with hidden_fields=form.hidden_fields %}
+                            {% endif %}
+                            {% block row %}
+                                {% formrow field %}
+                            {% endblock %}
+                        {% endfor %}
+                        {% if not form.visible_fields %}
+                            {% for field in form.hidden_fields %}
+                                {% formfield field %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
                 </div>
-            {% endfor %}
-        {% endblock errors %}
-        {% block rows %}
-            {% for field in form.visible_fields %}
-                {% if forloop.last %}{% formconfig row with hidden_fields=form.hidden_fields %}{% endif %}
-                {% block row %}{% formrow field %}{% endblock %}
-            {% endfor %}
-            {% if not form.visible_fields %}{% for field in form.hidden_fields %}{% formfield field %}{% endfor %}{% endif %}
-        {% endblock %}
+            {% endblock %}
+
+            <div class="row text-center">
+                <div class="small-4 small-centered columns">
+                    <input type="submit" class="button success" value="{% trans 'Create your account' %}">
+                </div>
+            </div>
+        </form>
     {% endfor %}
 {% endblock %}
