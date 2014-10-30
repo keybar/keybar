@@ -39,6 +39,7 @@ INSTALLED_APPS = (
 
     # Keybar apps
     'keybar',
+    'keybar.core',
 )
 
 MIDDLEWARE_CLASSES = (

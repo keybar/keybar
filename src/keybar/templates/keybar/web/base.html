@@ -1,5 +1,6 @@
 {% load static from staticfiles %}
 {% load i18n %}
+{% load foundation %}
 
 
 <!--[if lt IE 7]>   <html class="no-js ie6 oldie msie"> <![endif]-->
@@ -30,7 +31,10 @@
             {% block home_header %}
                 <div class="small-12 columns">
                     <div class="small-8 columns">
-                        <h1 class="logo"><img src="{% static 'img/logo-small.png' %}">keybar.io</h1>
+                        <h1 class="logo">
+                            <img src="{% static 'img/logo-small.png' %}">
+                            keybar.io
+                        </h1>
                     </div>
                     <div class="small-4 columns">
                         <ul class="button-group">
@@ -43,6 +47,20 @@
                         </ul>
                     </div>
                 </div>
+            {% endblock %}
+
+            {% block error_messages %}
+                {% if messages %}
+                    <div class="small-12 columns">
+                        {% for message in messages %}
+                            <div data-alert="" class="alert-box {% map_error_level message.level %}">
+                                {{ message }}
+                                <a href="" class="close">&times;</a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
             {% endblock %}
 
             {% block home_content %}
