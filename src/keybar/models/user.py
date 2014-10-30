@@ -18,21 +18,21 @@ class User(AbstractBaseUser):
         max_length=50, null=True, unique=True)
     email = models.EmailField(_('Email'), max_length=254, unique=True)
     name = models.TextField(_('Name'), max_length=100, blank=True, null=True)
-    is_staff = models.BooleanField(
-        _('staff status'), default=False,
-        help_text=_('Designates whether the user can log into this admin '
-                    'site.'))
     is_active = models.BooleanField(
         _('active'), default=True,
         help_text=_('Designates whether this user should be treated as '
                     'active. Unselect this instead of deleting accounts.'))
+    date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
+
+    # Required for django-admin
+    is_staff = models.BooleanField(
+        _('staff status'), default=False,
+        help_text=_('Designates whether the user can log into this admin '
+                    'site.'))
     is_superuser = models.BooleanField(
         _('superuser status'), default=False,
         help_text=_('Designates that this user has all permissions without '
                     'explicitly assigning them.'))
-    date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
-
-    api_key = UUIDField(auto=True)
 
     objects = UserManager()
 
