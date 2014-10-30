@@ -8,7 +8,7 @@ register = template.Library()
 
 ERROR_LEVEL_MAPPING = {
     message_constants.DEBUG: 'secondary',
-    message_constants.INFO: 'info',
+    message_constants.INFO: '',
     message_constants.SUCCESS: 'success',
     message_constants.WARNING: 'warning',
     message_constants.ERROR: 'alert'
