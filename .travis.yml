@@ -25,6 +25,7 @@ before_install:
     - echo "address=/local/127.0.0.1" | sudo tee -a /etc/dnsmasq.conf > /dev/null
     - echo "user=root" | sudo tee -a /etc/dnsmasq.conf > /dev/null
     - sudo service dnsmasq restart
+    - npm config set python /usr/bin/python2.7
 
 before_script:
   - psql -c 'create database keybar_test;' -U postgres
