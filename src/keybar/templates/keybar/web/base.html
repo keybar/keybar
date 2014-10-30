@@ -39,7 +39,6 @@
                     <div class="small-4 columns">
                         <ul class="button-group">
                             {% if not request.user.is_authenticated %}
-                            <li><a href="{% url 'keybar-register' %}" class="button">{% trans 'Sign Up' %}</a></li>
                             <li><a href="#" class="button">{% trans 'Login' %}</a></li>
                             {% else %}
                             <li><a href="#" class="button">{% trans 'Logout' %}</a></li>
