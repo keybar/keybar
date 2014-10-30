@@ -28,11 +28,11 @@
     <section class="home">
         <div class="row">
             {% block home_header %}
-                <div class="large-12 columns">
-                    <div class="large-8 columns">
+                <div class="small-12 columns">
+                    <div class="small-8 columns">
                         <h1 class="logo"><img src="{% static 'img/logo-small.png' %}">keybar.io</h1>
                     </div>
-                    <div class="large-4 columns">
+                    <div class="small-4 columns">
                         <ul class="button-group">
                             {% if not request.user.is_authenticated %}
                             <li><a href="{% url 'keybar-register' %}" class="button">{% trans 'Sign Up' %}</a></li>
@@ -54,9 +54,9 @@
 {% block footer %}
     <section class="footer">
         <footer class="row">
-            <div class="large-12 columns horizontal-ruler">
+            <div class="small-12 columns horizontal-ruler">
                 <div class="row">
-                    <div class="large-6 columns">
+                    <div class="small-6 columns">
                         <p>© 2014 Christopher Grebs and contributors.</p>
                     </div>
                 </div>
