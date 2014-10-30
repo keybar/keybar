@@ -17,4 +17,4 @@ ERROR_LEVEL_MAPPING = {
 
 @register.simple_tag
 def map_error_level(level):
-    return ERROR_LEVEL_MAPPING[level]
+    return mark_safe(ERROR_LEVEL_MAPPING[level])
