@@ -10,12 +10,9 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, UserManager
-from uuidfield import UUIDField
 
 
 class User(AbstractBaseUser):
-    username = models.TextField(_('Username'),
-        max_length=50, null=True, unique=True)
     email = models.EmailField(_('Email'), max_length=254, unique=True)
     name = models.TextField(_('Name'), max_length=100, blank=True, null=True)
     is_active = models.BooleanField(
@@ -36,15 +33,15 @@ class User(AbstractBaseUser):
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
     class Meta:
         verbose_name = _('User')
         verbose_name_plural = _('Users')
 
     def __str__(self):
-        return self.username
+        return self.email
 
     def has_module_perms(self, app_label):
         return self.is_superuser
@@ -58,12 +55,5 @@ class User(AbstractBaseUser):
     def get_absolute_url(self):
         return reverse('keybar-profile', kwargs={'email': self.email})
 
-    def get_full_name(self):
-        return self.title
-
-    def get_short_name(self):
-        "Returns the short name for the user."
-        return self.title
-
     def get_display_name(self):
-        return self.title or self.username
+        return self.name or self.email
