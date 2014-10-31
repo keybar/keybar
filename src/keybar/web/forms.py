@@ -1,5 +1,5 @@
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth import authenticate
+from django.contrib import auth
 import floppyforms.__future__ as forms
 
 from keybar.models.user import User
@@ -41,7 +41,7 @@ class LoginForm(forms.Form):
         password = self.cleaned_data.get('password')
 
         if email and password:
-            self.authenticated_user = authenticate(email=email, password=password)
+            self.authenticated_user = auth.authenticate(email=email, password=password)
 
             if self.authenticated_user is None:
                 raise forms.ValidationError(

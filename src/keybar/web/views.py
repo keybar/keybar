@@ -1,6 +1,6 @@
-from django.core.urlresolvers import reverse_lazy
-from django.contrib.auth import login as auth_login
-from django.views.generic import TemplateView, FormView
+from django.core.urlresolvers import reverse_lazy, reverse
+from django.contrib import auth
+from django.views.generic import TemplateView, FormView, RedirectView
 from django.views.generic.edit import CreateView
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
@@ -31,6 +31,15 @@ class LoginView(FormView):
 
     def form_valid(self, form):
         response = super(LoginView, self).form_valid(form)
-        messages.success(self.request, _('You were logged in successfully'))
-        auth_login(self.request, form.get_user())
+        messages.success(self.request, _('You were successfully logged in'))
+        auth.login(self.request, form.get_user())
         return response
+
+
+class LogoutView(RedirectView):
+    permanent = False
+
+    def get_redirect_url(self, *args, **kwargs):
+        auth.logout(self.request)
+        messages.success(self.request, _('You were successfully logged out'))
+        return reverse('keybar-index')

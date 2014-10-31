@@ -41,7 +41,7 @@
                         {% if not request.user.is_authenticated %}
                         <li><a href="{% url 'keybar-login' %}" class="button">{% trans 'Login' %}</a></li>
                         {% else %}
-                        <li><a href="#" class="button">{% trans 'Logout' %}</a></li>
+                        <li><a href="{% url 'keybar-logout' %}" class="button">{% trans 'Logout' %}</a></li>
                         {% endif %}
                     </ul>
                 </div>

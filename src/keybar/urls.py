@@ -14,6 +14,9 @@ urlpatterns = patterns('',
     url(r'login/$',
         views.LoginView.as_view(),
         name='keybar-login'),
+    url(r'logout/$',
+        views.LogoutView.as_view(),
+        name='keybar-logout'),
 
     # Admin
     url(r'^admin/', include(admin.site.urls)),
