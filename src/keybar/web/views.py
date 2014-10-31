@@ -43,4 +43,3 @@ class LogoutView(RedirectView):
         auth.logout(self.request)
         messages.success(self.request, _('You were successfully logged out'))
         return reverse('keybar-index')
-
