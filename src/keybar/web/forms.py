@@ -22,7 +22,6 @@ class RegisterForm(forms.ModelForm):
         return user
 
 
-
 class LoginForm(forms.Form):
     email = forms.EmailField(label=_('Email'))
     password = forms.CharField(label=_('Password'), widget=forms.PasswordInput)
