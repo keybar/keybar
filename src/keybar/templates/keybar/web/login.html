@@ -3,8 +3,6 @@
 {% load floppyforms %}
 
 
-{% block home_content %}
-
-{% form form %}
-
+{% block main-content %}
+    {% form form using "floppyforms/layouts/default.html" with submit_title=_('Login') %}
 {% endblock %}

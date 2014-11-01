@@ -9,82 +9,89 @@
 <!--[if IE 9]>      <html class="no-js ie9 msie"> <![endif]-->
 <!--[if gt IE 9]><!--> <html itemscope itemtype="http://schema.org/WebPage"> <!--<![endif]-->
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
-    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+	<link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
 
-    <meta name="robots" content="noindex, nofollow" />
-    <meta name="siteinfo" content="{% static 'robots.txt' %}" />
-    <meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0,width=device-width" />
+	<meta name="robots" content="noindex, nofollow" />
+	<meta name="siteinfo" content="{% static 'robots.txt' %}" />
+	<meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0,width=device-width" />
 
-    <title>{% block title %}Keybar{% endblock title %}</title>
+	<title>{% block title %}Keybar{% endblock title %}</title>
 
-    {% block styles %}
-    <link rel="stylesheet" href="{% static "css/app.css" %}">
-    {% endblock styles %}
+	{% block styles %}
+	<link rel="stylesheet" href="{% static "css/app.css" %}">
+	{% endblock styles %}
 </head>
 <body>
+{% block header %}
+	<section role="header" class="contain-to-grid">
+		<nav class="top-bar" data-topbar role="navigation">
+			<ul class="title-area">
+				<li class="name">
+					<h1>
+						<a href="#">
+							<img src="{% static 'img/logo-small.png' %}">
+							<span>keybar.io</span>
+						</a>
+					</h1>
+				</li>
+				<li class="toggle-topbar menu-icon"><a href="#"></a></li>
+			</ul>
+
+			<section class="top-bar-section">
+				<ul class="right">
+					{% if not request.user.is_authenticated %}
+						<li><a href="{% url 'keybar-login' %}">{% trans 'Login' %}</a></li>
+					{% else %}
+						<li><a href="{% url 'keybar-logout' %}">{% trans 'Logout' %}</a></li>
+					{% endif %}
+				</ul>
+			</section>
+		</nav>
+	</section>
+{% endblock %}
+
+{% block messages %}
+	{% if messages %}
+		{% for message in messages %}
+			<div data-alert="" class="small-12 medium-12 large-12 columns alert-box {% map_error_level message.level %}">
+				{{ message }}
+				<a href="" class="close">&times;</a>
+			</div>
+		{% endfor %}
+	{% endif %}
+{% endblock %}
+
 {% block content %}
-    <section class="home">
-        <div class="row">
-            {% block home_header %}
-                <div class="small-8 columns">
-                    <h1 class="logo">
-                        <img src="{% static 'img/logo-small.png' %}">
-                        <small>keybar.io</small>
-                    </h1>
-                </div>
-
-                <div class="small-4 columns">
-                    <ul class="button-group">
-                        {% if not request.user.is_authenticated %}
-                        <li><a href="{% url 'keybar-login' %}" class="button">{% trans 'Login' %}</a></li>
-                        {% else %}
-                        <li><a href="{% url 'keybar-logout' %}" class="button">{% trans 'Logout' %}</a></li>
-                        {% endif %}
-                    </ul>
-                </div>
-            {% endblock %}
-
-            {% block error_messages %}
-                {% if messages %}
-                    {% for message in messages %}
-                        <div data-alert="" class="small-12 columns alert-box {% map_error_level message.level %}">
-                            {{ message }}
-                            <a href="" class="close">&times;</a>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-
-            {% endblock %}
-
-            {% block home_content %}
-            {% endblock %}
-        </div>
-    </section>
+	<section role="main-content">
+		<div class="row">
+			<div class="small-12 medium-12 large-12 columns">
+				{% block main-content %}
+				{% endblock %}
+			</div>
+		</div>
+	</section>
 {% endblock %}
 
 {% block footer %}
-    <section class="footer">
-        <footer class="row">
-            <div class="small-12 columns horizontal-ruler">
-                <div class="row">
-                    <div class="small-12 columns">
-                        <p>© 2014 Christopher Grebs and contributors.</p>
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </section>
+	<footer>
+		<div class="row contain-to-grid">
+			<div class="small-12 medium-12 large-12 columns">
+				<p>© 2014 Christopher Grebs and contributors.</p>
+			</div>
+		</div>
+	</footer>
 {% endblock %}
 
 {% block content-js %}
-    <script type="text/javascript" src="{% static "jquery/dist/jquery.js" %}"></script>
-    <script type="text/javascript" src="{% static "modernizr/modernizr.js" %}"></script>
-    <script type="text/javascript" src="{% static "foundation/js/foundation.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/app.js" %}"></script>
-    <script type="text/javascript" src="{% static "js/livereload.js" %}?host=keybar.local"></script>
+	<script type="text/javascript" src="{% static "jquery/dist/jquery.js" %}"></script>
+	<script type="text/javascript" src="{% static "modernizr/modernizr.js" %}"></script>
+	<script type="text/javascript" src="{% static "foundation/js/foundation.js" %}"></script>
+	<script type="text/javascript" src="{% static "foundation/js/foundation/foundation.tooltip.js" %}"></script>
+	<script type="text/javascript" src="{% static "js/app.js" %}"></script>
+	<script type="text/javascript" src="{% static "js/livereload.js" %}?host=keybar.local"></script>
 {% endblock content-js %}
 </body>
 </html>

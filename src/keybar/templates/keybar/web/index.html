@@ -1,32 +1,29 @@
 {% extends "keybar/web/base.html" %}
 {% load i18n static %}
 
-{% block home_content %}
+{% block main-content %}
     <div class="row">
-        <div class="large-10 columns tagline">
+        <div class="large-12 columns tagline">
             <h3>
                 <strong>
                     Secure password management
                 </strong>
+                <br />
                 to simplify your life.
             </h3>
         </div>
     </div>
+
     <div class="row">
-        <div class="large-10 columns pricing">
+        <div class="large-12 columns pricing">
             <p><sup>$</sup>3 per month or <sup>$</sup>30 per year</p>
             <a href="{% url 'keybar-register' %}" class="button success">{% trans 'Sign up now' %}</a>
         </div>
     </div>
-{% endblock %}
 
-{% block content %}
-    {{ block.super }}
-    <section>
-        <div class="row">
-            <div class="large-10 columns">
-                <img src="https://placehold.io/1400/400.png?text=Previw Image&retina=true">
-            </div>
+    <div class="row">
+        <div class="large-12 columns">
+            <img src="{% static 'img/400.png' %}">
         </div>
-    </section>
-{% endblock content %}
+    </div>
+{% endblock %}
