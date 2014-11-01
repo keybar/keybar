@@ -1,5 +1,47 @@
 // TODO: Disable after prototyping phase.
+
+@import "foundation/components/global";
+
 $include-html-classes: true;
 $include-print-styles: false;
 
 $total-columns: 12;
+
+
+$body-bg: $white;
+$body-font-color: $black;
+$body-font-family: $font-family-sans-serif;
+$body-font-weight: $font-weight-normal;
+$body-font-style: normal;
+
+$topbar-bg-color: #ffffff;
+$topbar-margin-bottom: 20px;
+$topbar-link-color: #000;
+
+$topbar-menu-icon-color: #000;
+$topbar-menu-icon-color-toggled: $topbar-menu-icon-color;
+
+$topbar-dropdown-bg: #eee;
+
+$topbar-link-bg-hover: #ccc;
+$topbar-link-color-hover: #000;
+
+
+
+$topbar-menu-link-transform: uppercase;
+$topbar-menu-link-font-size: rem-calc(13);
+$topbar-menu-link-weight: $font-weight-bold;
+$topbar-menu-link-color: $black;
+$topbar-menu-icon-color: $black;
+$topbar-menu-link-color-toggled: $black;
+$topbar-menu-icon-color-toggled: $black;
+
+@import "foundation/components/alert-boxes";
+@import "foundation/components/grid";
+@import "foundation/components/button-groups";
+@import "foundation/components/buttons";
+@import "foundation/components/clearing";
+@import "foundation/components/forms";
+@import "foundation/components/type";
+@import "foundation/components/top-bar";
+@import "foundation/components/visibility";

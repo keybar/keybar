@@ -1,16 +1,5 @@
 @import "settings";
 
-@import "foundation/components/alert-boxes";
-@import "foundation/components/grid";
-@import "foundation/components/button-groups";
-@import "foundation/components/buttons";
-@import "foundation/components/clearing";
-@import "foundation/components/forms";
-@import "foundation/components/type";
-@import "foundation/components/top-bar";
-@import "foundation/components/visibility";
-
-
 .contain-to-grid {
 	background-color: #fff;
 }
@@ -19,62 +8,76 @@
 section[role="header"] {
 	nav[role="navigation"] {
 		&.top-bar {
-			background: #ffffff;
-			color: #000000;
-			padding: 45px 0.9375rem 90px 0.9375rem;
-			transition: all 0.5s ease 0.1s;
-
 			h1 {
-				a {
-					color: #000000;
-				}
-
-				span {
-					font-size: 2rem;
-					vertical-align: middle;
-					padding: 0 0 0 .5rem;
-				}
+				font-size: 1.6rem;
+				vertical-align: middle;
 			}
 
 			section.top-bar-section {
 				ul {
-					background: #ffffff;
-
 					li {
+						&>a {
+							text-align: right;
+							padding: 12px 20px 12px 20px;
+						}
+					}
+				}
+			}
+		}
+
+		@media #{$topbar-media-query} {
+			&.top-bar {
+
+				background: #ffffff;
+				color: #000000;
+
+				h1 {
+					a {
+						color: $topbar-link-color;
+					}
+
+					font-size: 2rem;
+					vertical-align: middle;
+					padding: 0 0 0 .5rem;
+				}
+
+				section.top-bar-section {
+					ul {
 						background: #ffffff;
 
-						margin-left: 30px;
-						a {
-							color: #000;
-							background: #fff;
-							font-size: 1.2rem;
+						li {
+							background: #ffffff;
+							margin-left: 30px;
 
-							&:hover {
-								border-bottom: 2px solid $primary-color;
-								color: #222;
-							}
-						}
-
-						&.active {
 							a {
 								color: #000;
 								background: #fff;
 								font-size: 1.2rem;
-								border-bottom: 2px solid #000;
 
 								&:hover {
 									border-bottom: 2px solid $primary-color;
 									color: #222;
 								}
 							}
+
+							&.active {
+								a {
+									color: #000;
+									background: #fff;
+									font-size: 1.2rem;
+									border-bottom: 2px solid #000;
+
+									&:hover {
+										border-bottom: 2px solid $primary-color;
+										color: #222;
+									}
+								}
+							}
 						}
 					}
 				}
-
 			}
-
 		}
-
 	}
 }
 
