@@ -25,73 +25,73 @@
 	{% endblock styles %}
 </head>
 <body>
-{% block header %}
-	<section role="header" class="contain-to-grid">
-		<nav class="top-bar" data-topbar role="navigation">
-			<ul class="title-area">
-				<li class="name">
-					<h1>
-						<a href="{% url 'keybar-index' %}">
-							<img src="{% static 'img/logo-small.png' %}">
-							<span>keybar.io</span>
-						</a>
-					</h1>
-				</li>
-				<li class="toggle-topbar menu-icon"><a href="#"></a></li>
-			</ul>
-
-			<section class="top-bar-section">
-				<ul class="right">
-					{% if not request.user.is_authenticated %}
-						<li><a href="{% url 'keybar-login' %}">{% trans 'Login' %}</a></li>
-					{% else %}
-						<li><a href="{% url 'keybar-logout' %}">{% trans 'Logout' %}</a></li>
-					{% endif %}
+	{% block header %}
+		<section role="header" class="contain-to-grid">
+			<nav class="top-bar" data-topbar role="navigation">
+				<ul class="title-area">
+					<li class="name">
+						<h1>
+							<a href="{% url 'keybar-index' %}">
+								<img src="{% static 'img/logo-small.png' %}">
+								<span>keybar.io</span>
+							</a>
+						</h1>
+					</li>
+					<li class="toggle-topbar menu-icon"><a href="#"></a></li>
 				</ul>
-			</section>
-		</nav>
-	</section>
-{% endblock %}
 
-{% block messages %}
-	{% if messages %}
-		{% for message in messages %}
-			<div data-alert="" class="small-12 medium-12 large-12 columns alert-box {% map_error_level message.level %}">
-				{{ message }}
-				<a href="" class="close">&times;</a>
+				<section class="top-bar-section">
+					<ul class="right">
+						{% if not request.user.is_authenticated %}
+							<li><a href="{% url 'keybar-login' %}">{% trans 'Login' %}</a></li>
+						{% else %}
+							<li><a href="{% url 'keybar-logout' %}">{% trans 'Logout' %}</a></li>
+						{% endif %}
+					</ul>
+				</section>
+			</nav>
+		</section>
+	{% endblock %}
+
+	{% block messages %}
+		{% if messages %}
+			{% for message in messages %}
+				<div data-alert="" class="small-12 medium-12 large-12 columns alert-box {% map_error_level message.level %}">
+					{{ message }}
+					<a href="" class="close">&times;</a>
+				</div>
+			{% endfor %}
+		{% endif %}
+	{% endblock %}
+
+	{% block content %}
+		<section role="main-content">
+			<div class="row">
+				<div class="small-12 medium-12 large-12 columns">
+					{% block main-content %}
+					{% endblock %}
+				</div>
 			</div>
-		{% endfor %}
-	{% endif %}
-{% endblock %}
+		</section>
+	{% endblock %}
 
-{% block content %}
-	<section role="main-content">
-		<div class="row">
-			<div class="small-12 medium-12 large-12 columns">
-				{% block main-content %}
-				{% endblock %}
+	{% block footer %}
+		<footer>
+			<div class="row contain-to-grid">
+				<div class="small-12 medium-12 large-12 columns">
+					<p>© 2014 Christopher Grebs and contributors.</p>
+				</div>
 			</div>
-		</div>
-	</section>
-{% endblock %}
+		</footer>
+	{% endblock %}
 
-{% block footer %}
-	<footer>
-		<div class="row contain-to-grid">
-			<div class="small-12 medium-12 large-12 columns">
-				<p>© 2014 Christopher Grebs and contributors.</p>
-			</div>
-		</div>
-	</footer>
-{% endblock %}
-
-{% block content-js %}
-	<script type="text/javascript" src="{% static "jquery/dist/jquery.js" %}"></script>
-	<script type="text/javascript" src="{% static "modernizr/modernizr.js" %}"></script>
-	<script type="text/javascript" src="{% static "foundation/js/foundation.js" %}"></script>
-	<script type="text/javascript" src="{% static "foundation/js/foundation/foundation.tooltip.js" %}"></script>
-	<script type="text/javascript" src="{% static "js/app.js" %}"></script>
-	<script type="text/javascript" src="{% static "js/livereload.js" %}?host=keybar.local"></script>
-{% endblock content-js %}
+	{% block scripts %}
+		<script type="text/javascript" src="{% static "jquery/dist/jquery.js" %}"></script>
+		<script type="text/javascript" src="{% static "modernizr/modernizr.js" %}"></script>
+		<script type="text/javascript" src="{% static "foundation/js/foundation.js" %}"></script>
+		<script type="text/javascript" src="{% static "foundation/js/foundation/foundation.tooltip.js" %}"></script>
+		<script type="text/javascript" src="{% static "js/app.js" %}"></script>
+		<script type="text/javascript" src="{% static "js/livereload.js" %}?host=keybar.local"></script>
+	{% endblock scripts %}
 </body>
 </html>
