@@ -3,6 +3,7 @@ import sys
 
 from tornado import wsgi, web, httpserver, ioloop
 from django.conf import settings
+from django.contrib.staticfiles import finders
 from werkzeug.debug import DebuggedApplication
 
 from keybar.wsgi import application as django_application
@@ -10,25 +11,18 @@ from keybar.utils.crypto import get_server_context
 
 
 class MultiStaticFileHandler(web.StaticFileHandler):
-    def initialize(self, paths):
-        self.paths = paths
+    def initialize(self):
+        self.root = ''
 
     def set_extra_headers(self, path):
         self.set_header("Cache-control", "no-cache")
 
-    def get(self, path):
-        for try_path in self.paths:
-            try:
-                super(MultiStaticFileHandler, self).initialize(try_path)
-                # HACK… no idea how to properly put a try/except around a future
-                # expression
-                return super(MultiStaticFileHandler, self).get(path).result()
-            except web.HTTPError as exc:
-                if exc.status_code == 404:
-                    continue
-                raise
+    @classmethod
+    def get_absolute_path(cls, root, path):
+        return finders.find(path)
 
-        raise web.HTTPError(404)
+    def validate_absolute_path(self, root, absolute_path):
+        return absolute_path
 
 
 def get_server():
@@ -36,10 +30,9 @@ def get_server():
 
     container = wsgi.WSGIContainer(app)
 
-    static_media_paths = settings.STATICFILES_DIRS + (settings.MEDIA_ROOT,)
 
     application = web.Application([
-        (r'/static/(.*)', MultiStaticFileHandler, {'paths': static_media_paths}),
+        (r'/static/(.*)', MultiStaticFileHandler, {}),
         (r".*", web.FallbackHandler, dict(fallback=container)),
     ], debug=True)
 
