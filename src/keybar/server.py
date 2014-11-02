@@ -2,7 +2,6 @@
 import sys
 
 from tornado import wsgi, web, httpserver, ioloop
-from django.conf import settings
 from django.contrib.staticfiles import finders
 from werkzeug.debug import DebuggedApplication
 
@@ -29,7 +28,6 @@ def get_server():
     app = DebuggedApplication(django_application, evalex=True)
 
     container = wsgi.WSGIContainer(app)
-
 
     application = web.Application([
         (r'/static/(.*)', MultiStaticFileHandler, {}),
