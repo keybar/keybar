@@ -4,3 +4,6 @@
 # Python3 enabled versions
 -e git+https://github.com/julienaubert/django-uuidfield.git@python3#egg=django-uuidfield
 -e git+https://github.com/EnTeQuAk/babel.git@support/py3k#egg=babel
+
+# Django 1.7 enabled versions
+-e git+https://github.com/EnTeQuAk/django-allauth.git@feature/django1.7#egg=django-allauth

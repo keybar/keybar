@@ -1,6 +1,7 @@
 import os
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 from django.utils.translation import ugettext_lazy as _
+from django.core.urlresolvers import reverse_lazy
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -14,10 +15,13 @@ TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = []
 
+SITE_ID = 1
+
 INSTALLED_APPS = (
     # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -36,6 +40,13 @@ INSTALLED_APPS = (
 
     # Form helpers
     'floppyforms',
+
+    # user (social-) account management
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
 
     # Keybar apps
     'keybar',
@@ -68,6 +79,8 @@ DATABASES = {
 TEMPLATE_CONTEXT_PROCESSORS = TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
+    'allauth.account.context_processors.account',
+    'allauth.socialaccount.context_processors.socialaccount',
 )
 
 STATICFILES_DIRS = (
@@ -81,6 +94,7 @@ TEMPLATE_DIRS = (
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
 )
 
 LANGUAGE_CODE = 'en-us'
@@ -232,7 +246,12 @@ SECURE_BROWSER_XSS_FILTER = True
 SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
 
+LOGIN_URL = reverse_lazy('account_login')
+LOGIN_REDIRECT_URL = reverse_lazy('keybar-index')
+
+
 # Django REST Framework related settings.
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
        'keybar.core.auth.KeybarApiSignatureAuthentication',
@@ -242,7 +261,34 @@ REST_FRAMEWORK = {
     )
 }
 
-# Application specific settings
+# (social-) auth related settings
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+
+ACCOUNT_EMAIL_REQUIRED = True
+
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+
+ACCOUNT_EMAIL_SUBJECT_PREFIX = 'Keybar - '
+
+ACCOUNT_SIGNUP_FORM_CLASS = 'keybar.web.forms.RegisterForm'
+
+ACCOUNT_SIGNUP_PASSWORD_VERIFICATION = False
+
+ACCOUNT_UNIQUE_EMAIL = True
+
+ACCOUNT_USER_DISPLAY = 'keybar.utils.get_user_name'
+
+ACCOUNT_USERNAME_REQUIRED = False
+
+ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = False
+
+SOCIALACCOUNT_QUERY_EMAIL = ACCOUNT_EMAIL_REQUIRED
+
+SOCIALACCOUNT_AUTO_SIGNUP = True
+
+# Keybar related settings
+
 GPG_BIN = '/usr/bin/gpg'
 GPG_HOME = ''
 
@@ -278,3 +324,8 @@ KEYBAR_KDF_ITERATIONS = 1000000
 
 KEYBAR_DOMAIN = None
 KEYBAR_HOST = None
+
+# Django 1.7: Required to silence the check if `ModelAdmin.search_fields` is
+# a list. We generate this list dynamically, thus it's working but the check
+# framework does not evaluate the expressions and fails.
+SILENCED_SYSTEM_CHECKS = ['admin.E126']

@@ -43,9 +43,9 @@
 				<section class="top-bar-section">
 					<ul class="right">
 						{% if not request.user.is_authenticated %}
-							<li><a href="{% url 'keybar-login' %}">{% trans 'Login' %}</a></li>
+							<li><a href="{% url 'account_login' %}">{% trans 'Login' %}</a></li>
 						{% else %}
-							<li><a href="{% url 'keybar-logout' %}">{% trans 'Logout' %}</a></li>
+							<li><a href="{% url 'account_logout' %}">{% trans 'Logout' %}</a></li>
 						{% endif %}
 					</ul>
 				</section>
