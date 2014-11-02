@@ -26,8 +26,6 @@ $topbar-dropdown-bg: #eee;
 $topbar-link-bg-hover: #ccc;
 $topbar-link-color-hover: #000;
 
-
-
 $topbar-menu-link-transform: uppercase;
 $topbar-menu-link-font-size: rem-calc(13);
 $topbar-menu-link-weight: $font-weight-bold;
@@ -36,12 +34,23 @@ $topbar-menu-icon-color: $black;
 $topbar-menu-link-color-toggled: $black;
 $topbar-menu-icon-color-toggled: $black;
 
+$inline-list-overflow: none !default;
+$inline-list-display: inline !default;
+$inline-list-children-display: inline !default;
+
+
 @import "foundation/components/alert-boxes";
 @import "foundation/components/grid";
 @import "foundation/components/button-groups";
 @import "foundation/components/buttons";
 @import "foundation/components/clearing";
 @import "foundation/components/forms";
+@import "foundation/components/inline-lists";
 @import "foundation/components/type";
 @import "foundation/components/top-bar";
 @import "foundation/components/visibility";
+
+// @import "glyphicons_filetypes";
+@import "glyphicons_social";
+// @import "glyphicons_halflings";
+// @import "glyphicons_regular";

@@ -96,7 +96,50 @@ section[role="main-content"] {
 			}
 		}
 	}
+
+	section[role="login"] {
+		text-align: center;
+
+		.social:before {
+			font-size: 2rem;
+			margin: .6rem 0 .6rem 0;
+			left: auto;
+			right: 20px;
+		}
+
+		.login-or {
+			display: block;
+			margin: 0 0 1rem 0;
+			font-size: 4rem;
+		}
+
+        .button-group {
+            @include button-group-container();
+
+            margin: 0 auto;
+
+            & > li {
+                margin: 0 10px;
+                float: none;
+
+                a {
+                    @include button();
+
+                    padding-right: 4rem;
+                    padding-left: 1rem;
+
+                    &.google_plus {
+                        background-color: #dd4b39;
+                    }
+                }
+            }
+        }
+
+	}
+
 }
+
+
 
 footer {
 	text-align: center;
