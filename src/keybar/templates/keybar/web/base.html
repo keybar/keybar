@@ -18,7 +18,7 @@
 	<meta name="siteinfo" content="{% static 'robots.txt' %}" />
 	<meta name="viewport" content="initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0,width=device-width" />
 
-	<title>{% block title %}Keybar{% endblock title %}</title>
+	<title>{% block title %}Keybar – {% block sub-title %}{% endblock sub-title %}{% endblock title %}</title>
 
 	{% block styles %}
 	<link rel="stylesheet" href="{% static "css/app.css" %}">
