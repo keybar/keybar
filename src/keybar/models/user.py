@@ -46,6 +46,9 @@ class User(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return self.is_superuser
 
+    def has_perm(self, app_label):
+        return self.is_superuser
+
     def send_mail(self, subject, message, from_email=None, **kwargs):
         """Sends an email to this User."""
         from keybar.tasks import send_mail_async
@@ -57,3 +60,6 @@ class User(AbstractBaseUser):
 
     def get_display_name(self):
         return self.name or self.email
+
+    def get_short_name(self):
+        return self.get_display_name()
