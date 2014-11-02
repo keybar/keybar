@@ -1,0 +1,31 @@
+{% extends "keybar/web/base.html" %}
+{% load i18n %}
+{% load static %}
+{% load floppyforms %}
+{% load account %}
+
+
+{% block sub-title %}{% trans 'Login' %}{% endblock sub-title %}
+
+{% block main-content %}
+	{% if socialaccount.providers  %}
+		<p>
+			{% blocktrans with site.name as site_name %}
+				Please sign in with one of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
+				for a {{site_name}} account and sign in below:
+			{% endblocktrans %}
+		</p>
+
+		<ul class="socialaccount_providers">
+			{% include "socialaccount/snippets/provider_list.html" with process="login" %}
+		</ul>
+
+		{% include "socialaccount/snippets/login_extra.html" %}
+
+		<div class="login-or">{% trans 'or' %}</div>
+
+	{% endif %}
+
+    {% form form using "floppyforms/layouts/default.html" with submit_title=_('Login') %}
+
+{% endblock %}
