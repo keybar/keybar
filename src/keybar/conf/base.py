@@ -326,8 +326,3 @@ KEYBAR_KDF_ITERATIONS = 1000000
 
 KEYBAR_DOMAIN = None
 KEYBAR_HOST = None
-
-# Django 1.7: Required to silence the check if `ModelAdmin.search_fields` is
-# a list. We generate this list dynamically, thus it's working but the check
-# framework does not evaluate the expressions and fails.
-SILENCED_SYSTEM_CHECKS = ['admin.E126']
