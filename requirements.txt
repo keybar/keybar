@@ -1,9 +1,6 @@
-# To fix https://bitbucket.org/vinay.sajip/python-gnupg/issue/4/error-encrypting-and-decrypting-with
--e hg+https://bitbucket.org/vinay.sajip/python-gnupg@e8fadcf#egg=python-gnupg
-
 # Python3 enabled versions
 -e git+https://github.com/julienaubert/django-uuidfield.git@python3#egg=django-uuidfield
 -e git+https://github.com/EnTeQuAk/babel.git@support/py3k#egg=babel
 
 # Django 1.7 enabled versions
--e git+https://github.com/pennersr/django-allauth.git@fd3bba39591bf32877959829fdd62e74a0d6299fd#egg=django-allauth
+-e git+https://github.com/pennersr/django-allauth@71f74bf4d7cfe38d17a71825e3a410ecb3d3ec59#egg=django-allauth
