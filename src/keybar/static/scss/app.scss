@@ -147,7 +147,8 @@ section[role="main-content"] {
 		}
 	}
 
-	section[role="login"] {
+	section[role="login"],
+	section[role="signup"] {
 		text-align: center;
 
 		.social:before {

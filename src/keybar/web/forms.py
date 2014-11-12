@@ -6,9 +6,10 @@ from keybar.models.user import User
 
 
 class RegisterForm(forms.ModelForm):
-    name = forms.CharField(label=_('Your name'), widget=forms.TextInput)
+    name = forms.CharField(label=_('Your name'),
+        widget=forms.TextInput(attrs=
+            {'placeholder': _('e.g Jorah Mormont')}))
     email = forms.EmailField(label=_('Email'))
-    password = forms.CharField(label=_('Password'), widget=forms.PasswordInput)
 
     class Meta:
         model = User
