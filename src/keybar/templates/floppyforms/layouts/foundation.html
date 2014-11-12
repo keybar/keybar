@@ -27,8 +27,7 @@
                 {% endfor %}
             {% endblock errors %}
             {% block rows %}
-                <div class="row">
-                    <div class="small-4 small-centered columns">
+                    <div class="small-8 small-centered columns">
                         {% for field in form.visible_fields %}
                             {% if forloop.last %}
                                 {% formconfig row with hidden_fields=form.hidden_fields %}
@@ -43,11 +42,10 @@
                             {% endfor %}
                         {% endif %}
                     </div>
-                </div>
             {% endblock %}
 
             <div class="row text-center">
-                <div class="small-4 small-centered columns">
+                <div class="small-8 small-centered columns">
                     <input type="submit" class="button success" value="{{ submit_title }}">
                 </div>
             </div>

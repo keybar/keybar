@@ -163,6 +163,10 @@ section[role="main-content"] {
 			font-size: 4rem;
 		}
 
+		label {
+			text-align: left;
+		}
+
 		.button-group {
 			@include button-group-container();
 
