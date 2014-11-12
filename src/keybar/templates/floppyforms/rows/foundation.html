@@ -4,7 +4,7 @@
 {% for field in fields %}
     {% with label=label|default:field.label help_text=help_text|default:field.help_text %}
         {% if field|id %}
-            <label class="{% if field.errors %}error{% endif %}">
+            <label{% if field.errors %} class="error"{% endif %}>
         {% endif %}
 
             {{ label }}
