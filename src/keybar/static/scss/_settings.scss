@@ -7,12 +7,20 @@ $include-print-styles: false;
 
 $total-columns: 12;
 
+$font-family-sans-serif: 'Open Sans', sans-serif;
+$font-family-serif: 'Open Sans', serif;
+$font-family-monospace: Consolas, monospace;
+
+$font-weight-normal: 400;
 
 $body-bg: $white;
 $body-font-color: $black;
 $body-font-family: $font-family-sans-serif;
 $body-font-weight: $font-weight-normal;
 $body-font-style: normal;
+
+$base-font-size: 12px !default;
+$base-line-height: 1 !default;
 
 $topbar-bg-color: #ffffff;
 $topbar-margin-bottom: 20px;
@@ -37,20 +45,3 @@ $topbar-menu-icon-color-toggled: $black;
 $inline-list-overflow: none !default;
 $inline-list-display: inline !default;
 $inline-list-children-display: inline !default;
-
-
-@import "foundation/components/alert-boxes";
-@import "foundation/components/grid";
-@import "foundation/components/button-groups";
-@import "foundation/components/buttons";
-@import "foundation/components/clearing";
-@import "foundation/components/forms";
-@import "foundation/components/inline-lists";
-@import "foundation/components/type";
-@import "foundation/components/top-bar";
-@import "foundation/components/visibility";
-
-// @import "glyphicons_filetypes";
-@import "glyphicons_social";
-// @import "glyphicons_halflings";
-// @import "glyphicons_regular";

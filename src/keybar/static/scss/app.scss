@@ -1,7 +1,40 @@
 @import "settings";
 
+@import "foundation/components/alert-boxes";
+@import "foundation/components/grid";
+@import "foundation/components/button-groups";
+@import "foundation/components/buttons";
+@import "foundation/components/clearing";
+@import "foundation/components/forms";
+@import "foundation/components/inline-lists";
+@import "foundation/components/type";
+@import "foundation/components/top-bar";
+@import "foundation/components/visibility";
+
+// @import "glyphicons_filetypes";
+@import "glyphicons_social";
+// @import "glyphicons_halflings";
+// @import "glyphicons_regular";
+
+
+@mixin default-typo() {
+	font-family: $font-family-sans-serif;
+}
+
+@mixin brand-typo() {
+	font-family: 'Ubuntu', sans-serif;
+}
+
 .contain-to-grid {
 	background-color: #fff;
+}
+
+html,
+body {
+	@include default-typo();
+	line-height: $base-line-height;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 
@@ -9,8 +42,23 @@ section[role="header"] {
 	nav[role="navigation"] {
 		&.top-bar {
 			h1 {
-				font-size: 1.6rem;
+				@include brand-typo();
+				font-size: 2rem;
 				vertical-align: middle;
+			}
+
+			&.toggle-topbar {
+				a {
+					font-size: 2rem;
+				}
+
+				&.menu-icon {
+						span {
+							::after {
+								box-shadow: 0 0px 0 2px #000000, 0 7px 0 2px #000000, 0 14px 0 2px #000000;
+							}
+						}
+					}
 			}
 
 			section.top-bar-section {
@@ -93,6 +141,7 @@ section[role="main-content"] {
 			}
 
 			h3 {
+				font-size: 1.2rem;
 				color: #999;
 			}
 		}
@@ -114,33 +163,31 @@ section[role="main-content"] {
 			font-size: 4rem;
 		}
 
-        .button-group {
-            @include button-group-container();
+		.button-group {
+			@include button-group-container();
 
-            margin: 0 auto;
+			margin: 0 auto;
 
-            & > li {
-                margin: 0 10px;
-                float: none;
+			& > li {
+				margin: 0 10px;
+				float: none;
 
-                a {
-                    @include button();
+				a {
+					@include button();
 
-                    padding-right: 4rem;
-                    padding-left: 1rem;
+					padding-right: 4rem;
+					padding-left: 1rem;
 
-                    &.google_plus {
-                        background-color: #dd4b39;
-                    }
-                }
-            }
-        }
+					&.google_plus {
+						background-color: #dd4b39;
+					}
+				}
+			}
+		}
 
 	}
 
 }
-
-
 
 footer {
 	text-align: center;

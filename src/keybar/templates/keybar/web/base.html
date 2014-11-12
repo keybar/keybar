@@ -21,6 +21,8 @@
 	<title>{% block title %}Keybar – {% block sub-title %}{% endblock sub-title %}{% endblock title %}</title>
 
 	{% block styles %}
+	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ubuntu">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="{% static "css/app.css" %}">
 	{% endblock styles %}
 </head>
@@ -32,12 +34,11 @@
 					<li class="name">
 						<h1>
 							<a href="{% url 'keybar-index' %}">
-								<img src="{% static 'img/logo-small.png' %}">
-								keybar.io
+								keybar
 							</a>
 						</h1>
 					</li>
-					<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+					<li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
 				</ul>
 
 				<section class="top-bar-section">
