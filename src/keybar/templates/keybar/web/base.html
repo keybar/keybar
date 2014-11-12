@@ -55,12 +55,14 @@
 
 	{% block messages %}
 		{% if messages %}
-			{% for message in messages %}
-				<div data-alert="" class="small-12 medium-12 large-12 columns alert-box {% map_error_level message.level %}">
-					{{ message }}
-					<a href="" class="close">&times;</a>
-				</div>
-			{% endfor %}
+			<div class="row">
+				{% for message in messages %}
+					<div data-alert="" class="small-12 medium-12 large-12 columns alert-box {% map_error_level message.level %}">
+						{{ message }}
+						<a href="" class="close">&times;</a>
+					</div>
+				{% endfor %}
+			</div>
 		{% endif %}
 	{% endblock %}
 
