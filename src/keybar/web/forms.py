@@ -1,6 +1,5 @@
-from django.utils.translation import ugettext_lazy as _
-from django.contrib import auth
 import floppyforms.__future__ as forms
+from django.utils.translation import ugettext_lazy as _
 
 from keybar.models.user import User
 
