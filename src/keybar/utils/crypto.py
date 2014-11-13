@@ -133,17 +133,3 @@ def get_client_context(verify=True):
     client_ctx.load_verify_locations(settings.KEYBAR_CA_BUNDLE)
 
     return client_ctx
-
-
-def _patch_ssl_for_tlsv12_default():
-    import ssl
-    from functools import wraps
-
-    def sslwrap(func):
-        @wraps(func)
-        def wrapper(*args, **kw):
-            kw['ssl_version'] = ssl.PROTOCOL_TLSv1_2
-            return func(*args, **kw)
-        return wrapper
-
-    ssl.wrap_socket = sslwrap(ssl.wrap_socket)
