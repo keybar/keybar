@@ -1,5 +1,3 @@
-import os
-
 from django.conf import settings
 from rest_framework.authentication import BaseAuthentication, get_authorization_header
 from rest_framework import exceptions
@@ -80,31 +78,25 @@ class KeybarApiSignatureAuthentication(BaseAuthentication):
     package correctly and actually verfies the signature in a correct manner
     (e.g using HeaderVerifier)
     """
-
-    def get_verify_secret(self, request):
-        # TODO: Fetch that public key from the device
-        fpath = os.path.join(
-            settings.PROJECT_DIR, 'extras', 'example_keys', 'id_rsa.pub')
-
-        with open(fpath, 'rb') as fobj:
-            secret = fobj.read()
-
-        return secret
-
     def get_host(self, request):
         return settings.KEYBAR_HOST
 
-    def fetch_user(self, request):
+    def get_device(self, request):
         # TODO: fetch device_id from the device…
         device_id = request.META.get('HTTP_X_DEVICE_ID')
         device = Device.objects.get(pk=device_id)
-        return device.user
+        return device
 
     def authenticate(self, request):
         try:
+            device = self.get_device(request)
+        except TypeError:
+            raise exceptions.AuthenticationFailed('Bad device id')
+
+        try:
             verifier = HeaderVerifier(
                 request=request,
-                secret=self.get_verify_secret(request),
+                secret=device.public_key,
                 required_headers=REQUIRED_HEADERS,
                 host=self.get_host(request),
                 method=request.method,
@@ -118,12 +110,7 @@ class KeybarApiSignatureAuthentication(BaseAuthentication):
         except HttpSigException as exc:
             raise exceptions.AuthenticationFailed(exc.message)
 
-        try:
-            user = self.fetch_user(request)
-        except TypeError:
-            raise exceptions.AuthenticationFailed('Bad device id')
-
-        return (user, None)
+        return (device.user, None)
 
     def authenticate_header(self, request):
         # TODO:

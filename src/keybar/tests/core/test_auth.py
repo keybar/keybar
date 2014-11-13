@@ -26,8 +26,7 @@ class TestHttpSignatureAuth(object):
     def test_simple(self, settings, keybar_liveserver):
         settings.DEBUG = True
 
-        fpath = os.path.join(
-                settings.PROJECT_DIR, 'extras', 'example_keys', 'id_rsa')
+        fpath = os.path.join(settings.PROJECT_DIR, 'extras', 'example_keys', 'id_rsa')
 
         with open(fpath, 'rb') as fobj:
             secret = fobj.read()
