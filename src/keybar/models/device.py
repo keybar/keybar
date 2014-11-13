@@ -23,3 +23,8 @@ class Device(models.Model):
     id = UUIDField(auto=True, primary_key=True)
     user = models.ForeignKey('keybar.User', related_name='devices')
     name = models.TextField(_('Device name'), blank=True, default='')
+
+    # `None` specifies that the user did not yet authorize the device.
+    # `False` specifies that the user explicitly deauthorized the device.
+    # `True` specifies that the user authorized the device to access his data.
+    authorized = models.NullBooleanField(_('Authorized?'), default=None)
