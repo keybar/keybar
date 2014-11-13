@@ -10,8 +10,3 @@ class Entry(models.Model):
         help_text=_('Usually a username or email address'))
     value = models.TextField(_('The encrypted value for the entry.'),
         help_text=_('Usually a password.'))
-
-    # Those parts are for encrypting/decrypting the stored values
-    # The values are stored as 16-byte-salt$key where `key`
-    # can be used to obtain the actual encryption key.
-    key = models.BinaryField()
