@@ -5,8 +5,11 @@
 
     Device model.
 """
+import hashlib
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import force_bytes
 from uuidfield import UUIDField
 
 
@@ -33,5 +36,5 @@ class Device(models.Model):
 
     @property
     def fingerprint(self):
-        key = self.public_key
-        return key.join(key[i:i + 2] for i in range(0, len(key), 2))
+        digest = hashlib.md5(force_bytes(self.public_key)).hexdigest()
+        return ':'.join(digest[i:i + 2] for i in range(0, len(digest), 2))

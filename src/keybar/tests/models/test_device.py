@@ -28,3 +28,9 @@ class TestDevice:
     def test_device_can_be_deauthorized(self):
         device = DeauthorizedDeviceFactory.create()
         assert device.authorized is False
+
+    def test_fingerprint(self):
+        expected = '4b:74:c6:1d:c1:e2:14:30:e0:5c:cc:12:a0:63:04:92'
+
+        device = DeviceFactory.create()
+        assert device.fingerprint == expected
