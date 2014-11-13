@@ -67,12 +67,12 @@ def get_encryption_key(key, password):
 
 
 def encrypt(text, encryption_key):
-    fernet = Fernet(base64.urlsafe_b64encode(encryption_key), backend=default_backend())
+    fernet = Fernet(base64.urlsafe_b64encode(encryption_key))
     return fernet.encrypt(force_bytes(text))
 
 
 def decrypt(encrypted_text, encryption_key):
-    fernet = Fernet(base64.urlsafe_b64encode(encryption_key), backend=default_backend())
+    fernet = Fernet(base64.urlsafe_b64encode(encryption_key))
     return force_text(fernet.decrypt(force_bytes(encrypted_text)))
 
 
