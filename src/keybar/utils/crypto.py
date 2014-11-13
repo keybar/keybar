@@ -34,9 +34,7 @@ def derive_encryption_key(salt, password):
     return kdf.derive(force_bytes(password))
 
 
-def get_encryption_key(salt, password):
-    key = derive_encryption_key(salt, password)
-
+def verify_encryption_key(salt, password, key):
     backend = default_backend()
 
     kdf = PBKDF2HMAC(
@@ -53,12 +51,12 @@ def get_encryption_key(salt, password):
 
 
 def encrypt(text, password, salt):
-    fernet = Fernet(base64.urlsafe_b64encode(get_encryption_key(salt, password)))
+    fernet = Fernet(base64.urlsafe_b64encode(derive_encryption_key(salt, password)))
     return fernet.encrypt(force_bytes(text))
 
 
 def decrypt(text, password, salt):
-    fernet = Fernet(base64.urlsafe_b64encode(get_encryption_key(salt, password)))
+    fernet = Fernet(base64.urlsafe_b64encode(derive_encryption_key(salt, password)))
     return force_text(fernet.decrypt(force_bytes(text)))
 
 
