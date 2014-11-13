@@ -23,3 +23,5 @@ KEYBAR_HOST = 'keybar.local:8443'
 PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.MD5PasswordHasher',
 )
+
+KEYBAR_KDF_ITERATIONS = 100
