@@ -1,28 +1,19 @@
-import hashlib
+import base64
 import ssl
 import os
-from itertools import cycle
 
 from django.conf import settings
+from django.utils.encoding import force_bytes, force_text
 from cryptography.fernet import Fernet
+
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from cryptography.hazmat.primitives import hashes
+
 
 # Verify we can use all feature we require.
 assert ssl.HAS_ECDH
 assert ssl.HAS_SNI
-
-
-def xor_strings(string, key):
-    assert isinstance(string, (bytes, bytearray))
-    assert isinstance(key, (bytes, bytearray))
-
-    base = bytearray(string)
-
-    return bytearray(char ^ k for char, k in zip(base, cycle(key)))
-
-
-def pbkdf2(salt, password):
-    iterations = settings.KEYBAR_KDF_ITERATIONS
-    return hashlib.pbkdf2_hmac('sha256', salt, password, iterations)
 
 
 def derive_encryption_key_spec(password):
@@ -36,26 +27,53 @@ def derive_encryption_key_spec(password):
 
     :return: A string of ``16-byte-salt$key``.
     """
-    fernet_key = Fernet.generate_key()
     salt = os.urandom(16)
-    hashed_value = pbkdf2(salt, password)
+    backend = default_backend()
 
-    # Ordering of the xor-arguments is important, because of
-    # very simplified xor-implementation.
-    visible_key = xor_strings(fernet_key, hashed_value)
+    kdf = PBKDF2HMAC(
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=salt,
+        iterations=settings.KEYBAR_KDF_ITERATIONS,
+        backend=backend
+    )
 
-    return salt + b'$' + visible_key
+    key = kdf.derive(force_bytes(password))
+
+    encoded_key = base64.urlsafe_b64encode(key)
+
+    return salt + b'$' + encoded_key
 
 
 def get_encryption_key(key, password):
     # We must split only once. The Fernet key can also contain
     # `$` characters
-    salt, visible_key = bytes(key).split(b'$', 1)
-    hashed_value = pbkdf2(salt, password)
+    salt, encoded_key = bytes(key).split(b'$', 1)
+    decoded_key = base64.urlsafe_b64decode(encoded_key)
 
-    # Ordering of the xor-arguments is important, because of
-    # very simplified xor-implementation.
-    return xor_strings(visible_key, hashed_value)
+    backend = default_backend()
+
+    kdf = PBKDF2HMAC(
+        algorithm=hashes.SHA256(),
+        length=32,
+        salt=salt,
+        iterations=settings.KEYBAR_KDF_ITERATIONS,
+        backend=backend
+    )
+
+    kdf.verify(force_bytes(password), decoded_key)
+
+    return decoded_key
+
+
+def encrypt(text, encryption_key):
+    fernet = Fernet(base64.urlsafe_b64encode(encryption_key), backend=default_backend())
+    return fernet.encrypt(force_bytes(text))
+
+
+def decrypt(encrypted_text, encryption_key):
+    fernet = Fernet(base64.urlsafe_b64encode(encryption_key), backend=default_backend())
+    return force_text(fernet.decrypt(force_bytes(encrypted_text)))
 
 
 def get_server_context(verify=True):
