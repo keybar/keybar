@@ -6,6 +6,7 @@ from django.contrib.staticfiles import finders
 from werkzeug.debug import DebuggedApplication
 
 from keybar.wsgi import application as django_application
+from keybar.core.logging import  enable_error_logging_in_debug_mode
 from keybar.utils.crypto import get_server_context
 
 
@@ -26,6 +27,8 @@ class MultiStaticFileHandler(web.StaticFileHandler):
 
 def get_server():
     app = DebuggedApplication(django_application, evalex=True)
+
+    enable_error_logging_in_debug_mode()
 
     container = wsgi.WSGIContainer(app)
 
