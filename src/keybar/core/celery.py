@@ -1,6 +1,6 @@
 import os
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "keybar.settings")
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'keybar.settings')
 
 from django.conf import settings
 
