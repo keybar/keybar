@@ -24,7 +24,6 @@ def test_simple_encryption_key_derive(derive):
     pytest.mark.xfail(('漢語中文', b'this is my secure message')),
 ))
 def test_encrypt_decrypt_cycle(password, message):
-
     # This is the value that get's saved in the database.
     encryption_key_spec = derive_encryption_key_spec(password)
 

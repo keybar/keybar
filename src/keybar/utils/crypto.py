@@ -25,9 +25,9 @@ def derive_encryption_key_spec(password):
     This allows for password and encryption key to be changed
     independently, e.g in case of a security breach.
 
-    :return: A string of ``16-byte-salt$key``.
+    :return: A string of ``32-byte-salt$key``.
     """
-    salt = os.urandom(16)
+    salt = os.urandom(32)
     backend = default_backend()
 
     kdf = PBKDF2HMAC(
