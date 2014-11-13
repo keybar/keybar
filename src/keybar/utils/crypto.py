@@ -1,6 +1,5 @@
 import base64
 import ssl
-import os
 
 from django.conf import settings
 from django.utils.encoding import force_bytes, force_text
@@ -16,64 +15,51 @@ assert ssl.HAS_ECDH
 assert ssl.HAS_SNI
 
 
-def derive_encryption_key_spec(password):
+def derive_encryption_key(salt, password):
     """Get the real encryption key.
 
     Don't use the password directly but derive a encryption key
     dynamically based on the password and a stored key.
-
-    This allows for password and encryption key to be changed
-    independently, e.g in case of a security breach.
-
-    :return: A string of ``32-byte-salt$key``.
     """
-    salt = os.urandom(32)
     backend = default_backend()
 
     kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256(),
         length=32,
-        salt=salt,
+        salt=force_bytes(salt),
         iterations=settings.KEYBAR_KDF_ITERATIONS,
         backend=backend
     )
 
-    key = kdf.derive(force_bytes(password))
-
-    encoded_key = base64.urlsafe_b64encode(key)
-
-    return salt + b'$' + encoded_key
+    return kdf.derive(force_bytes(password))
 
 
-def get_encryption_key(key, password):
-    # We must split only once. The Fernet key can also contain
-    # `$` characters
-    salt, encoded_key = bytes(key).split(b'$', 1)
-    decoded_key = base64.urlsafe_b64decode(encoded_key)
+def get_encryption_key(salt, password):
+    key = derive_encryption_key(salt, password)
 
     backend = default_backend()
 
     kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256(),
         length=32,
-        salt=salt,
+        salt=force_bytes(salt),
         iterations=settings.KEYBAR_KDF_ITERATIONS,
         backend=backend
     )
 
-    kdf.verify(force_bytes(password), decoded_key)
+    kdf.verify(force_bytes(password), key)
 
-    return decoded_key
+    return key
 
 
-def encrypt(text, encryption_key):
-    fernet = Fernet(base64.urlsafe_b64encode(encryption_key))
+def encrypt(text, password, salt):
+    fernet = Fernet(base64.urlsafe_b64encode(get_encryption_key(salt, password)))
     return fernet.encrypt(force_bytes(text))
 
 
-def decrypt(encrypted_text, encryption_key):
-    fernet = Fernet(base64.urlsafe_b64encode(encryption_key))
-    return force_text(fernet.decrypt(force_bytes(encrypted_text)))
+def decrypt(text, password, salt):
+    fernet = Fernet(base64.urlsafe_b64encode(get_encryption_key(salt, password)))
+    return force_text(fernet.decrypt(force_bytes(text)))
 
 
 def get_server_context(verify=True):
