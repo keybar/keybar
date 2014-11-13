@@ -11,6 +11,8 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, UserManager
 
+from keybar.core.tasks import send_mail_async
+
 
 class User(AbstractBaseUser):
     email = models.EmailField(_('Email'), max_length=254, unique=True)
@@ -51,7 +53,6 @@ class User(AbstractBaseUser):
 
     def send_mail(self, subject, message, from_email=None, **kwargs):
         """Sends an email to this User."""
-        from keybar.tasks import send_mail_async
         send_mail_async.delay(subject, message, from_email, [self.email],
                               **kwargs)
 
