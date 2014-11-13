@@ -10,3 +10,5 @@ class Entry(models.Model):
         help_text=_('Usually a username or email address'))
     value = models.TextField(_('The encrypted value for the entry.'),
         help_text=_('Usually a password.'))
+
+    salt = models.BinaryField(null=True, blank=True)
