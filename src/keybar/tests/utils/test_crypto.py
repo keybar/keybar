@@ -18,8 +18,9 @@ from keybar.utils.crypto import (
     (b'predictable salt', '½³@ſđæ',
         b'iS\x14F\xa21\x0bM\xe5\x0fU3X\xcd\xef|&\xa1\xd6\x8f\xac<\xab\xd7\x8d\x12s\xcf\xe8\xea\x00\xf5'),  # noqa
 ))
-def test_simple_encryption_key_derive(salt, password, expected):
+def test_simple_encryption_key_derive_and_verify(salt, password, expected):
     assert derive_encryption_key(salt, password) == expected
+    assert verify_encryption_key(salt, password, expected)
 
 
 @pytest.mark.parametrize('salt,password,message', (
