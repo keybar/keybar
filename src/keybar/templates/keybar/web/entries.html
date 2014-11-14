@@ -1,0 +1,16 @@
+{% extends "keybar/web/base.html" %}
+{% load i18n %}
+{% load static %}
+
+
+{% block main-content %}
+    <div class="row">
+        <div class="small-12 medium-12 large-12 columns">
+            <ul>
+                {% for entry in object_list %}
+                    <li><a href="">{{ entry.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

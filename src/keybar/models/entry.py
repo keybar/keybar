@@ -9,9 +9,10 @@ class Entry(models.Model):
     title = models.TextField(_('Title'), blank=True, default='')
     url = models.URLField(blank=True, default='')
 
-    username = models.TextField(_('Identifier for login'),
-        help_text=_('Usually username or email address'))
-    password = models.TextField(_('The encrypted value for the entry.'))
+    identifier = models.TextField(_('Identifier for login'),
+        help_text=_('Usually a username or email address'))
+    value = models.TextField(_('The encrypted value for the entry.'),
+        help_text=_('Usually a password.'))
 
     description = models.TextField(_('Description'), blank=True, default='')
 
