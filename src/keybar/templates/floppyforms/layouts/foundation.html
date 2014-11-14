@@ -46,7 +46,9 @@
 
             <div class="row text-center">
                 <div class="small-8 small-centered columns">
-                    <input type="submit" class="button success" value="{{ submit_title }}">
+                    {% block buttons %}
+                        <input type="submit" class="button success" value="{{ submit_title }}">
+                    {% endblock %}
                 </div>
             </div>
         </form>
