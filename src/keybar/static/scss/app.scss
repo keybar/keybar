@@ -38,6 +38,13 @@ body {
 }
 
 
+.help-text {
+    font-size: .75rem;
+    color: #aaa;
+    margin-top: -15px;
+}
+
+
 section[role="header"] {
 	nav[role="navigation"] {
 		&.top-bar {
