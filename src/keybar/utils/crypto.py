@@ -72,6 +72,17 @@ def decrypt(text, password, salt):
     return force_text(fernet.decrypt(force_bytes(text)))
 
 
+def prettify_fingerprint(fingerprint):
+    """
+    Returns the fingerprint in its common pretty form::
+        XXXX XXXX XXXX XXXX XXXX  XXXX XXXX XXXX XXXX XXXX
+    """
+    if fingerprint is None:
+        return 'NO FINGERPRINT'
+    chunks = [fingerprint[i:i + 4] for i in range(0, 32, 4)]
+    return '%s  %s' % (' '.join(chunks[0:4]), ' '.join(chunks[4:8]))
+
+
 def get_server_context(verify=True):
     """Our TLS configuration for the server"""
     server_ctx = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)

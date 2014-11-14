@@ -12,6 +12,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import force_bytes
 from uuidfield import UUIDField
 
+from keybar.utils.crypto import prettify_fingerprint
+
 
 class Device(models.Model):
     """A device is a uuid-typed identifier that can be optionally named.
@@ -37,4 +39,4 @@ class Device(models.Model):
     @property
     def fingerprint(self):
         digest = hashlib.md5(force_bytes(self.public_key)).hexdigest()
-        return ':'.join(digest[i:i + 2] for i in range(0, len(digest), 2))
+        return prettify_fingerprint(digest)
