@@ -41,3 +41,28 @@ class EntryForm(forms.ModelForm):
             self.cleaned_data['value'])
 
         return super(EntryForm, self).save(commit=commit)
+
+
+class UpdateEntryForm(EntryForm):
+
+    class Meta(EntryForm.Meta):
+        pass
+
+    def __init__(self, *args, **kwargs):
+        super(UpdateEntryForm, self).__init__(*args, **kwargs)
+        del self.fields['value']
+
+
+class ViewEntryForm(EntryForm):
+    value = forms.CharField(label=_('Decrypted value'))
+
+    class Meta(EntryForm.Meta):
+        fields = ('title', 'description', 'identifier', 'value')
+
+    def __init__(self, *args, **kwargs):
+        super(ViewEntryForm, self).__init__(*args, **kwargs)
+        del self.fields['password']
+
+    def clean(self):
+        cleaned_data = super(ViewEntryForm, self).clean()
+        self.errors.pop('value', None)

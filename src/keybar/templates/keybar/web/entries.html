@@ -4,13 +4,22 @@
 
 
 {% block main-content %}
+    {% url 'keybar-new-entry' as new_entry_url %}
+
     <div class="row">
         <div class="small-12 medium-12 large-12 columns">
             <ul>
                 {% for entry in object_list %}
-                    <li><a href="">{{ entry.title }}</a></li>
+                    <li><a href="{% url 'keybar-entry' entry.pk %}">{{ entry.title }}</a></li>
+                {% empty %}
+                    <p>
+                        {% blocktrans %}
+                            There are no entries in your vault! <a href="{{ new_entry_url }}">Create one</a>
+                        {% endblocktrans %}
+                    </p>
                 {% endfor %}
             </ul>
+            <a href="{{ new_entry_url }}" class="button">Add new entry</a>
         </div>
     </div>
 {% endblock %}
