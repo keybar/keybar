@@ -1,10 +1,13 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from uuidfield import UUIDField
 
 from keybar.utils.crypto import encrypt, get_salt
 
 
 class Entry(models.Model):
+    id = UUIDField(auto=True, primary_key=True)
+
     created_by = models.ForeignKey('keybar.User')
     title = models.TextField(_('Title'), blank=True, default='')
     url = models.URLField(blank=True, default='')
