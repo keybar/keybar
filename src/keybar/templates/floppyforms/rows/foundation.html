@@ -20,12 +20,6 @@
                     {% formfield field %}
                 {% endblock %}
 
-                {% block help_text %}
-                    {% if field.help_text %}
-                        <p>{{ field.help_text }}</p>
-                    {% endif %}
-                {% endblock %}
-
                 {% block hidden_fields %}
                     {% for field in hidden_fields %}
                         {{ field.as_hidden }}
@@ -33,6 +27,13 @@
                 {% endblock %}
 
                 {% include "floppyforms/errors.html" with errors=field.errors %}
+
+                {% block help_text %}
+                    {% if field.help_text %}
+                        <p class="help-text">{{ field.help_text }}</p>
+                    {% endif %}
+                {% endblock %}
+
             {% endblock %}
 
         {% if field|id %}
