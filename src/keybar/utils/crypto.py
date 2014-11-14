@@ -1,3 +1,4 @@
+import os
 import base64
 import ssl
 
@@ -15,6 +16,17 @@ assert ssl.HAS_ECDH
 assert ssl.HAS_SNI
 
 
+KEY_LENGTH = 32
+
+
+def get_salt():
+    """Helper method to get a salt.
+
+    It is recommended that the the salt-size matches the key-size.
+    """
+    return os.urandom(KEY_LENGTH)
+
+
 def derive_encryption_key(salt, password):
     """Get the real encryption key.
 
@@ -25,7 +37,7 @@ def derive_encryption_key(salt, password):
 
     kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256(),
-        length=32,
+        length=KEY_LENGTH,
         salt=force_bytes(salt),
         iterations=settings.KEYBAR_KDF_ITERATIONS,
         backend=backend
@@ -39,7 +51,7 @@ def verify_encryption_key(salt, password, key):
 
     kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256(),
-        length=32,
+        length=KEY_LENGTH,
         salt=force_bytes(salt),
         iterations=settings.KEYBAR_KDF_ITERATIONS,
         backend=backend

@@ -325,5 +325,5 @@ KEYBAR_HOST = None
 # AND HAS SOME DEEP IMPACT. !! JUST DONT !!
 # In 2013 100,000 was the recommended value, so we settle with one million
 # for now.
-KEYBAR_KDF_ITERATIONS = 1000000
+KEYBAR_KDF_ITERATIONS = 100000
 
