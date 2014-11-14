@@ -1,0 +1,16 @@
+{% extends "keybar/web/base.html" %}
+{% load i18n %}
+{% load static %}
+{% load foundation %}
+{% load floppyforms %}
+
+
+{% block sub-title %}{% trans 'Add new entry' %}{% endblock sub-title %}
+
+{% block main-content %}
+    <section class="row" role="signup">
+        <div class="small-12 medium-12 large-12 columns">
+            {% form form using "floppyforms/layouts/default.html" with submit_title=_('Add Entry') %}
+        </div>
+    </section>
+{% endblock %}
