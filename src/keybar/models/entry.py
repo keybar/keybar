@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from uuidfield import UUIDField
 
-from keybar.utils.crypto import encrypt, get_salt
+from keybar.utils.crypto import encrypt, decrypt, get_salt
 
 
 class Entry(models.Model):
@@ -27,3 +27,6 @@ class Entry(models.Model):
 
         self.value = encrypt(value, password, salt)
         self.salt = salt
+
+    def decrypt(self, password):
+        return decrypt(self.value, password, bytes(self.salt))
