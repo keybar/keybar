@@ -3,8 +3,8 @@
 {% load i18n %}
 
 {% block buttons %}
-    {% if form.data.unlock %}
-        <a href="{% url 'keybar-entry' object.pk %}" class="button success">{% trans 'Back' %}</a>
+    {% if form.data.unlock and not form.errors %}
+        <a href="{% url 'keybar-entry' object.pk %}" class="button">{% trans 'Back' %}</a>
     {% else %}
         <input type="submit" class="button warning" value="{% trans 'Unlock' %}" name="unlock">
     {% endif %}
