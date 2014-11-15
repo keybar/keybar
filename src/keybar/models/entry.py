@@ -30,3 +30,13 @@ class Entry(models.Model):
 
     def decrypt(self, password):
         return decrypt(self.value, password, bytes(self.salt))
+
+    def __str__(self):
+        if self.url and self.title:
+            return '{0} ({1})'.format(self.title, self.url)
+        elif self.url:
+            return self.url
+        elif self.title:
+            return self.title
+        else:
+            return self.identifier
