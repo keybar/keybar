@@ -65,3 +65,4 @@ class ViewEntryForm(EntryForm):
     def clean(self):
         cleaned_data = super(ViewEntryForm, self).clean()
         self.errors.pop('value', None)
+        return cleaned_data
