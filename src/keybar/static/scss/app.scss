@@ -2,6 +2,7 @@
 
 @import "foundation/components/alert-boxes";
 @import "foundation/components/grid";
+@import "foundation/components/breadcrumbs";
 @import "foundation/components/button-groups";
 @import "foundation/components/buttons";
 @import "foundation/components/clearing";
@@ -9,6 +10,7 @@
 @import "foundation/components/inline-lists";
 @import "foundation/components/type";
 @import "foundation/components/top-bar";
+@import "foundation/components/tables";
 @import "foundation/components/visibility";
 
 // @import "glyphicons_filetypes";
@@ -22,7 +24,8 @@
 }
 
 @mixin brand-typo() {
-	font-family: 'Ubuntu', sans-serif;
+	font-family: 'Comfortaa', sans-serif;
+	font-weight: 400;
 }
 
 .contain-to-grid {
@@ -39,9 +42,9 @@ body {
 
 
 .help-text {
-    font-size: .75rem;
-    color: #aaa;
-    margin-top: -15px;
+	font-size: .75rem;
+	color: #aaa;
+	margin-top: -15px;
 }
 
 
@@ -52,6 +55,11 @@ section[role="header"] {
 				@include brand-typo();
 				font-size: 2rem;
 				vertical-align: middle;
+				margin-top: 10px;
+
+				img {
+					width: 40px;
+				}
 			}
 
 			&.toggle-topbar {
@@ -217,5 +225,40 @@ footer {
 
 	&.horizontal-ruler {
 		border-bottom: 1px solid #000;
+	}
+}
+
+
+.entries table {
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: initial;
+
+	caption {
+		padding: 1rem;
+	}
+
+	tr:hover {
+		background-color: $white-smoke;
+	}
+
+	tr:nth-of-type(even):hover {
+		background-color: $white-smoke;
+	}
+
+	th[headers~="title"],
+	td[headers~="identifier"] {
+		padding: 0;
+
+		a {
+			display: block;
+			padding: $table-row-padding;
+		}
+	}
+
+	td[headers~="identifier"],
+	td[headers~="actions"] {
+		width: 20%;
 	}
 }
