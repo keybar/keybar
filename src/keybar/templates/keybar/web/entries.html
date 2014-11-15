@@ -4,22 +4,46 @@
 
 
 {% block main-content %}
-    {% url 'keybar-new-entry' as new_entry_url %}
+    {% url 'keybar-entry-new' as new_entry_url %}
 
-    <div class="row">
+    <div class="row entries">
         <div class="small-12 medium-12 large-12 columns">
-            <ul>
-                {% for entry in object_list %}
-                    <li><a href="{% url 'keybar-entry' entry.pk %}">{{ entry }}</a></li>
-                {% empty %}
-                    <p>
-                        {% blocktrans %}
-                            There are no entries in your vault! <a href="{{ new_entry_url }}">Create one</a>
-                        {% endblocktrans %}
-                    </p>
-                {% endfor %}
-            </ul>
-            <a href="{{ new_entry_url }}" class="button">Add new entry</a>
+            {% if object_list.exists %}
+                <table>
+                    <caption>{% trans 'Your Vault' %}</caption>
+                    <tr>
+                        <th id="title">{% trans 'Title' %}</th>
+                        <th id="identifier">{% trans 'Identifier' %}</th>
+                        <th id="actions">{% trans 'Actions' %}</th>
+                    </tr>
+                    {% for entry in object_list %}
+                    <tr>
+                        <th id="{{ entry.pk }}" headers="title">
+                            <a href="{% url 'keybar-entry' entry.pk %}">
+                                {{ entry }}
+                            </a>
+                        </th>
+                        <td headers="{{ entry.pk }} identifier">
+                            <a href="{% url 'keybar-entry' entry.pk %}">
+                                {{ entry.identifier }}
+                            </a>
+                        </td>
+                        <td headers="{{ entry.pk }} actions">
+                            <a href="{% url 'keybar-entry-edit' entry.pk %}">Edit</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+
+                <a href="{{ new_entry_url }}" class="button">Add new entry</a>
+
+            {% else %}
+                <p>
+                    {% blocktrans %}
+                        There are no entries in your vault! <a href="{{ new_entry_url }}">Create one</a>
+                    {% endblocktrans %}
+                </p>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
