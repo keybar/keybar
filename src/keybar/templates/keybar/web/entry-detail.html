@@ -10,6 +10,16 @@
 {% block main-content %}
     <section class="row">
         <div class="small-12 medium-12 large-12 columns">
+            {# TODO: Make generic! #}
+            <ul class="breadcrumbs">
+                <li>
+                    <a href="{% url 'keybar-vault' %}">Vault</a>
+                </li>
+                <li class="current">
+                    <a href="{% url 'keybar-entry' object.pk %}">{{ object }}</a>
+                </li>
+            </ul>
+
             {% form form using "floppyforms/layouts/entry-detail.html" %}
         </div>
     </section>

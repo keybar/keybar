@@ -1,6 +1,10 @@
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView, CreateView, UpdateView, ListView
+from django.utils.translation import ugettext_lazy as _
+from allauth.account.signals import user_signed_up
+
 
 from keybar.core.mixins import LoginRequiredMixin
 from keybar.models.entry import Entry
@@ -24,8 +28,8 @@ class VaultView(ListView):
         return Entry.objects.filter(created_by=self.request.user)
 
 
-class AddEntryFormView(LoginRequiredMixin, CreateView):
-    template_name = 'keybar/web/entry.html'
+class EntryAddFormView(LoginRequiredMixin, CreateView):
+    template_name = 'keybar/web/entry-update.html'
     form_class = EntryForm
     model = Entry
     success_url = reverse_lazy('keybar-vault')
@@ -35,9 +39,21 @@ class AddEntryFormView(LoginRequiredMixin, CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class EntryDetailFormView(LoginRequiredMixin, UpdateView):
-    template_name = 'keybar/web/entry.html'
+class EntryUpdateFormView(LoginRequiredMixin, UpdateView):
+    template_name = 'keybar/web/entry-update.html'
     form_class = UpdateEntryForm
+    model = Entry
+    success_url = reverse_lazy('keybar-vault')
+
+    def form_valid(self, form):
+        form.save(self.request)
+        messages.success(self.request, _('Entry updated successfully'))
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class EntryDetailFormView(LoginRequiredMixin, UpdateView):
+    template_name = 'keybar/web/entry-detail.html'
+    form_class = ViewEntryForm
     model = Entry
     success_url = reverse_lazy('keybar-vault')
 
@@ -46,17 +62,9 @@ class EntryDetailFormView(LoginRequiredMixin, UpdateView):
             return ['keybar/web/entry-detail.html']
         return super(EntryDetailFormView, self).get_template_names()
 
-    def get_form_class(self):
-        if 'unlock' in self.request.POST:
-            return ViewEntryForm
-        return super(EntryDetailFormView, self).get_form_class()
-
     def get_form_kwargs(self):
         kwargs = super(EntryDetailFormView, self).get_form_kwargs()
-        if 'unlock' in self.request.POST:
-            data = kwargs['data'].copy()
-            data['value'] = self.object.decrypt(self.request.POST['password'])
-            kwargs['data'] = data
+        kwargs['request'] = self.request
         return kwargs
 
     def form_valid(self, form):

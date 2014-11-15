@@ -1,5 +1,7 @@
 import floppyforms.__future__ as forms
+from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
+from cryptography.fernet import InvalidToken as InvalidFernetToken
 
 from keybar.models.user import User
 from keybar.models.entry import Entry
@@ -45,13 +47,7 @@ class EntryForm(forms.ModelForm):
 
 
 class UpdateEntryForm(EntryForm):
-
-    class Meta(EntryForm.Meta):
-        pass
-
-    def __init__(self, *args, **kwargs):
-        super(UpdateEntryForm, self).__init__(*args, **kwargs)
-        del self.fields['value']
+    pass
 
 
 class ViewEntryForm(EntryForm):
@@ -60,9 +56,22 @@ class ViewEntryForm(EntryForm):
     class Meta(EntryForm.Meta):
         fields = ('title', 'description', 'identifier', 'value')
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
         super(ViewEntryForm, self).__init__(*args, **kwargs)
-        del self.fields['password']
+        if not 'unlock' in self.request.POST:
+            del self.fields['value']
+
+    def clean_password(self):
+        if 'unlock' in self.request.POST:
+            try:
+                data = self.data.copy()
+                data['value'] = self.instance.decrypt(self.request.POST['password'])
+                self.data = data
+                del self.fields['password']
+            except InvalidFernetToken:
+                del self.fields['value']
+                raise ValidationError('Invalid password!')
 
     def clean(self):
         cleaned_data = super(ViewEntryForm, self).clean()
