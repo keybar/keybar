@@ -1,4 +1,4 @@
 -e .
 -e git+https://github.com/keybar/keybar.git#egg=keybar[postgresql]
 
--r requirements/base.txt
+-r base.txt
