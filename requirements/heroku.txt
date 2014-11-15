@@ -1,0 +1,6 @@
+-e .
+-e "file://`pwd`#egg=keybar[tox]"
+-e "file://`pwd`#egg=keybar[tests]"
+-e "file://`pwd`#egg=keybar[postgresql]"
+
+-r requirements/base.txt
