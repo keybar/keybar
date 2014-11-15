@@ -16,7 +16,9 @@ class RegisterForm(forms.ModelForm):
         fields = ('name', 'email')
 
     def signup(self, request, user):
-        pass
+        user.name = self.instance.name
+        user.email = self.instance.email
+        user.save()
 
 
 class EntryForm(forms.ModelForm):
