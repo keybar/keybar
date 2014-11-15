@@ -29,7 +29,7 @@ class EntryForm(forms.ModelForm):
 
     class Meta:
         model = Entry
-        fields = ('title', 'description', 'identifier')
+        fields = ('title', 'url', 'identifier', 'value', 'description')
         widgets = {
             'title': forms.TextInput(),
             'identifier': forms.TextInput()

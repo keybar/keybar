@@ -10,7 +10,7 @@
         <div class="small-12 medium-12 large-12 columns">
             <ul>
                 {% for entry in object_list %}
-                    <li><a href="{% url 'keybar-entry' entry.pk %}">{{ entry.title }}</a></li>
+                    <li><a href="{% url 'keybar-entry' entry.pk %}">{{ entry }}</a></li>
                 {% empty %}
                     <p>
                         {% blocktrans %}
