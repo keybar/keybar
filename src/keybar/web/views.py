@@ -1,7 +1,6 @@
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
-from django.views.generic import (
-    TemplateView, CreateView, UpdateView, ListView, DetailView)
+from django.views.generic import TemplateView, CreateView, UpdateView, ListView
 
 from keybar.core.mixins import LoginRequiredMixin
 from keybar.models.entry import Entry
