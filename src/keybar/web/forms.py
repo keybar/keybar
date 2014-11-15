@@ -16,7 +16,6 @@ class RegisterForm(forms.ModelForm):
         fields = ('name', 'email')
 
     def signup(self, request, user):
-        import ipdb; ipdb.set_trace()
         pass
 
 
