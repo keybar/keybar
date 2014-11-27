@@ -59,7 +59,7 @@ class ViewEntryForm(EntryForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super(ViewEntryForm, self).__init__(*args, **kwargs)
-        if not 'unlock' in self.request.POST:
+        if 'unlock' not in self.request.POST:
             del self.fields['value']
 
     def clean_password(self):
