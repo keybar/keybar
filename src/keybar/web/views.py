@@ -3,8 +3,6 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView, CreateView, UpdateView, ListView
 from django.utils.translation import ugettext_lazy as _
-from allauth.account.signals import user_signed_up
-
 
 from keybar.core.mixins import LoginRequiredMixin
 from keybar.models.entry import Entry
