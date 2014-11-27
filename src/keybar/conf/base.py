@@ -1,6 +1,5 @@
 import os
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
-from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse_lazy
 
 
@@ -9,9 +8,9 @@ PROJECT_DIR = os.path.join(BASE_DIR, '..', '..')
 
 SECRET_KEY = 'na2p&yexkp-g83$2m^&b!r+a%nv2ci1!d9vh^a_7h!hv*7&h79'
 
-DEBUG = False
+DEBUG = True
 
-TEMPLATE_DEBUG = False
+TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -99,20 +98,6 @@ AUTHENTICATION_BACKENDS = (
 
 LANGUAGE_CODE = 'en-us'
 
-LANGUAGES = (
-    ('de', _('German')),
-    ('en', _('English')),
-)
-
-LOCALE_PATHS = (
-    os.path.join(PROJECT_DIR, 'src/keybar/locale'),
-    os.path.join(PROJECT_DIR, 'src/keybar/templates/locale'),
-)
-
-# Do not make the session and csrf cookie secure (https:// only)
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -175,58 +160,6 @@ CELERYD_HIJACK_ROOT_LOGGER = False
 # want that to be our first-citizen config.
 CELERY_REDIRECT_STDOUTS_LEVEL = 'INFO'
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'handlers': {
-        'null': {
-            'level': 'DEBUG',
-            'class': 'django.utils.log.NullHandler',
-        },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
-            'formatter': 'verbose'
-        },
-    },
-    'formatters': {
-        'verbose': {
-            'format':
-                '[%(asctime)s] %(levelname)s:%(name)s %(funcName)s\n %(message)s',  # noqa
-        },
-        'simple': {
-            'format': '%(levelname)s %(message)s'
-        },
-    },
-    'loggers': {
-        # This is the root logger that catches everything, if there's no other
-        # match on the logger name. If we want custom logging handing for our
-        # code vs. third-party code, define loggers for each module/app
-        # that's using standard python logging.
-        'root': {
-            'level': 'INFO',
-            'handlers': ['console'],
-        },
-        'celery': {
-            'level': 'INFO',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-        'keybar': {
-            'level': 'INFO',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-        'django': {
-            'level': 'INFO',
-            'handlers': ['console'],
-            'propagate': False,
-        },
-    }
-}
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 # Django security related settings.
 SECURE_SSL_REDIRECT = True
 
@@ -244,11 +177,8 @@ SECURE_BROWSER_XSS_FILTER = True
 
 # Force cookies to be https only (or at least tell the browsers to do so...)
 SESSION_COOKIE_SECURE = True
+
 SESSION_COOKIE_HTTPONLY = True
-
-LOGIN_URL = reverse_lazy('account_login')
-LOGIN_REDIRECT_URL = reverse_lazy('keybar-index')
-
 
 # Django REST Framework related settings.
 
@@ -262,6 +192,9 @@ REST_FRAMEWORK = {
 }
 
 # (social-) auth related settings
+
+LOGIN_URL = reverse_lazy('account_login')
+LOGIN_REDIRECT_URL = reverse_lazy('keybar-index')
 
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
@@ -326,4 +259,3 @@ KEYBAR_HOST = None
 # In 2013 100,000 was the recommended value, so we settle with one million
 # for now.
 KEYBAR_KDF_ITERATIONS = 100000
-
