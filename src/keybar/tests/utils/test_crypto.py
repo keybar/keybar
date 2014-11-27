@@ -33,9 +33,13 @@ def test_simple_encryption_key_derive_and_verify(salt, password, expected):
 def test_encrypt_decrypt_cycle(salt, password, message):
     encrypted = encrypt(message, salt, password)
 
-    decrypted = decrypt(encrypted, salt, password)
-    assert decrypted == message
+    assert isinstance(encrypted, bytes)
 
+    decrypted = decrypt(encrypted, salt, password)
+
+    assert isinstance(decrypted, str)
+
+    assert decrypted == message
 
 
 def test_get_salt():

@@ -2,8 +2,9 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import django.utils.timezone
+from django.conf import settings
 import uuidfield.fields
+import django.utils.timezone
 
 
 class Migration(migrations.Migration):
@@ -15,17 +16,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='User',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
-                ('password', models.CharField(max_length=128, verbose_name='password')),
-                ('last_login', models.DateTimeField(default=django.utils.timezone.now, verbose_name='last login')),
-                ('username', models.CharField(max_length=50, null=True, verbose_name='Username', unique=True)),
-                ('email', models.EmailField(max_length=254, verbose_name='Email', unique=True)),
-                ('name', models.CharField(max_length=100, blank=True, verbose_name='Name', null=True)),
-                ('is_staff', models.BooleanField(help_text='Designates whether the user can log into this admin site.', default=False, verbose_name='staff status')),
-                ('is_active', models.BooleanField(help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', default=True, verbose_name='active')),
-                ('is_superuser', models.BooleanField(help_text='Designates that this user has all permissions without explicitly assigning them.', default=False, verbose_name='superuser status')),
-                ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
-                ('api_key', uuidfield.fields.UUIDField(editable=False, blank=True, max_length=32, unique=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('password', models.CharField(verbose_name='password', max_length=128)),
+                ('last_login', models.DateTimeField(verbose_name='last login', default=django.utils.timezone.now)),
+                ('email', models.EmailField(verbose_name='Email', max_length=254, unique=True)),
+                ('name', models.TextField(verbose_name='Name', max_length=100, null=True, blank=True)),
+                ('is_active', models.BooleanField(verbose_name='active', help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', default=True)),
+                ('date_joined', models.DateTimeField(verbose_name='date joined', default=django.utils.timezone.now)),
+                ('is_staff', models.BooleanField(verbose_name='staff status', help_text='Designates whether the user can log into this admin site.', default=False)),
+                ('is_superuser', models.BooleanField(verbose_name='superuser status', help_text='Designates that this user has all permissions without explicitly assigning them.', default=False)),
             ],
             options={
                 'verbose_name': 'User',
@@ -34,14 +33,29 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
+            name='Device',
+            fields=[
+                ('id', uuidfield.fields.UUIDField(max_length=32, blank=True, unique=True, editable=False, serialize=False, primary_key=True)),
+                ('name', models.TextField(verbose_name='Device name', blank=True, default='')),
+                ('public_key', models.TextField(verbose_name='Device Public Key')),
+                ('authorized', models.NullBooleanField(verbose_name='Authorized?', default=None)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL, related_name='devices')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
             name='Entry',
             fields=[
-                ('id', models.AutoField(auto_created=True, serialize=False, primary_key=True, verbose_name='ID')),
-                ('title', models.CharField(max_length=256, blank=True, default='')),
-                ('description', models.TextField(blank=True)),
-                ('username', models.CharField(max_length=256)),
-                ('value', models.TextField()),
-                ('key', models.BinaryField()),
+                ('id', uuidfield.fields.UUIDField(max_length=32, blank=True, unique=True, editable=False, serialize=False, primary_key=True)),
+                ('title', models.TextField(verbose_name='Title', blank=True, default='')),
+                ('url', models.URLField(blank=True, default='')),
+                ('identifier', models.TextField(verbose_name='Identifier for login', help_text='Usually a username or email address')),
+                ('value', models.BinaryField(verbose_name='The encrypted value for the entry.', help_text='Usually a password.')),
+                ('description', models.TextField(verbose_name='Description', blank=True, default='')),
+                ('salt', models.BinaryField(null=True, blank=True)),
+                ('created_by', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
             },

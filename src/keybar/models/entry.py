@@ -14,7 +14,7 @@ class Entry(models.Model):
 
     identifier = models.TextField(_('Identifier for login'),
         help_text=_('Usually a username or email address'))
-    value = models.TextField(_('The encrypted value for the entry.'),
+    value = models.BinaryField(_('The encrypted value for the entry.'),
         help_text=_('Usually a password.'))
 
     description = models.TextField(_('Description'), blank=True, default='')
