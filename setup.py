@@ -73,9 +73,6 @@ install_requires = [
 
     # WSGI utilities
     'werkzeug>=0.9',
-
-    # For heroku
-    'dj-database-url==0.3.0',
 ]
 
 
