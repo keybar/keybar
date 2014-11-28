@@ -24,7 +24,7 @@ class LiveServerThread(LiveServerThreadBase):
             # Go through the list of possible ports, hoping that we can find
             # one that is free to use for the WSGI server.
             try:
-                server = get_server()
+                server = get_server(debug=False)
                 server.listen(8443, 'keybar.local')
             except socket.error as e:
                 raise
