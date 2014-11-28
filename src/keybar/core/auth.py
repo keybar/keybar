@@ -82,7 +82,6 @@ class KeybarApiSignatureAuthentication(BaseAuthentication):
         return settings.KEYBAR_HOST
 
     def get_device(self, request):
-        # TODO: fetch device_id from the device…
         device_id = request.META.get('HTTP_X_DEVICE_ID')
         device = Device.objects.get(pk=device_id)
         return device
