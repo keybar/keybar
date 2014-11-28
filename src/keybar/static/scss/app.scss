@@ -50,9 +50,11 @@ body {
 
 section[role="header"] {
 	nav[role="navigation"] {
-		&.top-bar {
+		&.top-bar:not(.expanded) {
 			height: 55px;
+		}
 
+		&.top-bar {
 			h1 {
 				@include brand-typo();
 
@@ -92,7 +94,6 @@ section[role="header"] {
 
 		@media #{$topbar-media-query} {
 			&.top-bar {
-
 				background: #ffffff;
 				color: #000000;
 
