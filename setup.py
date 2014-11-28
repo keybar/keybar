@@ -14,14 +14,14 @@ def read(*parts):
 test_requires = [
     # General test libraries
     'tox>=1.8,<1.9',
-    'py>=1.4.25,<1.5',
-    'pytest>=2.6.3,<2.7',
+    'py>=1.4.26,<1.5',
+    'pytest>=2.6.4,<2.7',
     'pytest-django>=2.7,<2.8',
 
     # Pep8 and code quality checkers
     'pyflakes>=0.8.1,<0.9',
     'coverage>=3.7.1,<3.8',
-    'pytest-cov>=1.8,<1.9',
+    'pytest-cov>=1.8.1,<1.9',
     'pytest-flakes>=0.2,<1.0',
     'pytest-pep8>=1.0.5,<1.1',
     'pep8>=1.5.7,<1.6',
@@ -39,23 +39,23 @@ install_requires = [
     'django>=1.7,<1.8',
 
     # For async worker support
-    'celery>=3.1.15,<3.2',
+    'celery>=3.1.17,<3.2',
     'django-celery>=3.1.16,<3.2',
 
     # i18n/l10n,
     # 'babel>=1.3', -> requirements.txt
     'django-babel-underscore>=0.1.0',
-    'django-statici18n>=1.1',
+    'django-statici18n>=1.1.1,<1.2',
     'django-babel>=0.3.6',
 
     # For our REST Api
-    'djangorestframework>=2.4.3,<2.5',
+    'djangorestframework>=2.4.4,<2.5',
     'httpsig>=1.1.0,<1.2.0',
     'requests>=2.4.1,<2.5',
     'requests-toolbelt',
 
     # Markdown support for browsable api
-    'markdown',
+    'markdown>=2.5.2,<2.6',
 
     # Filtering support for the API
     'django-filter',
@@ -68,7 +68,7 @@ install_requires = [
     'tornado>=4.0.2,<5.0',
 
     # All the crypto libs we ever need
-    'cryptography>=0.5.4,<1.0',
+    'cryptography>=0.6.1,<1.0',
     'certifi',
     'qrcode==5.1',
 
