@@ -12,7 +12,7 @@ REQUIRED_HEADERS = ['(request-target)', 'accept', 'date', 'host']
 
 
 def normalize(value):
-    if value.startswith('HTTP_'):
+    if value.startswith('HTTP_') or value in ('CONTENT_TYPE', 'CONTENT_LENGTH'):
         return value[5:].lower().replace('_', '-')
     return value.lower().replace('_', '-')
 
