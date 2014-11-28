@@ -17,8 +17,6 @@ BASE_URI = 'otpauth://{key_type}/{issuer}:{user}?secret={secret}&issuer={issuer}
 def generate_qr_code_response(request):
     user = request.user
 
-    domain = urllib.parse.urlparse(request.build_absolute_uri()).netloc
-
     qrcode = QRCode()
 
     uri = generate_uri('totp', bytes(user.totp_secret), user.email, 'keybar')
