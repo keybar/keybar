@@ -52,7 +52,7 @@ class User(AbstractBaseUser):
 
     def save(self, *args, **kwargs):
         if not self.totp_secret:
-            self.totp_secret = os.urandom(32)
+            self.totp_secret = os.urandom(30)
         return super(User, self).save(*args, **kwargs)
 
     def has_module_perms(self, app_label):

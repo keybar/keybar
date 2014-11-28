@@ -38,11 +38,16 @@ def generate_uri(key_type, secret, user, issuer):
 
     See: https://code.google.com/p/google-authenticator/wiki/KeyUriFormat
     """
+    # Google Authenticator breaks if the b32 encoded string contains a padding
+    # thus force the key to be divisible by 5 octets so that we don't have any
+    # padding markers.
+    assert len(secret) % 5 == 0
+
     return BASE_URI.format(**{
         'key_type': urllib.parse.quote(key_type),
         'issuer': urllib.parse.quote(issuer),
         'user': urllib.parse.quote(user),
-        'secret': urllib.parse.quote(b32encode(secret))
+        'secret': urllib.parse.quote(b32encode(secret)),
     })
 
 
