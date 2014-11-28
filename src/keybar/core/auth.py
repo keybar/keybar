@@ -45,7 +45,11 @@ class HeaderVerifier(Verifier):
         auth = parse_authorization_header(get_authorization_header(request))
 
         if len(auth) == 2:
-            self.auth_dict = auth[1]
+            self.auth_method, self.auth_fields = auth
+
+            # Ignore foreign Authorization headers
+            if self.auth_method.lower() != 'signature':
+                raise HttpSigException("Invalid authorization header.")
         else:
             raise HttpSigException("Invalid authorization header.")
 
@@ -55,10 +59,10 @@ class HeaderVerifier(Verifier):
         self.path = path
         self.host = host
 
-        super(HeaderVerifier, self).__init__(secret, algorithm=self.auth_dict['algorithm'])
+        super(HeaderVerifier, self).__init__(secret, algorithm=self.auth_fields['algorithm'])
 
     def verify(self):
-        auth_headers = self.auth_dict.get('headers', 'date').split(' ')
+        auth_headers = self.auth_fields.get('headers', 'date').split(' ')
 
         if len(set(self.required_headers) - set(auth_headers)) > 0:
             required_headers = ', '.join(set(self.required_headers) - set(auth_headers))
@@ -68,7 +72,7 @@ class HeaderVerifier(Verifier):
         signing_str = generate_message(
             auth_headers, self.headers, self.host, self.method, self.path)
 
-        return self._verify(signing_str, self.auth_dict['signature'])
+        return self._verify(signing_str, self.auth_fields['signature'])
 
 
 class KeybarApiSignatureAuthentication(BaseAuthentication):
