@@ -7,10 +7,10 @@ module.exports = function(grunt) {
 			},
 			dist: {
 				options: {
-					outputStyle: "expanded"
+					outputStyle: 'expanded'
 				},
 				files: {
-					"src/keybar/static/css/app.css": "src/keybar/static/scss/app.scss"
+					'src/keybar/static/css/app.css': 'src/keybar/static/scss/app.scss'
 				},
 			}
 		},
@@ -21,15 +21,12 @@ module.exports = function(grunt) {
 					cert: grunt.file.read('extras/certificates/server.crt')
 				},
 			},
-			grunt: {
-				files: ["Gruntfile.js"]
-			},
 			sass: {
 				files: [
-					"src/keybar/static/scss/app.scss",
-					"src/keybar/static/scss/_settings.scss"
+					'src/keybar/static/scss/app.scss',
+					'src/keybar/static/scss/_settings.scss'
 				],
-				tasks: ["sass"],
+				tasks: ['sass'],
 			},
 			html: {
 				files: ['src/keybar/templates/keybar/web/*.html']
@@ -39,9 +36,8 @@ module.exports = function(grunt) {
 
 	grunt.loadTasks('extras/grunt/tasks');
 
-	grunt.loadNpmTasks("grunt-sass");
-	grunt.loadNpmTasks("grunt-contrib-watch");
-	grunt.registerTask("build", ["sass"]);
+	grunt.loadNpmTasks('grunt-sass');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	grunt.registerTask(
 		'default',
@@ -64,6 +60,6 @@ module.exports = function(grunt) {
 	grunt.registerTask(
 		'build',
 		'Build all JS files for a deploy.',
-		['validate', 'clean']
+		['validate', 'clean', 'sass']
 	);
 };
