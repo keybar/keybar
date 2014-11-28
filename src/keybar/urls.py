@@ -20,6 +20,10 @@ urlpatterns = patterns('',
     url(r'^entry/(?P<pk>.+)/$',
         views.EntryDetailFormView.as_view(),
         name='keybar-entry'),
+    url(r'totp-qrcode.png$',
+        views.TotpQrCodeView.as_view(),
+        name='keybar-totp-qrcode'),
+
 
     url(r'^accounts/', include('allauth.urls')),
 

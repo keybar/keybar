@@ -70,6 +70,10 @@ install_requires = [
     # All the crypto libs we ever need
     'cryptography>=0.5.4,<1.0',
     'certifi',
+    'qrcode==5.1',
+
+    # Used to generate QR Codes
+    'Pillow>=2.6.1,<2.7',
 
     # WSGI utilities
     'werkzeug>=0.9',

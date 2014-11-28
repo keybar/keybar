@@ -1,12 +1,13 @@
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-from django.views.generic import TemplateView, CreateView, UpdateView, ListView
+from django.views.generic import TemplateView, CreateView, UpdateView, ListView, View
 from django.utils.translation import ugettext_lazy as _
 
 from keybar.core.mixins import LoginRequiredMixin
 from keybar.models.entry import Entry
 from keybar.web.forms import EntryForm, UpdateEntryForm, ViewEntryForm
+from keybar.utils.totp import generate_qr_code_response
 
 
 class IndexView(TemplateView):
@@ -71,3 +72,9 @@ class EntryDetailFormView(LoginRequiredMixin, UpdateView):
 
         form.save(self.request)
         return HttpResponseRedirect(self.get_success_url())
+
+
+class TotpQrCodeView(View):
+
+    def get(self, request, *args, **kwargs):
+        return generate_qr_code_response(request)

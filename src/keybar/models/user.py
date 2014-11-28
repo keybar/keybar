@@ -5,6 +5,8 @@
 
     User model.
 """
+import os
+
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils import timezone
@@ -33,6 +35,9 @@ class User(AbstractBaseUser):
         help_text=_('Designates that this user has all permissions without '
                     'explicitly assigning them.'))
 
+    # TODO: find a way to encrypt this :/
+    totp_secret = models.BinaryField()
+
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
@@ -44,6 +49,11 @@ class User(AbstractBaseUser):
 
     def __str__(self):
         return self.email
+
+    def save(self, *args, **kwargs):
+        if not self.totp_secret:
+            self.totp_secret = os.urandom(32)
+        return super(User, self).save(*args, **kwargs)
 
     def has_module_perms(self, app_label):
         return self.is_superuser
