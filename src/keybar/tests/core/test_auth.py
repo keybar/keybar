@@ -13,6 +13,7 @@ from requests_toolbelt import SSLAdapter
 from django.conf import settings
 from django.utils import timezone
 from django.utils.encoding import force_bytes
+from rest_framework import status
 from httpsig.requests_auth import HTTPSignatureAuth
 
 from keybar.models.user import User
@@ -23,7 +24,7 @@ from keybar.tests.factories.device import DeviceFactory
 @pytest.mark.django_db(transaction=True)
 class TestHttpSignatureAuth(object):
 
-    def test_simple(self, settings, keybar_liveserver):
+    def test_simple_success(self, settings, keybar_liveserver):
         settings.DEBUG = True
 
         fpath = os.path.join(settings.PROJECT_DIR, 'extras', 'example_keys', 'id_rsa')
@@ -68,4 +69,19 @@ class TestHttpSignatureAuth(object):
             headers=headers,
             verify=settings.KEYBAR_CA_BUNDLE)
 
-        assert response.status_code == 200
+        assert response.status_code == status.HTTP_200_OK
+
+    def test_simple_fail(self, settings, keybar_liveserver):
+        settings.DEBUG = True
+
+        session = requests.Session()
+        session.mount(keybar_liveserver.url, SSLAdapter(ssl.PROTOCOL_TLSv1_2))
+
+        response = session.get(
+            '{0}/api/v1/users/'.format(keybar_liveserver.url),
+            verify=settings.KEYBAR_CA_BUNDLE)
+
+        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+        expected = 'Signature realm="keybar-api",headers="(request-target) accept date host"'
+        assert response.headers['WWW-Authenticate'] == expected

@@ -78,6 +78,8 @@ class KeybarApiSignatureAuthentication(BaseAuthentication):
     package correctly and actually verfies the signature in a correct manner
     (e.g using HeaderVerifier)
     """
+    www_authenticate_realm = 'keybar-api'
+
     def get_host(self, request):
         return settings.KEYBAR_HOST
 
@@ -89,7 +91,7 @@ class KeybarApiSignatureAuthentication(BaseAuthentication):
     def authenticate(self, request):
         try:
             device = self.get_device(request)
-        except TypeError:
+        except (TypeError, Device.DoesNotExist):
             raise exceptions.AuthenticationFailed('Bad device id')
 
         try:
@@ -112,5 +114,7 @@ class KeybarApiSignatureAuthentication(BaseAuthentication):
         return (device.user, None)
 
     def authenticate_header(self, request):
-        # TODO:
-        return super(KeybarApiSignatureAuthentication, self).authenticate_header(request)
+        headers = ' '.join(REQUIRED_HEADERS)
+        return 'Signature realm="{realm}",headers="{headers}"'.format(
+            realm=self.www_authenticate_realm, headers=headers,
+        )
