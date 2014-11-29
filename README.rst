@@ -38,7 +38,7 @@ Good security features
 ----------------------
 
  * Open Source - everyone is invited to review the code!
- * TLS 1.2 only only with a very limited set of good ciphers
+ * TLS 1.2 only with a very limited set of good ciphers
  * (optional) client certification verification built-in
  * HTTP Signature authentication with RSA schemes
  * Data is encrypted with Fernet (symmetric authenticated cryptography)
