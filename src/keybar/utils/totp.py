@@ -9,6 +9,7 @@ from cryptography.hazmat.primitives.hashes import SHA1
 from django.http import HttpResponse
 from django.utils.encoding import force_bytes
 from qrcode import QRCode
+from qrcode.constants import ERROR_CORRECT_H
 
 
 BASE_URI = 'otpauth://{key_type}/{issuer}:{user}?secret={secret}&issuer={issuer}'
@@ -17,11 +18,13 @@ BASE_URI = 'otpauth://{key_type}/{issuer}:{user}?secret={secret}&issuer={issuer}
 def generate_qr_code_response(request):
     user = request.user
 
-    qrcode = QRCode()
+    qrcode = QRCode(
+        error_correction=ERROR_CORRECT_H,
+        box_size=6,
+        border=4
+    )
 
     uri = generate_uri('totp', bytes(user.totp_secret), user.email, 'keybar')
-
-    print(uri)
 
     qrcode.add_data(uri)
     qrcode.make(fit=True)
@@ -41,7 +44,7 @@ def generate_uri(key_type, secret, user, issuer):
     # Google Authenticator breaks if the b32 encoded string contains a padding
     # thus force the key to be divisible by 5 octets so that we don't have any
     # padding markers.
-    assert len(secret) % 5 == 0
+    assert len(secret) % 5 == 0, 'secret not divisible by 5'
 
     return BASE_URI.format(**{
         'key_type': urllib.parse.quote(key_type),
