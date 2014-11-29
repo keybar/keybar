@@ -40,7 +40,6 @@ install_requires = [
 
     # For async worker support
     'celery>=3.1.17,<3.2',
-    'celery[redis]',
 
     # i18n/l10n,
     # 'babel>=1.3', -> requirements.txt
@@ -95,6 +94,10 @@ postgresql_requires = [
     'psycopg2>=2.5.4',
 ]
 
+redis_requires = [
+    'redis>=2.8.0',
+]
+
 setup(
     name='keybar',
     version='0.1.0',
@@ -114,6 +117,7 @@ setup(
         'tests': test_requires,
         'dev': dev_requires,
         'postgresql': postgresql_requires,
+        'redis': redis_requires,
     },
     zip_safe=False,
     license='BSD',

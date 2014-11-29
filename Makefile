@@ -24,6 +24,7 @@ deps:
 	pip install --use-wheel "file://`pwd`#egg=keybar[tox]"
 	pip install --use-wheel "file://`pwd`#egg=keybar[tests]"
 	pip install --use-wheel "file://`pwd`#egg=keybar[postgresql]"
+	pip install --use-wheel "file://`pwd`#egg=keybar[redis]"
 
 develop: deps
 	if test -z "$$TRAVIS"; then pip install nodeenv && nodeenv -p; fi; \
