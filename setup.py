@@ -40,7 +40,7 @@ install_requires = [
 
     # For async worker support
     'celery>=3.1.17,<3.2',
-    'django-celery>=3.1.16,<3.2',
+    'celery[redis]',
 
     # i18n/l10n,
     # 'babel>=1.3', -> requirements.txt

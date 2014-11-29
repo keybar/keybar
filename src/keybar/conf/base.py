@@ -119,26 +119,26 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Celery / Queue configuration
 from kombu import Queue
 
-BROKER_URL = "django://"
+BROKER_URL = 'redis://localhost:6379/0'
 
-# Per default process all celery tasks in-process.
-CELERY_ALWAYS_EAGER = True
-CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
+# Just so that this won't be forgotten, see
+# http://docs.celeryproject.org/en/latest/getting-started/brokers/redis.html#caveats
+# for details.
+BROKER_TRANSPORT_OPTIONS = {
+    'fanout_prefix': True,
+    'fanout_patterns': True
+}
+
+# Force always eager to be False (it's by default but here for documentation)
+CELERY_ALWAYS_EAGER = False
+CELERY_EAGER_PROPAGATES_EXCEPTIONS = False
 
 # Only accept JSON. This will be the default in Celery 3.2
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 
-CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
-
-# Explicitly set default queue and exchange types. This is only useuseful for
-# RabbitMQ but still good to have as a general rule.
-CELERY_DEFAULT_QUEUE = "default"
-CELERY_DEFAULT_EXCHANGE = "default"
-CELERY_DEFAULT_EXCHANGE_TYPE = "direct"
-CELERY_DEFAULT_ROUTING_KEY = "default"
-CELERY_CREATE_MISSING_QUEUES = True
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 
 # Track started tasks. This adds a new STARTED state once a task
 # is started by the celery worker.
@@ -148,10 +148,6 @@ CELERY_QUEUES = (
     Queue('default', routing_key='default'),
     Queue('celery', routing_key='celery'),
 )
-
-CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
-CELERYBEAT_MAX_LOOP_INTERVAL = 3600
-CELERY_DISABLE_RATE_LIMITS = True
 
 # Make our `LOGGING` configuration the only truth and don't let celery
 # overwrite it.
@@ -183,7 +179,6 @@ SESSION_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
 
 # Django REST Framework related settings.
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
        'keybar.core.auth.KeybarApiSignatureAuthentication',
@@ -194,7 +189,6 @@ REST_FRAMEWORK = {
 }
 
 # (social-) auth related settings
-
 LOGIN_URL = reverse_lazy('account_login')
 LOGIN_REDIRECT_URL = reverse_lazy('keybar-index')
 
