@@ -159,6 +159,11 @@ To start all of them (including the tls-server):
 
     You can find the SSL version on `port 8443 <https://keybar.local:8443/>`_
 
+.. note::
+
+    Our celery configuration requires redis to be installed and running.
+    Please make sure it's up!
+
 
 Run the test-suite
 ------------------
