@@ -28,7 +28,6 @@ INSTALLED_APPS = (
 
     # Asyncronous worker support
     'celery',
-    'kombu.transport.django',
 
     # i18n/l10n
     'django_babel',
