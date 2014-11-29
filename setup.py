@@ -36,7 +36,7 @@ test_requires = [
 
 install_requires = [
     # General dependencies
-    'django>=1.7,<1.8',
+    'django>=1.7.1,<1.8',
 
     # For async worker support
     'celery>=3.1.17,<3.2',
