@@ -1,17 +1,53 @@
 module.exports = function(grunt) {
+	var appConfig = grunt.file.readJSON('package.json');
+
+	// Load grunt tasks automatically
+	// see: https://github.com/sindresorhus/load-grunt-tasks
+	require('load-grunt-tasks')(grunt);
+
+	// Time how long tasks take. Can help when optimizing build times
+	// see: https://npmjs.org/package/time-grunt
+	require('time-grunt')(grunt);
+
+	var pathsConfig = function (appName) {
+		this.app = appName || appConfig.name;
+
+		paths = {
+			app: this.app,
+			foundation: this.app + '/../../bower_components/foundation/scss',
+			templates: this.app + '/templates',
+			css: this.app + '/static/css',
+			sass: this.app + '/static/scss',
+			fonts: this.app + '/static/fonts',
+			images: this.app + '/static/images',
+			js: this.app + '/static/js',
+			manageScript: this.app + '/manage.py',
+			serverScript: this.app + '/server.py'
+		}
+
+		return paths
+	};
+
 	grunt.initConfig({
-		pkg: grunt.file.readJSON('package.json'),
+		pkg: appConfig,
+		paths: pathsConfig('src/keybar'),
+
 		sass: {
 			options: {
-				includePaths: ['bower_components/foundation/scss'],
+				includePaths: ['<%= paths.foundation %>'],
 			},
 			dist: {
 				options: {
 					outputStyle: 'expanded'
 				},
-				files: {
-					'src/keybar/static/css/app.css': 'src/keybar/static/scss/app.scss'
-				},
+
+				files: [{
+					expand: true,
+					cwd: '<%= paths.sass %>',
+					src: ['app.scss'],
+					dest: '<%= paths.css %>',
+					ext: '.css'
+				}]
 			}
 		},
 		watch: {
