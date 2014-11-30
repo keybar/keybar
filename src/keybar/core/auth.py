@@ -19,7 +19,7 @@ def normalize(value):
 
 class PrefixStripingCaseInsensitiveDict(dict):
     """Customized to support striping HTTP_ prefixes"""
-    def __init__(self, neta=None, **kwargs):
+    def __init__(self, meta=None, **kwargs):
         super(PrefixStripingCaseInsensitiveDict, self).__init__(**kwargs)
         if meta:
             self.update((normalize(key), value) for key, value in meta.items())
