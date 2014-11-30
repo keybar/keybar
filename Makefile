@@ -72,3 +72,6 @@ i18n:
 	@python manage.py babel makemessages -d djangojs -l de
 	@python manage.py babel compilemessages -d djangojs -l de
 	@python manage.py compilejsi18n -d djangojs -l de
+
+install-dokku:
+	wget -qO- https://raw.github.com/progrium/dokku/v0.3.7/bootstrap.sh | sudo DOKKU_TAG=v0.3.7 bash
