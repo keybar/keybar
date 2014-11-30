@@ -29,8 +29,9 @@ class LoginRequiredMixin(AccessMixin):
         if not request.user.is_authenticated():
             if self.message:
                 messages.error(request, self.message)
-            return redirect_to_login(request.get_full_path(),
-                                     self.get_login_url(),
-                                     self.get_redirect_field_name())
+            return redirect_to_login(
+                request.get_full_path(),
+                self.get_login_url(),
+                self.get_redirect_field_name())
 
         return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)

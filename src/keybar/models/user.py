@@ -63,8 +63,8 @@ class User(AbstractBaseUser):
 
     def send_mail(self, subject, message, from_email=None, **kwargs):
         """Sends an email to this User."""
-        send_mail_async.delay(subject, message, from_email, [self.email],
-                              **kwargs)
+        send_mail_async.delay(
+            subject, message, from_email, [self.email], **kwargs)
 
     def get_absolute_url(self):
         return reverse('keybar-profile', kwargs={'email': self.email})

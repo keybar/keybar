@@ -9,13 +9,13 @@ from keybar.core.celery import celery
 def send_mail_async(self, subject, message, from_email, recipient_list):
     logger = logging.getLogger('keybar.core.tasks.send_mail_async')
     try:
-        django_send_mail(subject, message, from_email, recipient_list,
-                         fail_silently=False)
-        logger.debug("Successfully sent email message to %r.",
-            ', '.join(recipient_list))
+        django_send_mail(
+            subject, message, from_email, recipient_list, fail_silently=False)
+        logger.debug(
+            'Successfully sent email message to %r.', ', '.join(recipient_list))
     except Exception as exc:
         # catching all exceptions b/c it could be any number of things
         # depending on the backend
-        logger.warning("Failed to send email message to %r, retrying.",
-            ', '.join(recipient_list))
+        logger.warning(
+            'Failed to send email message to %r, retrying.', ', '.join(recipient_list))
         self.retry(exc=exc, retry_countdown=60)

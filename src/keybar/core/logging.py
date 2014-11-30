@@ -59,10 +59,10 @@ def logged(obj):
 
     Supported objects:
 
-     * Functions
-     * Methods
-     * Classes
-     * Raw names (e.g, user at module level)
+        * Functions
+        * Methods
+        * Classes
+        * Raw names (e.g, user at module level)
 
     """
     obj.logger = get_logger(obj)

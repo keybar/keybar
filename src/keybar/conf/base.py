@@ -180,7 +180,7 @@ SESSION_COOKIE_HTTPONLY = True
 # Django REST Framework related settings.
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-       'keybar.core.auth.KeybarApiSignatureAuthentication',
+        'keybar.core.auth.KeybarApiSignatureAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
