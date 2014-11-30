@@ -22,7 +22,7 @@ module.exports = function(grunt) {
 			images: this.app + '/static/img',
 			js: this.app + '/static/js',
 			manageScript: this.app + '/../../manage.py',
-			serverScript: this.app + '/server.py'
+			serverScript: this.app + '/server.py',
 		};
 	};
 
@@ -117,11 +117,11 @@ module.exports = function(grunt) {
 			_defaults: {
 				bg: true
 			},
-			runDjango: {
-				cmd: 'python <%= paths.manageScript %> runserver'
-			},
 			runTornado: {
 				cmd: 'python <%= paths.serverScript %>'
+			},
+			runCelery: {
+				cmd: 'celery worker -A keybar.core -l INFO -E'
 			}
 		}
 	});
@@ -152,6 +152,7 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('serve', [
 		'bgShell:runTornado',
+		'bgShell:runCelery',
 		'watch'
 	]);
 };

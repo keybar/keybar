@@ -149,11 +149,7 @@ To start all of them (including the tls-server):
 
 .. code-block:: bash
 
-   $ foreman start
-
-.. note::
-
-   Please make sure you have the ``foreman`` gem installed.
+   $ grunt serve
 
 .. note::
 
