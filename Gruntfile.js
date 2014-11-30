@@ -12,20 +12,18 @@ module.exports = function(grunt) {
 	var pathsConfig = function (appName) {
 		this.app = appName || appConfig.name;
 
-		paths = {
+		return {
 			app: this.app,
 			foundation: this.app + '/../../bower_components/foundation/scss',
 			templates: this.app + '/templates',
 			css: this.app + '/static/css',
 			sass: this.app + '/static/scss',
 			fonts: this.app + '/static/fonts',
-			images: this.app + '/static/images',
+			images: this.app + '/static/img',
 			js: this.app + '/static/js',
 			manageScript: this.app + '/manage.py',
 			serverScript: this.app + '/server.py'
-		}
-
-		return paths
+		};
 	};
 
 	grunt.initConfig({
@@ -57,23 +55,63 @@ module.exports = function(grunt) {
 					cert: grunt.file.read('extras/certificates/server.crt')
 				},
 			},
-			sass: {
-				files: [
-					'src/keybar/static/scss/app.scss',
-					'src/keybar/static/scss/_settings.scss'
-				],
-				tasks: ['sass'],
+			src: {
+				files: ['<%= paths.js %>**/*', '<%= paths.sass %>**/*'],
+				tasks: ['default'],
 			},
-			html: {
-				files: ['src/keybar/templates/keybar/web/*.html']
+		},
+		lintspaces: {
+			all: {
+				src: [
+					'<%= paths.js %>',
+					'<%= paths.sass %>'
+				],
+				options: {
+					editorconfig: '.editorconfig'
+				}
+			},
+			javascript: {
+				src: ['<%= paths.js %>/src/*.js'],
+				options: {
+					editorconfig: '.editorconfig'
+				}
+			},
+			external: {
+				src: [
+					'<%= paths.app %>/**/*',
+					'!<%= paths.app %>/static/*.ico',
+					'!<%= paths.images %>/*',
+					'!<%= paths.fonts %>/*',
+					'!<%= paths.js %>/src/libs/*',
+					'!<%= paths.app %>/**/djangojs.js'
+				],
+				options: {
+					editorconfig: '.editorconfig'
+				}
+			}
+		},
+		jshint: {
+			all: ['Gruntfile.js', '<%= paths.js %>/*.js']
+		},
+		jscs: {
+			all: {
+				options: {
+					'standard': 'Jquery'
+				},
+				files: {
+					src: ['tasks']
+				}
+			}
+		},
+		clean: {
+			build: {
+				src: [
+					'<%= paths.js %>/build/**/*',
+					'<%= paths.css %>/**/*'
+				]
 			}
 		}
 	});
-
-	grunt.loadTasks('extras/grunt/tasks');
-
-	grunt.loadNpmTasks('grunt-sass');
-	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	grunt.registerTask(
 		'default',
@@ -96,6 +134,6 @@ module.exports = function(grunt) {
 	grunt.registerTask(
 		'build',
 		'Build all JS files for a deploy.',
-		['validate', 'clean', 'sass']
+		['validate', 'clean:build', 'sass']
 	);
 };

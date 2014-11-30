@@ -14,7 +14,7 @@
     "grunt-contrib-clean": "^0.5.0",
     "grunt-contrib-jshint": "^0.10.0",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-jscs": "^0.7.1",
+    "grunt-jscs": "^1.0.0",
     "grunt-lintspaces": "^0.6.0",
     "grunt-sass": "^0.16.1",
     "load-grunt-tasks": "^1.0.0",
