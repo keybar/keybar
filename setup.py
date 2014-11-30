@@ -38,6 +38,11 @@ install_requires = [
     # General dependencies
     'django>=1.7.1,<1.8',
 
+    # Configuration
+    'django-configurations==0.8',
+    'django-cache-url==0.8.0',
+    'dj-database-url==0.3.0',
+
     # For async worker support
     'celery>=3.1.17,<3.2',
 
