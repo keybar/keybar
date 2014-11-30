@@ -21,7 +21,7 @@ module.exports = function(grunt) {
 			fonts: this.app + '/static/fonts',
 			images: this.app + '/static/img',
 			js: this.app + '/static/js',
-			manageScript: this.app + '/manage.py',
+			manageScript: this.app + '/../../manage.py',
 			serverScript: this.app + '/server.py'
 		};
 	};
@@ -110,6 +110,19 @@ module.exports = function(grunt) {
 					'<%= paths.css %>/**/*'
 				]
 			}
+		},
+
+		// see: https://npmjs.org/package/grunt-bg-shell
+		bgShell: {
+			_defaults: {
+				bg: true
+			},
+			runDjango: {
+				cmd: 'python <%= paths.manageScript %> runserver'
+			},
+			runTornado: {
+				cmd: 'python <%= paths.serverScript %>'
+			}
 		}
 	});
 
@@ -136,4 +149,9 @@ module.exports = function(grunt) {
 		'Build all JS files for a deploy.',
 		['validate', 'clean:build', 'sass']
 	);
+
+	grunt.registerTask('serve', [
+		'bgShell:runTornado',
+		'watch'
+	]);
 };
