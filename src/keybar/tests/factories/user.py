@@ -14,6 +14,6 @@ class UserFactory(factory.DjangoModelFactory):
     @classmethod
     def _prepare(cls, create, **kwargs):
         raw_password = kwargs.pop('raw_password', 'secret')
-        if not 'password' in kwargs:
+        if 'password' not in kwargs:
             kwargs['password'] = make_password(raw_password, hasher='md5')
         return super(UserFactory, cls)._prepare(create, **kwargs)

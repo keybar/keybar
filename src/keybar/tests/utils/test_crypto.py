@@ -1,6 +1,4 @@
 import os
-import mock
-import base64
 import pytest
 
 from keybar.utils.crypto import (

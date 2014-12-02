@@ -2,7 +2,6 @@ import os
 
 import factory
 from django.conf import settings
-from django.contrib.auth.hashers import make_password
 
 from keybar.models.device import Device
 from keybar.tests.factories.user import UserFactory

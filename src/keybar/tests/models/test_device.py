@@ -15,7 +15,7 @@ class TestDevice:
 
     def test_device_requires_user_relation(self):
         with pytest.raises(ValueError):
-            device = DeviceFactory.create(user=None)
+            DeviceFactory.create(user=None)
 
     def test_device_can_have_unknown_authorized_status(self):
         device = DeviceFactory.create()

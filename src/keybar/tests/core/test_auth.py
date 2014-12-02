@@ -10,13 +10,10 @@ from base64 import encodebytes
 import pytest
 import requests
 from requests_toolbelt import SSLAdapter
-from django.conf import settings
-from django.utils import timezone
 from django.utils.encoding import force_bytes
 from rest_framework import status
 from httpsig.requests_auth import HTTPSignatureAuth
 
-from keybar.models.user import User
 from keybar.tests.factories.user import UserFactory
 from keybar.tests.factories.device import DeviceFactory
 
