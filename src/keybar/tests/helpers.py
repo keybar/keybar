@@ -1,13 +1,8 @@
-import sys
 import socket
-import threading
-import time
 
-import pytest
 from pytest_django.live_server_helper import parse_addr
 from django.test.testcases import LiveServerThread as LiveServerThreadBase
 from django.db import connections
-from django.conf import settings
 from tornado import ioloop
 
 from keybar.server import get_server
@@ -26,8 +21,8 @@ class LiveServerThread(LiveServerThreadBase):
             try:
                 server = get_server(debug=False)
                 server.listen(8443, 'keybar.local')
-            except socket.error as e:
-                raise
+            except socket.error as exc:
+                raise exc
             else:
                 self.port = 8443
 
