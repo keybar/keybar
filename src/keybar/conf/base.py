@@ -177,6 +177,8 @@ SESSION_COOKIE_SECURE = True
 
 SESSION_COOKIE_HTTPONLY = True
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+
 # Django REST Framework related settings.
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
