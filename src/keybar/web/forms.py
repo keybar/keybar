@@ -34,7 +34,8 @@ class EntryForm(forms.ModelForm):
         fields = ('title', 'url', 'identifier', 'value', 'description')
         widgets = {
             'title': forms.TextInput(),
-            'identifier': forms.TextInput()
+            'identifier': forms.TextInput(),
+            'description': forms.Textarea(attrs={'rows': 4})
         }
 
     def save(self, request, commit=True):
