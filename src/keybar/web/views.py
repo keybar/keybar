@@ -56,11 +56,6 @@ class EntryDetailFormView(LoginRequiredMixin, UpdateView):
     model = Entry
     success_url = reverse_lazy('keybar-vault')
 
-    def get_template_names(self):
-        if 'unlock' in self.request.POST:
-            return ['keybar/web/entry-detail.html']
-        return super(EntryDetailFormView, self).get_template_names()
-
     def get_form_kwargs(self):
         kwargs = super(EntryDetailFormView, self).get_form_kwargs()
         kwargs['request'] = self.request
