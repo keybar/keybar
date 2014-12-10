@@ -32,8 +32,7 @@ class VaultView(ListView):
 class TagsView(ListView):
     def get_queryset(self):
         qset = Entry.objects.filter(created_by=self.request.user)
-        return list(set(itertools.chain.from_iterable(
-            qset.values_list('tags', flat=True))))
+        return itertools.chain.from_iterable(qset.values_list('tags', flat=True)).distinct()
 
     def render_to_response(self, context, **kwargs):
         return JsonResponse({'tags': context['object_list']}, **kwargs)
