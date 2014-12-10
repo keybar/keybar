@@ -3,7 +3,6 @@
 <script type="text/javascript">
 	$(document).ready(function() {
 		$.get('{% url "keybar-tags" %}', function(data) {
-			console.log('load', data)
 			$("#{{ attrs.id }}").select2({
 				width: '100%',
 				tags: data.tags,
