@@ -14,6 +14,7 @@
                     <tr>
                         <th id="title">{% trans 'Title' %}</th>
                         <th id="identifier">{% trans 'Identifier' %}</th>
+                        <th id="tags">{% trans 'Tags' %}</th>
                         <th id="actions">{% trans 'Actions' %}</th>
                     </tr>
                     {% for entry in object_list %}
@@ -27,6 +28,11 @@
                             <a href="{% url 'keybar-entry' entry.pk %}">
                                 {{ entry.identifier }}
                             </a>
+                        </td>
+                        <td headers="{{ entry.pk }} tags">
+                            {% for tag in entry.tags %}
+                                <span class="label">{{ tag }}</span>
+                            {% endfor %}
                         </td>
                         <td headers="{{ entry.pk }} actions">
                             <a href="{% url 'keybar-entry-edit' entry.pk %}">Edit</a>

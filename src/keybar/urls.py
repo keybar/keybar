@@ -23,7 +23,9 @@ urlpatterns = patterns('',
     url(r'totp-qrcode.png$',
         views.TotpQrCodeView.as_view(),
         name='keybar-totp-qrcode'),
-
+    url(r'^tags/$',
+        views.TagsView.as_view(),
+        name='keybar-tags'),
 
     url(r'^accounts/', include('allauth.urls')),
 

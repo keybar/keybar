@@ -1,6 +1,8 @@
+import itertools
+
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.views.generic import TemplateView, CreateView, UpdateView, ListView, View
 from django.utils.translation import ugettext_lazy as _
 
@@ -25,6 +27,16 @@ class VaultView(ListView):
 
     def get_queryset(self):
         return Entry.objects.filter(created_by=self.request.user)
+
+
+class TagsView(ListView):
+    def get_queryset(self):
+        qset = Entry.objects.filter(created_by=self.request.user)
+        return list(set(itertools.chain.from_iterable(
+            qset.values_list('tags', flat=True))))
+
+    def render_to_response(self, context, **kwargs):
+        return JsonResponse({'tags': context['object_list']}, **kwargs)
 
 
 class EntryAddFormView(LoginRequiredMixin, CreateView):

@@ -57,7 +57,7 @@ class ViewEntryForm(EntryForm):
     value = forms.CharField(label=_('Decrypted value'))
 
     class Meta(EntryForm.Meta):
-        fields = ('title', 'description', 'identifier', 'value')
+        fields = ('title', 'tags', 'description', 'identifier', 'value')
 
     def __init__(self, request, *args, **kwargs):
         self.request = request

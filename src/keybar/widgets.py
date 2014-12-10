@@ -1,7 +1,8 @@
 import floppyforms.__future__ as forms
+from django.utils.datastructures import MultiValueDict, MergeDict
 
 
-class Select2Widget(forms.Select):
+class Select2Widget(forms.widgets.Input):
     template_name = 'floppyforms/tags.html'
     allow_multiple_selected = True
 
@@ -10,7 +11,9 @@ class Select2Widget(forms.Select):
         css = {'all': ('select2/select2.css', )}
 
     def value_from_datadict(self, data, files, name):
-        import ipdb; ipdb.set_trace()
         if isinstance(data, (MultiValueDict, MergeDict)):
-            return data.getlist(name)
+            retval = []
+            for item in data.getlist(name):
+                retval.extend([x.strip() for x in item.split(',')])
+            return retval
         return data.get(name, None)

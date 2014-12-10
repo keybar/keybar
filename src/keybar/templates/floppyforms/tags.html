@@ -1,10 +1,14 @@
-{% include "floppyforms/textarea.html" %}
+{% include "floppyforms/input.html" %}
 {{ media }}
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("#{{ attrs.id }}").select2({
-			tags: ['red', 'green', 'blue'],
-			tokenSeparators: [',', ' ']
+		$.get('{% url "keybar-tags" %}', function(data) {
+			console.log('load', data)
+			$("#{{ attrs.id }}").select2({
+				width: '100%',
+				tags: data.tags,
+				tokenSeparators: [',', ' ']
+			});
 		});
 	});
 </script>
