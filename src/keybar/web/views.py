@@ -21,7 +21,7 @@ class IndexView(TemplateView):
 
 
 class VaultView(ListView):
-    template_name = 'keybar/web/entries.html'
+    template_name = 'keybar/web/vault.html'
 
     def get_queryset(self):
         return Entry.objects.filter(created_by=self.request.user)
