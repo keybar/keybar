@@ -1,0 +1,10 @@
+{% include "floppyforms/textarea.html" %}
+{{ media }}
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#{{ attrs.id }}").select2({
+			tags: ['red', 'green', 'blue'],
+			tokenSeparators: [',', ' ']
+		});
+	});
+</script>

@@ -5,6 +5,7 @@ from cryptography.fernet import InvalidToken as InvalidFernetToken
 
 from keybar.models.user import User
 from keybar.models.entry import Entry
+from keybar.widgets import Select2Widget
 
 
 class RegisterForm(forms.ModelForm):
@@ -31,11 +32,12 @@ class EntryForm(forms.ModelForm):
 
     class Meta:
         model = Entry
-        fields = ('title', 'url', 'identifier', 'value', 'description')
+        fields = ('title', 'url', 'identifier', 'value', 'tags', 'description')
         widgets = {
             'title': forms.TextInput(),
             'identifier': forms.TextInput(),
-            'description': forms.Textarea(attrs={'rows': 4})
+            'description': forms.Textarea(attrs={'rows': 4}),
+            'tags': Select2Widget()
         }
 
     def save(self, request, commit=True):
