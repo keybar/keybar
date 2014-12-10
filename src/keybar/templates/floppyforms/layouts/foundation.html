@@ -8,6 +8,8 @@
 
 {% block forms %}
     {% for form in forms %}
+        {{ form.media }}
+
         <form action="{% if action_url %}{{ action_url }}{% endif %}" method="post">
             {% csrf_token %}
 
