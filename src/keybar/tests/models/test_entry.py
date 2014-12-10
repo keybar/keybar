@@ -23,8 +23,7 @@ class TestEntry:
     def test_entry_can_have_tags(self):
         entry = EntryFactory.create()
 
-        # defaults to empty list.
-        assert entry.tags == []
+        assert entry.tags is None
 
         entry.tags.append('tag1')
         entry.tags.append('tag2')
