@@ -26,6 +26,7 @@ class LiveServerThread(LiveServerThreadBase):
                     print('try listen on keybar.local:{}'.format(port))
                     try:
                         server.listen(port, 'keybar.local')
+                        break
                     except OSError as exc:
                         print(exc)
                         if port == 65535:
