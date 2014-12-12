@@ -1,4 +1,5 @@
 import socket
+import errno
 
 from pytest_django.live_server_helper import parse_addr
 from django.test.testcases import LiveServerThread as LiveServerThreadBase
@@ -18,23 +19,25 @@ class LiveServerThread(LiveServerThreadBase):
             for alias, conn in self.connections_override.items():
                 connections[alias] = conn
         try:
-            # Go through the list of possible ports, hoping that we can find
-            # one that is free to use for the WSGI server.
-            try:
-                server = get_server(debug=False)
-                for port in self.ports:
-                    print('try listen on keybar.local:{}'.format(port))
-                    try:
-                        server.listen(port, 'keybar.local')
-                        break
-                    except OSError as exc:
-                        print(exc)
-                        if port == 65535:
-                            raise exc
-            except socket.error as exc:
-                raise exc
-            else:
-                self.port = port
+            server = get_server(debug=False)
+
+            for index, port in enumerate(self.possible_ports):
+                try:
+                    server.listen(port, 'keybar.local')
+                except socket.error as exc:
+                    if (index + 1 < len(self.possible_ports) and exc.errno == errno.EADDRINUSE):
+                        # This port is already in use, so we go on and try with
+                        # the next one in the list.
+                        continue
+                    else:
+                        # Either none of the given ports are free or the error
+                        # is something else than "Address already in use". So
+                        # we let that error bubble up to the main thread.
+                        raise exc
+                else:
+                    # A free port was found.
+                    self.port = port
+                    break
 
             self.is_ready.set()
             self.loop = ioloop.IOLoop.instance()

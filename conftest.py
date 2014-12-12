@@ -2,22 +2,22 @@ import os.path
 import os
 
 import pytest
-from django.conf import settings
+from django.conf import settings as django_settings
 from pytest_django.lazy_django import skip_if_no_django
 
 
 def pytest_configure(config):
-    if not settings.configured:
+    if not django_settings.configured:
         os.environ['DJANGO_SETTINGS_MODULE'] = 'keybar.conf.test'
 
     # override a few things with our test specifics
-    settings.INSTALLED_APPS = tuple(settings.INSTALLED_APPS) + (
+    django_settings.INSTALLED_APPS = tuple(django_settings.INSTALLED_APPS) + (
         'keybar.tests',
     )
 
 
 @pytest.fixture(scope='session')
-def keybar_liveserver(request):
+def keybar_liveserver(request, settings):
     skip_if_no_django()
 
     from keybar.tests.helpers import LiveServer
@@ -31,5 +31,7 @@ def keybar_liveserver(request):
 
     server = LiveServer(addr)
     request.addfinalizer(server.stop)
+
+    settings.KEYBAR_HOST = 'keybar.local:{}'.format(server.thread.port)
 
     return server
