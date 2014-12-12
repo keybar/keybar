@@ -9,6 +9,8 @@ from keybar.server import get_server
 
 
 class LiveServerThread(LiveServerThreadBase):
+    ports = range(49152, 65535)
+
     def run(self):
         if self.connections_override:
             # Override this thread's database connections with the ones
@@ -20,11 +22,16 @@ class LiveServerThread(LiveServerThreadBase):
             # one that is free to use for the WSGI server.
             try:
                 server = get_server(debug=False)
-                server.listen(8443, 'keybar.local')
+                for port in self.ports:
+                    try:
+                        server.listen(port, 'keybar.local')
+                    except OSError as exc:
+                        if port == 65535:
+                            raise exc
             except socket.error as exc:
                 raise exc
             else:
-                self.port = 8443
+                self.port = port
 
             self.is_ready.set()
             self.loop = ioloop.IOLoop.instance()
