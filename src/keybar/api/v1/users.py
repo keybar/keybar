@@ -5,5 +5,5 @@ from keybar.serializers.user import UserSerializer
 
 
 class ListView(generics.ListAPIView):
-    model = User
+    queryset = User.objects.all()
     serializer_class = UserSerializer
