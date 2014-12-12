@@ -24,10 +24,9 @@ class TestEntry:
         entry = EntryFactory.create()
 
         # defaults to empty list.
-        assert entry.tags == []
+        assert entry.tags is None
 
-        entry.tags.append('tag1')
-        entry.tags.append('tag2')
+        entry.tags = ['tag1', 'tag2']
         entry.save()
 
         assert Entry.objects.get(pk=entry.pk).tags == ['tag1', 'tag2']

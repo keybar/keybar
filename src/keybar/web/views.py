@@ -31,11 +31,13 @@ class VaultView(ListView):
 
 class TagsView(ListView):
     def get_queryset(self):
-        qset = Entry.objects.filter(created_by=self.request.user)
-        return itertools.chain.from_iterable(qset.values_list('tags', flat=True)).distinct()
+        qset = (Entry.objects
+            .filter(created_by=self.request.user)
+            .values_list('tags', flat=True))
+        return itertools.chain.from_iterable(qset)
 
     def render_to_response(self, context, **kwargs):
-        return JsonResponse({'tags': context['object_list']}, **kwargs)
+        return JsonResponse({'tags': list(context['object_list'])}, **kwargs)
 
 
 class EntryAddFormView(LoginRequiredMixin, CreateView):
