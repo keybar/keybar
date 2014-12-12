@@ -9,7 +9,7 @@ from keybar.server import get_server
 
 
 class LiveServerThread(LiveServerThreadBase):
-    ports = range(49152, 65535)
+    ports = range(8990, 9999)
 
     def run(self):
         if self.connections_override:
@@ -23,9 +23,11 @@ class LiveServerThread(LiveServerThreadBase):
             try:
                 server = get_server(debug=False)
                 for port in self.ports:
+                    print('try listen on keybar.local:{}'.format(port))
                     try:
                         server.listen(port, 'keybar.local')
                     except OSError as exc:
+                        print(exc)
                         if port == 65535:
                             raise exc
             except socket.error as exc:
