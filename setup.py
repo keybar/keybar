@@ -56,7 +56,7 @@ install_requires = [
     # For our REST Api
     'djangorestframework>=3.0.1,<3.1',
     'httpsig>=1.1.0,<1.2.0',
-    'requests>=2.4.1,<2.5',
+    'requests>=2.5.0,<2.6',
     'requests-toolbelt',
 
     # Markdown support for browsable api
@@ -66,7 +66,7 @@ install_requires = [
     'django-filter',
 
     # Form helpers
-    'django-floppyforms>=1.2.0',
+    'django-floppyforms>=1.3.0',
 
     # For our development (and probably production?) tls pre-configured
     # server.
