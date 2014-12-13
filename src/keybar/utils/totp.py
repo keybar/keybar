@@ -24,7 +24,7 @@ def generate_qr_code_response(request):
         border=4
     )
 
-    uri = generate_uri('totp', bytes(user.totp_secret), user.email, 'keybar')
+    uri = generate_uri('totp', bytes(user.secret), user.email, 'keybar')
 
     qrcode.add_data(uri)
     qrcode.make(fit=True)
@@ -55,5 +55,5 @@ def generate_uri(key_type, secret, user, issuer):
 
 
 def verify_totp_code(user, code):
-    totp = TOTP(bytes(user.totp_secret), 6, SHA1(), 30, backend=default_backend())
+    totp = TOTP(bytes(user.secret), 6, SHA1(), 30, backend=default_backend())
     return totp.verify(force_bytes(code), time.time())

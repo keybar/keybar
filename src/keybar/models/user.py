@@ -35,8 +35,8 @@ class User(AbstractBaseUser):
         help_text=_('Designates that this user has all permissions without '
                     'explicitly assigning them.'))
 
-    # TODO: find a way to encrypt this :/
-    totp_secret = models.BinaryField()
+    # TODO: find a way to store this more secure :(
+    secret = models.BinaryField()
 
     objects = UserManager()
 
@@ -51,8 +51,8 @@ class User(AbstractBaseUser):
         return self.email
 
     def save(self, *args, **kwargs):
-        if not self.totp_secret:
-            self.totp_secret = os.urandom(30)
+        if not self.secret:
+            self.secret = os.urandom(30)
         return super(User, self).save(*args, **kwargs)
 
     def has_module_perms(self, app_label):
