@@ -20,7 +20,7 @@ class Entry(models.Model):
 
     description = models.TextField(_('Description'), blank=True, default='')
 
-    tags = TextArrayField(null=False, blank=True)
+    tags = TextArrayField(null=True, blank=True)
 
     salt = models.BinaryField(null=True, blank=True)
 

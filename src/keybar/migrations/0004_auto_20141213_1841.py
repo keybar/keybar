@@ -16,11 +16,5 @@ class Migration(migrations.Migration):
             model_name='user',
             old_name='totp_secret',
             new_name='secret',
-        ),
-        migrations.AlterField(
-            model_name='entry',
-            name='tags',
-            field=djorm_pgarray.fields.TextArrayField(dbtype='text', null=False),
-            preserve_default=True,
-        ),
+        )
     ]
