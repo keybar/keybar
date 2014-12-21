@@ -54,7 +54,7 @@ install_requires = [
     'django-babel>=0.3.6',
 
     # For our REST Api
-    'djangorestframework>=3.0.1,<3.1',
+    'djangorestframework>=3.0.2,<3.1',
     'httpsig>=1.1.0,<1.2.0',
     'requests>=2.5.0,<2.6',
     'requests-toolbelt',
@@ -73,7 +73,7 @@ install_requires = [
     'tornado>=4.0.2,<5.0',
 
     # All the crypto libs we ever need
-    'cryptography>=0.6.1,<1.0',
+    'cryptography>=0.7.0,<1.0',
     'certifi',
     'qrcode==5.1',
 
