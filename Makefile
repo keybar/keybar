@@ -21,7 +21,6 @@ deps:
 	pip install --upgrade pip setuptools wheel
 	pip install --use-wheel --upgrade -r requirements/base.txt
 	pip install --use-wheel -e .
-	pip install --use-wheel "file://`pwd`#egg=keybar[tox]"
 	pip install --use-wheel "file://`pwd`#egg=keybar[tests]"
 	pip install --use-wheel "file://`pwd`#egg=keybar[postgresql]"
 	pip install --use-wheel "file://`pwd`#egg=keybar[redis]"
