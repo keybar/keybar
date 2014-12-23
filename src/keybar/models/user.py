@@ -12,6 +12,7 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, UserManager as BaseUserManager
+from uuidfield import UUIDField
 
 from keybar.core.tasks import send_mail_async
 from keybar.utils.avatar import get_profile_image
@@ -40,6 +41,8 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
+    id = UUIDField(auto=True, primary_key=True)
+
     email = models.EmailField(_('Email'), max_length=254, unique=True)
     name = models.TextField(_('Name'), max_length=100, blank=True, null=True)
     is_active = models.BooleanField(
