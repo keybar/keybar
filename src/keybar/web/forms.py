@@ -87,7 +87,7 @@ class UpdateEntryForm(EntryForm):
 
 class ViewEntryForm(EntryForm):
     value = forms.CharField(label=_('Decrypted value'))
-    totp_code = forms.CharField(label=_('TOTP Secret'),
+    totp_code = forms.CharField(label=_('TOTP Code'),
         help_text=_('Please open your Google Authenticator App and enter the code.'))
 
     class Meta(EntryForm.Meta):
@@ -97,6 +97,8 @@ class ViewEntryForm(EntryForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super(ViewEntryForm, self).__init__(*args, **kwargs)
+        if not self.instance.force_two_factor_authorization:
+            del self.fields['totp_code']
 
         if 'unlock' not in self.request.POST:
             del self.fields['value']
