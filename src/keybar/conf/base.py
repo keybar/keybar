@@ -79,6 +79,10 @@ TEMPLATE_CONTEXT_PROCESSORS = TEMPLATE_CONTEXT_PROCESSORS + (
     'django.contrib.messages.context_processors.messages',
     'allauth.account.context_processors.account',
     'allauth.socialaccount.context_processors.socialaccount',
+
+    # Overwrite the allauth context processor because... it actively
+    # verifies that the allauth processor exists.
+    'keybar.core.context_processors.socialaccount'
 )
 
 STATICFILES_DIRS = (
