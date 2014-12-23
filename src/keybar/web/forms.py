@@ -16,7 +16,8 @@ from keybar.utils.totp import verify_totp_code
 class RegisterForm(forms.ModelForm):
     name = forms.CharField(label=_('Your name'),
         widget=forms.TextInput(
-            attrs={'placeholder': _('e.g Jorah Mormont')}))
+            attrs={'placeholder': _('e.g Jorah Mormont')}),
+        required=False)
     email = forms.EmailField(label=_('Email'))
 
     class Meta:
