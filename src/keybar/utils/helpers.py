@@ -10,7 +10,7 @@ class DjangoJSONEncoder(BaseDjangoJSONEncoder):
         if isinstance(obj, uuid.UUID):
             return str(obj)
         else:
-            return super(DjangoJSONEncoder, self).default(o)
+            return super(DjangoJSONEncoder, self).default(obj)
 
 
 class UUIDCapableJSONSerializer(BaseJSONSerializer):
