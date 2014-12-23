@@ -14,6 +14,7 @@ class Select2Widget(forms.widgets.Input):
         if isinstance(data, (MultiValueDict, MergeDict)):
             retval = []
             for item in data.getlist(name):
-                retval.extend([x.strip() for x in item.split(',')])
+                if item:
+                    retval.extend([x.strip() for x in item.split(',')])
             return retval
         return data.get(name, None)
