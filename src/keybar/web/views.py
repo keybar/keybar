@@ -25,7 +25,7 @@ class IndexView(TemplateView):
         return super(IndexView, self).get(*args, **kwargs)
 
 
-class VaultView(ListView):
+class VaultView(LoginRequiredMixin, ListView):
     template_name = 'keybar/web/vault.html'
 
     def get_queryset(self):
