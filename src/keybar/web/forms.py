@@ -127,7 +127,7 @@ class ViewEntryForm(EntryForm):
         self.errors.pop('value', None)
 
         if not self.errors:
-            del self.fields['password']
-            del self.fields['totp_code']
+            self.fields.pop('password', None)
+            self.fields.pop('totp_code', None)
 
         return cleaned_data
