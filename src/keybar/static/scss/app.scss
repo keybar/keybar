@@ -150,13 +150,15 @@ section[role="header"] {
 }
 
 section[role="main-content"] {
-	.small-centered p {
-		text-align: center;
-	}
+	.totp-verify {
+		img {
+			display: block;
+			margin: 0 auto;
+		}
 
-	.totp-verify img {
-		display: block;
-		margin: 0 auto;
+		p {
+			text-align: center;
+		}
 	}
 
 	.row {
