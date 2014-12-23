@@ -150,6 +150,15 @@ section[role="header"] {
 }
 
 section[role="main-content"] {
+	.small-centered p {
+		text-align: center;
+	}
+
+	.totp-verify img {
+		display: block;
+		margin: 0 auto;
+	}
+
 	.row {
 		.tagline, .pricing {
 			text-align: center;

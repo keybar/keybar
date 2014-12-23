@@ -1,3 +1,6 @@
+import datetime
+import time
+
 import floppyforms.__future__ as forms
 from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
@@ -24,6 +27,24 @@ class RegisterForm(forms.ModelForm):
         user.name = self.instance.name
         user.email = self.instance.email
         user.save()
+
+
+class SetupTotpForm(forms.Form):
+    totp_code = forms.CharField(label=_('TOTP Code'),
+        help_text=_('Please open your Google Authenticator App and enter the code.'))
+
+    def __init__(self, request, *args, **kwargs):
+        self.request = request
+        super(SetupTotpForm, self).__init__(*args, **kwargs)
+
+    def clean_totp_code(self):
+        try:
+            verify_totp_code(self.request.user, self.data['totp_code'])
+        except InvalidTotpToken:
+            dt = datetime.datetime.fromtimestamp(time.time())
+            raise ValidationError(
+                'Invalid TOTP code! Make sure your time is correct: {0}'.format(
+                    dt))
 
 
 class EntryForm(forms.ModelForm):
@@ -97,7 +118,7 @@ class ViewEntryForm(EntryForm):
             if self.instance.force_two_factor_authorization:
                 verify_totp_code(self.request.user, self.data['totp_code'])
         except InvalidTotpToken:
-            raise ValidationError('Invalid TOTP secret!')
+            raise ValidationError('Invalid TOTP code!')
 
     def clean(self):
         cleaned_data = super(ViewEntryForm, self).clean()

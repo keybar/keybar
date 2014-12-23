@@ -3,12 +3,14 @@ import itertools
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages
 from django.http import HttpResponseRedirect, JsonResponse
-from django.views.generic import TemplateView, CreateView, UpdateView, ListView, View
+from django.views.generic import (
+    TemplateView, CreateView, UpdateView, ListView, View, FormView)
 from django.utils.translation import ugettext_lazy as _
 
 from keybar.core.mixins import LoginRequiredMixin
 from keybar.models.entry import Entry
-from keybar.web.forms import EntryForm, UpdateEntryForm, ViewEntryForm
+from keybar.web.forms import (
+    EntryForm, UpdateEntryForm, ViewEntryForm, SetupTotpForm)
 from keybar.utils.totp import generate_qr_code_response
 
 
@@ -82,7 +84,22 @@ class EntryDetailFormView(LoginRequiredMixin, UpdateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class TotpQrCodeView(View):
+class SetupTotpView(FormView):
+    template_name = 'keybar/web/setup-totp.html'
+    form_class = SetupTotpForm
+    success_url = reverse_lazy('keybar-vault')
 
+    def get_form_kwargs(self):
+        kwargs = super(SetupTotpView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+    def form_valid(self, form):
+        messages.success(self.request,
+            _('Google Authenticator successfully verified'))
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class TotpQrCodeView(View):
     def get(self, request, *args, **kwargs):
         return generate_qr_code_response(request)

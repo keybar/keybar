@@ -20,7 +20,7 @@ def generate_qr_code_response(request):
 
     qrcode = QRCode(
         error_correction=ERROR_CORRECT_H,
-        box_size=6,
+        box_size=4,
         border=4
     )
 

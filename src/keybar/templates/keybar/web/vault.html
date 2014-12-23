@@ -42,6 +42,7 @@
                 </table>
 
                 <a href="{{ new_entry_url }}" class="button">Add new entry</a>
+                <a href="{% url 'keybar-setup-totp' %}" class="button">Setup Google Authenticator</a>
 
             {% else %}
                 <p>
@@ -51,7 +52,6 @@
                 </p>
             {% endif %}
 
-            <img src="{% url 'keybar-totp-qrcode' %}" />
         </div>
     </div>
 {% endblock %}
