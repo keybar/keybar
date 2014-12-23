@@ -24,6 +24,8 @@ class Entry(models.Model):
 
     salt = models.BinaryField(null=True, blank=True)
 
+    force_two_factor_authorization = models.BooleanField(default=False)
+
     def set_value(self, password, value, salt=None):
         if salt is None:
             salt = get_salt()

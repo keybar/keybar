@@ -2,10 +2,12 @@ import floppyforms.__future__ as forms
 from django.forms import ValidationError
 from django.utils.translation import ugettext_lazy as _
 from cryptography.fernet import InvalidToken as InvalidFernetToken
+from cryptography.hazmat.primitives.twofactor.totp import InvalidToken as InvalidTotpToken
 
 from keybar.models.user import User
 from keybar.models.entry import Entry
 from keybar.widgets import Select2Widget
+from keybar.utils.totp import verify_totp_code
 
 
 class RegisterForm(forms.ModelForm):
@@ -29,10 +31,14 @@ class EntryForm(forms.ModelForm):
         widget=forms.PasswordInput())
     password = forms.CharField(label=_('Password to unlock this entry.'),
         widget=forms.PasswordInput())
+    force_two_factor_authorization = forms.BooleanField(
+        label=_('Force Two-Factor Authentication'), required=False)
 
     class Meta:
         model = Entry
-        fields = ('title', 'url', 'identifier', 'value', 'tags', 'description')
+        fields = (
+            'title', 'url', 'identifier', 'value', 'tags', 'description',
+            'force_two_factor_authorization')
         widgets = {
             'title': forms.TextInput(),
             'identifier': forms.TextInput(),
@@ -42,28 +48,39 @@ class EntryForm(forms.ModelForm):
 
     def save(self, request, commit=True):
         self.instance.owner = request.user
-        self.instance.set_value(
-            self.cleaned_data['password'],
-            self.cleaned_data['value'])
+
+        if self.cleaned_data['value']:
+            self.instance.set_value(
+                self.cleaned_data['password'],
+                self.cleaned_data['value'])
 
         return super(EntryForm, self).save(commit=commit)
 
 
 class UpdateEntryForm(EntryForm):
-    pass
+    value = forms.CharField(label=_('Secure value to store'),
+        widget=forms.PasswordInput(), required=False)
+    password = forms.CharField(label=_('Password to unlock and update this entry.'),
+        widget=forms.PasswordInput())
 
 
 class ViewEntryForm(EntryForm):
     value = forms.CharField(label=_('Decrypted value'))
+    totp_code = forms.CharField(label=_('TOTP Secret'),
+        help_text=_('Please open your Google Authenticator App and enter the code.'))
 
     class Meta(EntryForm.Meta):
-        fields = ('title', 'tags', 'description', 'identifier', 'value')
+        fields = (
+            'title', 'tags', 'description', 'identifier', 'value')
 
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super(ViewEntryForm, self).__init__(*args, **kwargs)
+
         if 'unlock' not in self.request.POST:
             del self.fields['value']
+
+        del self.fields['force_two_factor_authorization']
 
     def clean_password(self):
         if 'unlock' in self.request.POST:
@@ -71,12 +88,23 @@ class ViewEntryForm(EntryForm):
                 data = self.data.copy()
                 data['value'] = self.instance.decrypt(self.request.POST['password'])
                 self.data = data
-                del self.fields['password']
             except InvalidFernetToken:
                 del self.fields['value']
                 raise ValidationError('Invalid password!')
 
+    def clean_totp_code(self):
+        try:
+            if self.instance.force_two_factor_authorization:
+                verify_totp_code(self.request.user, self.data['totp_code'])
+        except InvalidTotpToken:
+            raise ValidationError('Invalid TOTP secret!')
+
     def clean(self):
         cleaned_data = super(ViewEntryForm, self).clean()
         self.errors.pop('value', None)
+
+        if not self.errors:
+            del self.fields['password']
+            del self.fields['totp_code']
+
         return cleaned_data
