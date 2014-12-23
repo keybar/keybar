@@ -3,4 +3,4 @@
 -e git+https://github.com/EnTeQuAk/babel.git@support/py3k#egg=babel
 
 # Django 1.7 enabled versions
--e git+https://github.com/pennersr/django-allauth.git@5343b15aa173833d158f4d56eb9fcda7eac9311f#egg=django-allauth
+-e git+https://github.com/EnTeQuAk/django-allauth.git@bugfix/serialize-bytes#egg=django-allauth
