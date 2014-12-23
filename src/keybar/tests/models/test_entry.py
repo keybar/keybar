@@ -10,9 +10,9 @@ from keybar.tests.factories.entry import EntryFactory
 @pytest.mark.django_db
 class TestEntry:
 
-    def test_has_created_by(self):
+    def test_has_owner(self):
         entry = EntryFactory.create()
-        assert entry.created_by is not None
+        assert entry.owner is not None
 
     def test_entry_has_uuid_as_primary_key(self):
         entry = EntryFactory.create()

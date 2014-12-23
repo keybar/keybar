@@ -26,13 +26,13 @@ class VaultView(ListView):
     template_name = 'keybar/web/vault.html'
 
     def get_queryset(self):
-        return Entry.objects.filter(created_by=self.request.user)
+        return Entry.objects.filter(owner=self.request.user)
 
 
 class TagsView(ListView):
     def get_queryset(self):
         qset = (Entry.objects
-            .filter(created_by=self.request.user)
+            .filter(owner=self.request.user)
             .values_list('tags', flat=True))
         return itertools.chain.from_iterable(qset)
 

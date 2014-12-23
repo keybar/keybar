@@ -41,7 +41,7 @@ class EntryForm(forms.ModelForm):
         }
 
     def save(self, request, commit=True):
-        self.instance.created_by = request.user
+        self.instance.owner = request.user
         self.instance.set_value(
             self.cleaned_data['password'],
             self.cleaned_data['value'])

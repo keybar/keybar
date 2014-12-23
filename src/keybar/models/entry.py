@@ -9,7 +9,7 @@ from keybar.utils.crypto import encrypt, decrypt, get_salt
 class Entry(models.Model):
     id = UUIDField(auto=True, primary_key=True)
 
-    created_by = models.ForeignKey('keybar.User')
+    owner = models.ForeignKey('keybar.User')
     title = models.TextField(_('Title'), blank=True, default='')
     url = models.URLField(blank=True, default='')
 
