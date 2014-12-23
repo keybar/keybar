@@ -16,7 +16,7 @@ def email_hash(string):
     return md5(str(string.strip().lower()).encode('utf-8')).hexdigest()
 
 
-def get_gravatar(email, rating='g', size=80, default='mm'):
+def get_gravatar(email, rating='g', size=40, default='mm'):
     """Generate a link to the users' Gravatar."""
     assert rating.lower() in RATINGS
     assert MIN_SIZE <= size <= MAX_SIZE

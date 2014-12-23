@@ -1,0 +1,49 @@
+{% extends 'keybar/web/base.html' %}
+{% load i18n %}
+{% load static %}
+{% load user_sessions %}
+
+
+{% block main-content %}
+	<div class="row entries">
+		<div class="small-12 medium-12 large-12 columns">
+			{% if object_list.exists %}
+				<table>
+					<caption>{% trans 'Active Sessions' %}</caption>
+					<tr>
+						<th id="location">{% trans 'Location' %}</th>
+						<th id="device">{% trans 'Device' %}</th>
+						<th id="last-activity">{% trans 'Last Activity' %}</th>
+						<th id="end-session">{% trans 'End Session' %}</th>
+					</tr>
+
+					{% for session in object_list %}
+					<tr{% if session.session_key == session_key %} class="active"{% endif %}>
+						<td>{{ sessiion.ip|location }} <small>({{ session.ip }})</small></td>
+						<td>{{ session.user_agent|device }}</td>
+						<td>
+							{% if session.session_key == session_key %}
+								{% blocktrans with time=session.last_activity|timesince %}{{ time }} ago (this session){% endblocktrans %}
+							{% else %}
+								{% blocktrans with time=session.last_activity|timesince %}{{ time }} ago{% endblocktrans %}
+							{% endif %}
+						</td>
+						<td>
+							<form method="post" action="{% url 'keybar-account-session-delete' pk=session.pk %}">
+								{% csrf_token %}
+								<button type="submit" class="alert">{% trans "End Session" %}</button>
+							</form>
+						</td>
+					</tr>
+					{% endfor %}
+				</table>
+			{% else %}
+				<p>
+					{% blocktrans %}
+						There are no active sessions.
+					{% endblocktrans %}
+				</p>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}
