@@ -115,5 +115,15 @@ class SessionListView(LoginRequiredMixin, UserSessionMixin, ListView):
 
 
 class SessionDeleteView(LoginRequiredMixin, UserSessionMixin, DeleteView):
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+        success_url = self.get_success_url()
+        return HttpResponseRedirect(success_url)
+
     def get_success_url(self):
-        return str(reverse_lazy('keybar-account-session-list'))
+        if not self.request.user.session_set.exists():
+            messages.success(
+                self.request, _('You have ended your last session and signed out.'))
+            return reverse('keybar-index')
+        return reverse('keybar-account-session-list')
