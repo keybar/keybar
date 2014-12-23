@@ -2,9 +2,6 @@
 from hashlib import md5
 from urllib.parse import urlencode
 
-from django.conf import settings
-from allauth.socialaccount.models import SocialAccount
-
 
 SECURE_BASE_URL = 'https://secure.gravatar.com/avatar/'
 PROFILE_URL = 'http://www.gravatar.com/'
