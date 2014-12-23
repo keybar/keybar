@@ -14,6 +14,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, UserManager as BaseUserManager
 
 from keybar.core.tasks import send_mail_async
+from keybar.utils.avatar import get_profile_image
 
 
 class UserManager(BaseUserManager):
@@ -96,3 +97,7 @@ class User(AbstractBaseUser):
 
     def get_short_name(self):
         return self.get_display_name()
+
+    @property
+    def profile_image(self):
+        return get_profile_image(self)
