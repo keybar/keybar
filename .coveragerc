@@ -4,6 +4,7 @@ source = src/keybar/
 include = src/keybar*
 omit =
     src/keybar/conf/*.py
+    src/keybar/settings.py
     *urls.py
     src/keybar/wsgi.py
     *migrations*
