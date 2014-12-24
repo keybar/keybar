@@ -54,7 +54,7 @@ install_requires = [
     # 'babel>=1.3', -> requirements.txt
     'django-babel-underscore>=0.2.0',
     'django-statici18n>=1.1.1,<1.2',
-    'django-babel>=0.3.8',
+    'django-babel>=0.3.9',
 
     # For our REST Api
     'djangorestframework>=3.0.2,<3.1',
