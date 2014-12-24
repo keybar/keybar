@@ -83,7 +83,10 @@ module.exports = function(grunt) {
 					'!<%= paths.images %>/*',
 					'!<%= paths.fonts %>/*',
 					'!<%= paths.js %>/src/libs/*',
-					'!<%= paths.app %>/**/djangojs.js'
+					'!<%= paths.app %>/**/djangojs.js',
+					'!<%= paths.app %>/**/django.pot',
+					'!<%= paths.app %>/**/django.po',
+					'!<%= paths.app %>/resources/**'
 				],
 				options: {
 					editorconfig: '.editorconfig'

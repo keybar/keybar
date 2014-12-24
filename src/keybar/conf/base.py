@@ -22,7 +22,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.sites',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
+    'user_sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
@@ -52,7 +52,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'user_sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -79,6 +79,10 @@ TEMPLATE_CONTEXT_PROCESSORS = TEMPLATE_CONTEXT_PROCESSORS + (
     'django.contrib.messages.context_processors.messages',
     'allauth.account.context_processors.account',
     'allauth.socialaccount.context_processors.socialaccount',
+
+    # Overwrite the allauth context processor because... it actively
+    # verifies that the allauth processor exists.
+    'keybar.core.context_processors.socialaccount'
 )
 
 STATICFILES_DIRS = (
@@ -177,7 +181,11 @@ SESSION_COOKIE_SECURE = True
 
 SESSION_COOKIE_HTTPONLY = True
 
-SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
+SESSION_ENGINE = 'user_sessions.backends.db'
+
+GEOIP_PATH = os.path.join(BASE_DIR, 'resources', 'geoip')
+
+SESSION_SERIALIZER = 'keybar.utils.helpers.UUIDCapableJSONSerializer'
 
 # Django REST Framework related settings.
 REST_FRAMEWORK = {

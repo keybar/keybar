@@ -1,4 +1,4 @@
-{% extends "keybar/web/base.html" %}
+{% extends 'keybar/web/base.html' %}
 {% load i18n %}
 {% load static %}
 
@@ -42,8 +42,6 @@
                 </table>
 
                 <a href="{{ new_entry_url }}" class="button">Add new entry</a>
-                <a href="{% url 'keybar-setup-totp' %}" class="button">Setup Google Authenticator</a>
-
             {% else %}
                 <p>
                     {% blocktrans %}
@@ -51,6 +49,11 @@
                     {% endblocktrans %}
                 </p>
             {% endif %}
+
+            <p>
+                <a href="{% url 'keybar-setup-totp' %}" class="button">Setup Google Authenticator</a>
+                <a href="{% url 'keybar-account-session-list' %}" class="button">Show active sessions</a>
+            </p>
 
         </div>
     </div>

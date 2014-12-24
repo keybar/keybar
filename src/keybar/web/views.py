@@ -4,8 +4,9 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages
 from django.http import HttpResponseRedirect, JsonResponse
 from django.views.generic import (
-    TemplateView, CreateView, UpdateView, ListView, View, FormView)
+    TemplateView, CreateView, UpdateView, DeleteView, ListView, View, FormView)
 from django.utils.translation import ugettext_lazy as _
+from user_sessions.views import SessionMixin as UserSessionMixin
 
 from keybar.core.mixins import LoginRequiredMixin
 from keybar.models.entry import Entry
@@ -84,7 +85,7 @@ class EntryDetailFormView(LoginRequiredMixin, UpdateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class SetupTotpView(FormView):
+class SetupTotpView(LoginRequiredMixin, FormView):
     template_name = 'keybar/web/setup-totp.html'
     form_class = SetupTotpForm
     success_url = reverse_lazy('keybar-vault')
@@ -100,6 +101,29 @@ class SetupTotpView(FormView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class TotpQrCodeView(View):
+class TotpQrCodeView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         return generate_qr_code_response(request)
+
+
+class SessionListView(LoginRequiredMixin, UserSessionMixin, ListView):
+    template_name = 'account/session-list.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['session_key'] = self.request.session.session_key
+        return super(SessionListView, self).get_context_data(**kwargs)
+
+
+class SessionDeleteView(LoginRequiredMixin, UserSessionMixin, DeleteView):
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+        success_url = self.get_success_url()
+        return HttpResponseRedirect(success_url)
+
+    def get_success_url(self):
+        if not self.request.user.session_set.exists():
+            messages.success(
+                self.request, _('You have ended your last session and signed out.'))
+            return reverse('keybar-index')
+        return reverse('keybar-account-session-list')

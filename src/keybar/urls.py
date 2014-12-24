@@ -30,7 +30,12 @@ urlpatterns = patterns('',
         views.TagsView.as_view(),
         name='keybar-tags'),
 
-    url(r'^accounts/', include('allauth.urls')),
+    url(r'^account/', include('allauth.urls')),
+
+    url(r'account/sessions/$', views.SessionListView.as_view(),
+        name='keybar-account-session-list'),
+    url(r'account/sessions/delete/(?P<pk>.+)/$', views.SessionDeleteView.as_view(),
+        name='keybar-account-session-delete'),
 
     # Admin
     url(r'^admin/', include(admin.site.urls)),
