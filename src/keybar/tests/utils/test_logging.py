@@ -1,4 +1,4 @@
-from keybar.core.logging import get_logger
+from keybar.utils.logging import get_logger
 
 
 def test_func():
@@ -13,15 +13,15 @@ class TestClass(object):
 class TestGetLogger:
     def test_function(self):
         logger = get_logger(test_func)
-        assert logger.name == 'keybar.tests.core.test_logging.test_func'
+        assert logger.name == 'keybar.tests.utils.test_logging.test_func'
 
     def test_class(self):
         logger = get_logger(TestClass)
-        assert logger.name == 'keybar.tests.core.test_logging.TestClass'
+        assert logger.name == 'keybar.tests.utils.test_logging.TestClass'
 
     def test_method(self):
         logger = get_logger(TestClass.test)
-        assert logger.name == 'keybar.tests.core.test_logging.TestClass.test'
+        assert logger.name == 'keybar.tests.utils.test_logging.TestClass.test'
 
     def test_string(self):
         logger = get_logger('test123')

@@ -124,7 +124,7 @@ module.exports = function(grunt) {
 				cmd: 'python <%= paths.serverScript %>'
 			},
 			runCelery: {
-				cmd: 'celery worker -A keybar.core -l INFO -E'
+				cmd: 'celery worker -A keybar.tasks -l INFO -E'
 			}
 		}
 	});

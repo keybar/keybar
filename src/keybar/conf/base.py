@@ -48,7 +48,6 @@ INSTALLED_APPS = (
 
     # Keybar apps
     'keybar',
-    'keybar.core',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -82,7 +81,7 @@ TEMPLATE_CONTEXT_PROCESSORS = TEMPLATE_CONTEXT_PROCESSORS + (
 
     # Overwrite the allauth context processor because... it actively
     # verifies that the allauth processor exists.
-    'keybar.core.context_processors.socialaccount'
+    'keybar.context_processors.social.socialaccount'
 )
 
 STATICFILES_DIRS = (
@@ -147,6 +146,10 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 # is started by the celery worker.
 CELERY_TRACK_STARTED = True
 
+CELERY_IMPORTS = (
+    'keybar.tasks.mail',
+)
+
 CELERY_QUEUES = (
     Queue('default', routing_key='default'),
     Queue('celery', routing_key='celery'),
@@ -190,7 +193,7 @@ SESSION_SERIALIZER = 'keybar.utils.helpers.UUIDCapableJSONSerializer'
 # Django REST Framework related settings.
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'keybar.core.auth.KeybarApiSignatureAuthentication',
+        'keybar.api.auth.KeybarApiSignatureAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',

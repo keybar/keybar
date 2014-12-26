@@ -1,4 +1,4 @@
-from keybar.core.celery import celery
+from keybar.tasks import celery
 
 
 class TestCeleryConfig:

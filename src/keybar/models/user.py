@@ -14,7 +14,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, UserManager as BaseUserManager
 from uuidfield import UUIDField
 
-from keybar.core.tasks import send_mail_async
+from keybar.tasks.mail import send_mail_async
 from keybar.utils.avatar import get_profile_image
 
 

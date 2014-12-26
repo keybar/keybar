@@ -13,7 +13,7 @@ from django.conf import settings
 from django.utils.encoding import force_bytes
 from httpsig.requests_auth import HTTPSignatureAuth
 
-from keybar.core.auth import ALGORITHM, REQUIRED_HEADERS
+from keybar.api.auth import ALGORITHM, REQUIRED_HEADERS
 
 
 class Client(requests.Session):

@@ -4,8 +4,8 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'keybar.settings')
 import django
 django.setup()
 
+from keybar.client import Client
 from keybar.models.user import User
-from keybar.core.client import Client
 
 secret = open('extras/example_keys/id_rsa', 'rb').read()
 user = User.objects.get(email='admin@admin.admin')

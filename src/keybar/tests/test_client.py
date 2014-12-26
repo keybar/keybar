@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from keybar.core.client import Client
+from keybar.client import Client
 
 from keybar.tests.factories.user import UserFactory
 from keybar.tests.factories.device import DeviceFactory

@@ -2,12 +2,12 @@ import logging
 
 from django.core.mail import send_mail as django_send_mail
 
-from keybar.core.celery import celery
+from keybar.tasks import celery
 
 
 @celery.task(ignore_result=True, bind=True)
 def send_mail_async(self, subject, message, from_email, recipient_list):
-    logger = logging.getLogger('keybar.core.tasks.send_mail_async')
+    logger = logging.getLogger('keybar.tasks.mail.send_mail_async')
     try:
         django_send_mail(
             subject, message, from_email, recipient_list, fail_silently=False)
