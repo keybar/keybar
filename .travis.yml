@@ -31,6 +31,8 @@ before_install:
 
   # Install custom PostgreSQL 9.4
   - sudo apt-get install postgresql-9.4 postgresql-client-9.4 postgresql-server-dev-9.4
+  - sudo wget https://raw.githubusercontent.com/travis-ci/travis-cookbooks/master/ci_environment/postgresql/templates/ubuntu/pg_hba.conf.erb
+  - sudo mv pg_hba.conf.erb /etc/postgresql/9.4/main/pg_hba.conf
 
   # Setup a wildcard local DNS for *.local
   - sudo apt-get install -qq -y --force-yes dnsmasq
