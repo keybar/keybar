@@ -34,7 +34,7 @@ before_install:
   - sudo wget https://raw.githubusercontent.com/travis-ci/travis-cookbooks/master/ci_environment/postgresql/templates/ubuntu/pg_hba.conf.erb
   - sudo mv pg_hba.conf.erb /etc/postgresql/9.4/main/pg_hba.conf
   - sudo service postgresql restart 9.4
-  - sudo createuser -d -l -s travis
+  - sudo createuser -U postgres -d -l -s travis
 
   # Setup a wildcard local DNS for *.local
   - sudo apt-get install -qq -y --force-yes dnsmasq
