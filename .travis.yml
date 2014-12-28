@@ -21,6 +21,7 @@ env:
     - PIP_DOWNLOAD_CACHE=".pip_download_cache"
 
 before_install:
+    - sudo apt-get install -qq postgresql-9.4 postgresql-server-dev-9.4
     # Setup a wildcard local DNS for *.local, add proper c++- compiler for node-sass
     - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
     - sudo apt-get update
