@@ -1,10 +1,10 @@
 from django.contrib import admin
-from django.conf.urls import url, include, patterns
+from django.conf.urls import url, include
 
 from keybar.web import views
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$',
         views.IndexView.as_view(),
         name='keybar-index'),
@@ -44,4 +44,4 @@ urlpatterns = patterns('',
     url(r'^api/v1/', include('keybar.api.v1.urls', namespace='api-v1')),
 
     url(r'^api/docs/', include('rest_framework.urls', namespace='rest_framework'))
-)
+]
