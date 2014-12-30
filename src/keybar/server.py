@@ -21,7 +21,7 @@ class MultiStaticFileHandler(web.StaticFileHandler):
         return absolute_path
 
 
-def get_server(debug=True):
+def get_server(debug=settings.DEBUG):
     from keybar.wsgi import application as django_application
     from keybar.utils.logging import enable_error_logging_in_debug_mode
     from keybar.utils.crypto import get_server_context
@@ -40,7 +40,7 @@ def get_server(debug=True):
     # TODO: enable verify
     server = httpserver.HTTPServer(
         application,
-        ssl_options=get_server_context(verify=True))
+        ssl_options=get_server_context(verify=settings.KEYBAR_VERIFY_CLIENT_CERTIFICATE))
     return server
 
 
