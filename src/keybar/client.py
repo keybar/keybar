@@ -71,7 +71,8 @@ class Client(requests.Session):
         kwargs.update({
             'auth': auth,
             'headers': headers,
-            'verify': settings.KEYBAR_CA_BUNDLE
+            'cert': (settings.KEYBAR_CLIENT_CERTIFICATE, settings.KEYBAR_CLIENT_KEY),
+            'verify': settings.KEYBAR_CA_BUNDLE,
         })
 
         return super(Client, self).request(method, url, *args, **kwargs)

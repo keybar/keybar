@@ -40,7 +40,7 @@ def get_server(debug=True):
     # TODO: enable verify
     server = httpserver.HTTPServer(
         application,
-        ssl_options=get_server_context(verify=False))
+        ssl_options=get_server_context(verify=True))
     return server
 
 
