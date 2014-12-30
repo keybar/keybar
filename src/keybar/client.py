@@ -9,8 +9,6 @@ from time import mktime
 from base64 import encodebytes
 
 import requests
-from requests.auth import HTTPDigestAuth, HTTPBasicAuth, AuthBase
-from requests.cookies import extract_cookies_to_jar, RequestsCookieJar
 from requests_toolbelt import SSLAdapter
 from requests_toolbelt.user_agent import user_agent
 from django.conf import settings
