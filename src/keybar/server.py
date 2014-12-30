@@ -2,6 +2,7 @@
 import sys
 
 from tornado import wsgi, web, httpserver, ioloop
+from django.conf import settings
 from django.contrib.staticfiles import finders
 from werkzeug.debug import DebuggedApplication
 
