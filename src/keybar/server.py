@@ -11,7 +11,7 @@ class MultiStaticFileHandler(web.StaticFileHandler):
         self.root = ''
 
     def set_extra_headers(self, path):
-        self.set_header("Cache-control", "no-cache")
+        self.set_header('Cache-control', 'no-cache')
 
     @classmethod
     def get_absolute_path(cls, root, path):
