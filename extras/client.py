@@ -45,7 +45,7 @@ class HTTPieHelpFormatter(RawDescriptionHelpFormatter):
         super(HTTPieHelpFormatter, self).__init__(*args, **kwargs)
 
     def _split_lines(self, text, width):
-        text = textwrap.dedent(text).strip() + '\n\n'
+        text = dedent(text).strip() + '\n\n'
         return text.splitlines()
 
 
