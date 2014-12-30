@@ -5,3 +5,4 @@
 # Django 1.7 enabled versions
 -e git+https://github.com/EnTeQuAk/django-allauth.git@bugfix/serialize-bytes#egg=django-allauth
 -e git+https://github.com/EnTeQuAk/django-user-sessions.git@bugfix/django1.7#egg=django-user-sessions
+-e git+https://github.com/chibisov/drf-extensions.git@master#egg=drf-extensions
