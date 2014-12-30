@@ -51,8 +51,8 @@ module.exports = function(grunt) {
 		watch: {
 			options: {
 				livereload: {
-					key: grunt.file.read('extras/certificates/server.key'),
-					cert: grunt.file.read('extras/certificates/server.crt')
+					key: grunt.file.read('src/keybar/tests/resources/certificates/KEYBAR-intermediate-SERVER.key'),
+					cert: grunt.file.read('src/keybar/tests/resources/certificates/KEYBAR-intermediate-SERVER.cert')
 				},
 			},
 			src: {

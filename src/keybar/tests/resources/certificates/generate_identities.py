@@ -73,7 +73,7 @@ def make_tls_chain(path, dry_run, chain_name):
         server_csr, intermediate_key, intermediate_cert, make_serial(), NOW,
         TEN_YEARS,
         exts=[crypto.X509Extension(
-            b'subjectAltName', True, b'IP:192.168.0.1,URI:i-am-a-server')])
+            b'subjectAltName', True, b'IP:192.168.0.1,URI:https://keybar.local/')])
 
     if not dry_run:
         write_key(path, server, server_key)
@@ -89,7 +89,7 @@ def make_tls_chain(path, dry_run, chain_name):
     client_cert = make_certificate(
         client_csr, intermediate_key, intermediate_cert, make_serial(), NOW, TEN_YEARS,
         exts=[crypto.X509Extension(
-            b'subjectAltName', True, b'IP:192.168.0.2,URI:i-am-a-client')])
+            b'subjectAltName', True, b'IP:192.168.0.2,URI:https://keybar.local/')])
 
     if not dry_run:
         write_key(path, client, client_key)
