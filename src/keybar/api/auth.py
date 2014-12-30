@@ -49,9 +49,9 @@ class HeaderVerifier(Verifier):
 
             # Ignore foreign Authorization headers
             if self.auth_method.lower() != 'signature':
-                raise HttpSigException("Invalid authorization header.")
+                raise HttpSigException('Invalid authorization header.')
         else:
-            raise HttpSigException("Invalid authorization header.")
+            raise HttpSigException('Invalid authorization header.')
 
         self.headers = PrefixStripingCaseInsensitiveDict(request.META)
         self.required_headers = [key.lower() for key in required_headers]
