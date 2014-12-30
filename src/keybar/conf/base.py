@@ -58,6 +58,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'keybar.middlewares.server_header.ServerHeaderMiddleware'
 )
 
 ROOT_URLCONF = 'keybar.urls'

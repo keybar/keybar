@@ -34,7 +34,7 @@ def get_server(debug=True):
 
     application = web.Application([
         (r'/static/(.*)', MultiStaticFileHandler, {}),
-        (r".*", web.FallbackHandler, dict(fallback=container)),
+        (r'.*', web.FallbackHandler, dict(fallback=container)),
     ], debug=debug)
 
     # TODO: enable verify
