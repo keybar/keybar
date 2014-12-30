@@ -3,6 +3,7 @@ import os
 import pytest
 
 from keybar.client import Client
+from keybar.utils.http import InsecureTransport
 
 from keybar.tests.factories.user import UserFactory
 from keybar.tests.factories.device import DeviceFactory
@@ -10,6 +11,12 @@ from keybar.tests.factories.device import DeviceFactory
 
 @pytest.mark.django_db(transaction=True)
 class TestClient(object):
+
+    def test_url_must_be_https(self):
+        client = Client(None, None)
+
+        with pytest.raises(InsecureTransport):
+            client.get('http://fails.xy')
 
     def test_simple(self, settings, keybar_liveserver):
         settings.DEBUG = True
@@ -24,8 +31,7 @@ class TestClient(object):
 
         client = Client(device.id.hex, secret)
 
-        # Strip the leading https://
-        endpoint = '{0}/api/v1/users/'.format(keybar_liveserver.url[6:])
+        endpoint = '{0}/api/v1/users/'.format(keybar_liveserver.url)
 
         response = client.get(endpoint)
 

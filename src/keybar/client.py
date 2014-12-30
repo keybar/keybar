@@ -2,18 +2,23 @@ import hashlib
 import ssl
 import json
 import urllib
+import pkg_resources
 from email.utils import formatdate
 from datetime import datetime
 from time import mktime
 from base64 import encodebytes
 
 import requests
+from requests.auth import HTTPDigestAuth, HTTPBasicAuth, AuthBase
+from requests.cookies import extract_cookies_to_jar, RequestsCookieJar
 from requests_toolbelt import SSLAdapter
+from requests_toolbelt.user_agent import user_agent
 from django.conf import settings
 from django.utils.encoding import force_bytes
 from httpsig.requests_auth import HTTPSignatureAuth
 
 from keybar.api.auth import ALGORITHM, REQUIRED_HEADERS
+from keybar.utils.http import is_secure_transport, InsecureTransport
 
 
 class Client(requests.Session):
@@ -31,7 +36,8 @@ class Client(requests.Session):
         self.secret = secret
 
     def request(self, method, url, *args, **kwargs):
-        assert url.startswith('//'), 'Please make sure to use schema-less urls'
+        if not is_secure_transport(url):
+            raise InsecureTransport('Please make sure to use HTTPS')
 
         data = kwargs.pop('data', {})
 
@@ -43,7 +49,10 @@ class Client(requests.Session):
 
         parse_result = urllib.parse.urlparse(url)
 
+        dist = pkg_resources.get_distribution('keybar')
+
         headers = {
+            'User-Agent': user_agent('keybar', dist.version),
             'Host': parse_result.netloc,
             'Method': method,
             'Path': parse_result.path,
@@ -67,5 +76,4 @@ class Client(requests.Session):
             'verify': settings.KEYBAR_CA_BUNDLE
         })
 
-        endpoint = 'https:{url}'.format(url=url)
-        return super(Client, self).request(method, endpoint, *args, **kwargs)
+        return super(Client, self).request(method, url, *args, **kwargs)

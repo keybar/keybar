@@ -13,6 +13,6 @@ device_id = user.devices.all().first().id.hex
 
 client = Client(device_id, secret)
 
-response = client.get('//keybar.local:8443/api/v1/users/')
+response = client.get('https://keybar.local:8443/api/v1/users/')
 
 print(response.content)
