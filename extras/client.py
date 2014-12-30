@@ -3,6 +3,7 @@
 import os
 import sys
 import json
+import time
 from textwrap import dedent
 
 from argparse import (RawDescriptionHelpFormatter, FileType,
@@ -114,6 +115,8 @@ def main(args=sys.argv[1:], env=Environment()):
         user = User.objects.get(email='admin@admin.admin')
         device_id = user.devices.all().first().id.hex
 
+        start = time.time()
+
         client = Client(device_id, secret)
 
         endpoint = args.endpoint
@@ -129,9 +132,10 @@ def main(args=sys.argv[1:], env=Environment()):
 
         processor = PygmentsProcessor()
 
-        env.stdout.write('\n{headers}\n\n{body}\n'.format(
+        env.stdout.write('\n{headers}\n\n{body}\n\nTime Taken: {time}\n'.format(
             headers=processor.process_headers(headers),
-            body=processor.process_body(formatted_body, 'application/json', 'json', 'utf-8')
+            body=processor.process_body(formatted_body, 'application/json', 'json', 'utf-8'),
+            time=time.time() - start
         ))
     except (KeyboardInterrupt, SystemExit):
         if traceback:
