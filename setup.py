@@ -89,6 +89,9 @@ install_requires = [
     # For the client... resides here until we split all the code
     # to a separate repository. Keep it simple for now.
     'httpie>=0.8.0,<1.0',
+
+    # for `generate_identities` script
+    'py509',
 ]
 
 
