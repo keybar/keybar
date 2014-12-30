@@ -7,10 +7,16 @@ from keybar.models.device import Device
 from keybar.tests.factories.user import UserFactory
 
 
-fpath = os.path.join(settings.PROJECT_DIR, 'extras', 'example_keys', 'id_rsa.pub')
+public_fpath = os.path.join(settings.PROJECT_DIR, 'extras', 'example_keys', 'id_rsa.pub')
+private_fpath = os.path.join(settings.PROJECT_DIR, 'extras', 'example_keys', 'id_rsa')
 
-with open(fpath, 'rb') as fobj:
+
+with open(public_fpath, 'rb') as fobj:
     PUBLIC_KEY = fobj.read()
+
+
+with open(private_fpath, 'rb') as fobj:
+    PRIVATE_KEY = fobj.read()
 
 
 class DeviceFactory(factory.DjangoModelFactory):
