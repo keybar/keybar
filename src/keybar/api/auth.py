@@ -38,7 +38,7 @@ class HeaderVerifier(Verifier):
     """Custom header verifier to support django specific header-names..."""
 
     def __init__(self, request, secret, required_headers=None, method=None,
-                path=None, host=None):
+                 path=None, host=None):
         self.request = request
         required_headers = required_headers or ['date']
 

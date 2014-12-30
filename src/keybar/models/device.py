@@ -29,7 +29,7 @@ class Device(models.Model):
     user = models.ForeignKey('keybar.User', related_name='devices')
     name = models.TextField(_('Device name'), blank=True, default='')
 
-    public_key = models.TextField(_('Device Public Key'))
+    public_key = models.TextField(_('Device Public Key'), blank=False)
 
     # `None` specifies that the user did not yet authorize the device.
     # `False` specifies that the user explicitly deauthorized the device.
