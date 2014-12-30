@@ -24,7 +24,7 @@ class TestHttpSignatureAuth(object):
     def test_simple_success(self, settings, keybar_liveserver):
         settings.DEBUG = True
 
-        fpath = os.path.join(settings.PROJECT_DIR, 'extras', 'example_keys', 'id_rsa')
+        fpath = os.path.join(settings.BASE_DIR, 'tests', 'resources', 'rsa_keys', 'id_rsa')
 
         with open(fpath, 'rb') as fobj:
             secret = fobj.read()
@@ -64,6 +64,7 @@ class TestHttpSignatureAuth(object):
             '{0}/api/v1/users/'.format(keybar_liveserver.url),
             auth=auth,
             headers=headers,
+            cert=(settings.KEYBAR_CLIENT_CERTIFICATE, settings.KEYBAR_CLIENT_KEY),
             verify=settings.KEYBAR_CA_BUNDLE)
 
         assert response.status_code == status.HTTP_200_OK
@@ -76,6 +77,7 @@ class TestHttpSignatureAuth(object):
 
         response = session.get(
             '{0}/api/v1/users/'.format(keybar_liveserver.url),
+            cert=(settings.KEYBAR_CLIENT_CERTIFICATE, settings.KEYBAR_CLIENT_KEY),
             verify=settings.KEYBAR_CA_BUNDLE)
 
         assert response.status_code == status.HTTP_401_UNAUTHORIZED

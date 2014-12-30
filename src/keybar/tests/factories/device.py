@@ -7,8 +7,8 @@ from keybar.models.device import Device
 from keybar.tests.factories.user import UserFactory
 
 
-public_fpath = os.path.join(settings.PROJECT_DIR, 'extras', 'example_keys', 'id_rsa.pub')
-private_fpath = os.path.join(settings.PROJECT_DIR, 'extras', 'example_keys', 'id_rsa')
+public_fpath = os.path.join(settings.BASE_DIR, 'tests', 'resources', 'rsa_keys', 'id_rsa.pub')
+private_fpath = os.path.join(settings.BASE_DIR, 'tests', 'resources', 'rsa_keys', 'id_rsa')
 
 
 with open(public_fpath, 'rb') as fobj:

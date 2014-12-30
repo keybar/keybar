@@ -38,7 +38,7 @@ class TestClient(object):
         user = UserFactory.create(is_superuser=True)
         device = DeviceFactory.create(user=user)
 
-        fpath = os.path.join(settings.PROJECT_DIR, 'extras', 'example_keys', 'id_rsa2')
+        fpath = os.path.join(settings.BASE_DIR, 'tests', 'resources', 'rsa_keys', 'id_rsa2')
 
         with open(fpath, 'rb') as fobj:
             wrong_secret = fobj.read()

@@ -111,7 +111,7 @@ def main(args=sys.argv[1:], env=Environment()):
         args = parser.parse_args(args=args)
 
         # TODO: allow customization
-        secret = open('extras/example_keys/id_rsa', 'rb').read()
+        secret = open('src/keybar/tests/resources/rsa_keys/id_rsa', 'rb').read()
         user = User.objects.get(email='admin@admin.admin')
         device_id = user.devices.all().first().id.hex
 
