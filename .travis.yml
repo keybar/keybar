@@ -1,15 +1,18 @@
 language: python
-
-# sudo: false
-
-compiler:
-  - gcc
-
 python: "3.4"
 
 services:
   - memcached
   - redis-server
+
+compiler:
+  - gcc
+
+cache:
+  directories:
+    - node_modules
+    - $HOME/.cache/pip/
+    - bower_components
 
 env:
   global:
