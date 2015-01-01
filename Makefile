@@ -19,15 +19,18 @@ clean: clean-build clean-pyc
 
 
 deps:
+	@echo "--> Installing python dependencies"
 	pip install --upgrade pip setuptools wheel
 	pip install --use-wheel -e .
 	pip install --use-wheel "file://`pwd`#egg=keybar[tests]"
 	pip install --use-wheel "file://`pwd`#egg=keybar[postgresql]"
 	pip install --use-wheel "file://`pwd`#egg=keybar[redis]"
 	pip install --use-wheel --upgrade -r requirements/base.txt
+	@echo ""
 
 
 develop: deps
+	@echo "--> Installing npm and bower dependencies"
 	if test -z "$$TRAVIS"; then pip install nodeenv && nodeenv -p; fi; \
 
 	# Install nodejs dependencies
