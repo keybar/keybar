@@ -13,6 +13,7 @@ cache:
     - node_modules
     - $HOME/.cache/pip/
     - bower_components
+    - $HOME/virtualenv/python3.4.2
 
 env:
   global:
