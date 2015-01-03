@@ -30,7 +30,6 @@ test_requires = [
     # Fixtures, test helpers
     'factory-boy>=2.4.1,<2.5',
     'mock>=1.0.1,<1.1',
-    'httpretty>=0.8.0',
 ]
 
 
@@ -52,7 +51,6 @@ install_requires = [
 
     # i18n/l10n,
     # 'babel>=1.3', -> requirements.txt
-    'django-babel-underscore>=0.2.0',
     'django-statici18n>=1.1.1,<1.2',
     'django-babel>=0.3.9',
 
@@ -61,12 +59,6 @@ install_requires = [
     'httpsig>=1.1.0,<1.2.0',
     'requests>=2.5.0,<2.6',
     'requests-toolbelt',
-
-    # Markdown support for browsable api
-    'markdown>=2.5.2,<2.6',
-
-    # Filtering support for the API
-    'django-filter',
 
     # Form helpers
     'django-floppyforms>=1.3.0',
@@ -109,6 +101,7 @@ docs_requires = [
 postgresql_requires = [
     'psycopg2>=2.5.4',
 ]
+
 
 redis_requires = [
     'redis>=2.8.0',

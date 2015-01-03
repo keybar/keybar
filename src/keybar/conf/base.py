@@ -122,7 +122,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Celery / Queue configuration
 from kombu import Queue
 
-BROKER_URL = 'redis://localhost:6379/0'
+BROKER_URL = 'redis://localhost:6379'
 
 # Just so that this won't be forgotten, see
 # http://docs.celeryproject.org/en/latest/getting-started/brokers/redis.html#caveats
