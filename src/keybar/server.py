@@ -2,8 +2,6 @@
 import sys
 
 from tornado import wsgi, web, httpserver, ioloop
-from django.conf import settings
-from django.contrib.staticfiles import finders
 from werkzeug.debug import DebuggedApplication
 
 
@@ -16,18 +14,20 @@ class MultiStaticFileHandler(web.StaticFileHandler):
 
     @classmethod
     def get_absolute_path(cls, root, path):
+        from django.contrib.staticfiles import finders
         return finders.find(path)
 
     def validate_absolute_path(self, root, absolute_path):
         return absolute_path
 
 
-def get_server(debug=settings.DEBUG):
+def get_server():
+    from django.conf import settings
     from keybar.wsgi import application as django_application
     from keybar.utils.logging import enable_error_logging_in_debug_mode
     from keybar.utils.crypto import get_server_context
 
-    app = DebuggedApplication(django_application, evalex=debug)
+    app = DebuggedApplication(django_application, evalex=settings.DEBUG)
 
     enable_error_logging_in_debug_mode()
 
@@ -36,7 +36,7 @@ def get_server(debug=settings.DEBUG):
     application = web.Application([
         (r'/static/(.*)', MultiStaticFileHandler, {}),
         (r'.*', web.FallbackHandler, dict(fallback=container)),
-    ], debug=debug)
+    ], debug=settings.DEBUG)
 
     # TODO: enable verify
     server = httpserver.HTTPServer(
