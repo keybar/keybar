@@ -10,9 +10,9 @@ import hashlib
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import force_bytes
-from uuidfield import UUIDField
 
 from keybar.utils.crypto import prettify_fingerprint
+from keybar.utils.db.uuid import UUIDField
 
 
 class Device(models.Model):

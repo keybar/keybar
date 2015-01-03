@@ -1,9 +1,9 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from uuidfield import UUIDField
 from djorm_pgarray.fields import TextArrayField
 
 from keybar.utils.crypto import encrypt, decrypt, get_salt
+from keybar.utils.db.uuid import UUIDField
 
 
 class Entry(models.Model):

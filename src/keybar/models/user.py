@@ -12,10 +12,10 @@ from django.core.urlresolvers import reverse
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, UserManager as BaseUserManager
-from uuidfield import UUIDField
 
 from keybar.tasks.mail import send_mail_async
 from keybar.utils.avatar import get_profile_image
+from keybar.utils.db.uuid import UUIDField
 
 
 class UserManager(BaseUserManager):
