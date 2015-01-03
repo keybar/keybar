@@ -64,7 +64,8 @@ class JSONField(models.Field):
             value = self.get_prep_value(value)
             return [value]
 
-        return super(JSONField, self).get_db_prep_lookup(lookup_type, value, connection, prepared)
+        return super(JSONField, self).get_db_prep_lookup(
+            lookup_type, value, connection, prepared)
 
     def deconstruct(self):
         name, path, args, kwargs = super(JSONField, self).deconstruct()
