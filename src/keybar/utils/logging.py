@@ -3,8 +3,6 @@ from __future__ import absolute_import
 import logging
 import inspect
 
-from django.utils.six import string_types
-
 
 def get_logger(obj):
     """Return a logger object with the proper module path for ``obj``."""
@@ -30,7 +28,7 @@ def get_logger(obj):
             module=module,
             cls=obj.__name__
         )
-    elif isinstance(obj, string_types):
+    elif isinstance(obj, str):
         name = obj
 
     return logging.getLogger(name)
