@@ -21,13 +21,16 @@ class MultiStaticFileHandler(web.StaticFileHandler):
         return absolute_path
 
 
-def get_server():
+def get_server(debug=None):
     from django.conf import settings
     from keybar.wsgi import application as django_application
     from keybar.utils.logging import enable_error_logging_in_debug_mode
     from keybar.utils.crypto import get_server_context
 
-    app = DebuggedApplication(django_application, evalex=settings.DEBUG)
+    if debug is None:
+        debug = settings.DEBUG
+
+    app = DebuggedApplication(django_application, evalex=debug)
 
     enable_error_logging_in_debug_mode()
 
@@ -36,7 +39,7 @@ def get_server():
     application = web.Application([
         (r'/static/(.*)', MultiStaticFileHandler, {}),
         (r'.*', web.FallbackHandler, dict(fallback=container)),
-    ], debug=settings.DEBUG)
+    ], debug=debug)
 
     # TODO: enable verify
     server = httpserver.HTTPServer(
