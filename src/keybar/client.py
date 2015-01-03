@@ -1,6 +1,5 @@
 import hashlib
 import ssl
-import json
 import urllib
 import pkg_resources
 from email.utils import formatdate
@@ -17,6 +16,7 @@ from httpsig.requests_auth import HTTPSignatureAuth
 
 from keybar.api.auth import ALGORITHM, REQUIRED_HEADERS
 from keybar.utils.http import is_secure_transport, InsecureTransport
+from keybar.utils import json
 
 
 class Client(requests.Session):

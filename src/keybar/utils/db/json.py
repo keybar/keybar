@@ -1,14 +1,11 @@
 from __future__ import unicode_literals
 
-import json
-import decimal
-
-from django.core.serializers.json import DjangoJSONEncoder
+import psycopg2.extras
 from django.db import models
 from django.db.models.lookups import BuiltinLookup, Transform
 from django.utils import six
 
-import psycopg2.extras
+from keybar.utils import json
 
 psycopg2.extras.register_json(oid=3802, array_oid=3807)
 psycopg2.extras.register_default_json(loads=json.loads)
@@ -17,15 +14,6 @@ psycopg2.extras.register_default_jsonb(loads=json.loads)
 
 class JSONField(models.Field):
     description = 'JSON Field'
-
-    def __init__(self, *args, **kwargs):
-        self.decode_kwargs = kwargs.pop('decode_kwargs', {
-            'parse_float': decimal.Decimal
-        })
-        self.encode_kwargs = kwargs.pop('encode_kwargs', {
-            'cls': DjangoJSONEncoder,
-        })
-        super(JSONField, self).__init__(*args, **kwargs)
 
     def get_internal_type(self):
         return 'JSONField'
@@ -41,7 +29,7 @@ class JSONField(models.Field):
             if not self.null and self.blank:
                 return ""
             return None
-        return json.dumps(value, **self.encode_kwargs)
+        return json.dumps(value)
 
     def get_prep_lookup(self, lookup_type, value, prepared=False):
         if lookup_type == 'has_key':
@@ -70,10 +58,6 @@ class JSONField(models.Field):
     def deconstruct(self):
         name, path, args, kwargs = super(JSONField, self).deconstruct()
         path = 'keybar.utils.db.json.JSONField'
-        kwargs.update(
-            decode_kwargs=self.decode_kwargs,
-            encode_kwargs=self.encode_kwargs
-        )
         return name, path, args, kwargs
 
     def to_python(self, value):
