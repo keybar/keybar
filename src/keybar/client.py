@@ -20,7 +20,6 @@ from keybar.utils.http import is_secure_transport, InsecureTransport
 
 
 class Client(requests.Session):
-
     content_type = 'application/json'
 
     def __init__(self, device_id, secret):
