@@ -1,10 +1,10 @@
 from django.conf.urls import url, include
 
 from keybar.api import KeybarApiRouter
-from keybar.api import users
+from keybar.api.v1 import users
 
 
-router = Router()
+router = KeybarApiRouter()
 router.register('users', users.UserViewSet)
 
 urlpatterns = [
