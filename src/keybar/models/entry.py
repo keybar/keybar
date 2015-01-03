@@ -4,6 +4,7 @@ from djorm_pgarray.fields import TextArrayField
 
 from keybar.utils.crypto import encrypt, decrypt, get_salt
 from keybar.utils.db.uuid import UUIDField
+from keybar.utils.db.json import JSONField
 
 
 class Entry(models.Model):
@@ -25,6 +26,8 @@ class Entry(models.Model):
     salt = models.BinaryField(null=True, blank=True)
 
     force_two_factor_authorization = models.BooleanField(default=False)
+
+    log = JSONField(default={})
 
     def set_value(self, password, value, salt=None):
         if salt is None:
