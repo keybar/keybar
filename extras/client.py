@@ -72,15 +72,15 @@ def cli(ctx, verbose, traceback, debug):
     ctx.obj.debug = debug
     ctx.obj.start = time.time()
 
+
+def _request(env, method, endpoint):
     user = User.objects.get(email='admin@admin.admin')
     secret = open('src/keybar/tests/resources/rsa_keys/id_rsa', 'rb').read()
     device_id = user.devices.all().first().id.hex
-    ctx.obj.client = Client(device_id, secret)
+    client = Client(device_id, secret)
 
-
-def _request(env, method, endpoint):
     try:
-        response = getattr(env.client, method)('https://keybar.local:8443{endpoint}'.format(
+        response = getattr(client, method)('https://keybar.local:8443{endpoint}'.format(
             endpoint=endpoint
         ))
 
