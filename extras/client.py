@@ -67,7 +67,6 @@ pass_env = click.make_pass_decorator(Environment)
 @click.option('--debug', is_flag=True, help='Enable debug mode.')
 @click.pass_context
 def cli(ctx, verbose, traceback, debug):
-    ctx.obj = Environment()
     ctx.obj.traceback = traceback
     ctx.obj.debug = debug
     ctx.obj.start = time.time()
@@ -121,4 +120,4 @@ def post(env, endpoint):
 
 
 if __name__ == '__main__':
-    cli()
+    cli(obj=Environment())
