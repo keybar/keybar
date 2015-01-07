@@ -4,6 +4,7 @@ import os
 import sys
 import json
 import time
+import pkg_resources
 from textwrap import dedent
 
 from argparse import (RawDescriptionHelpFormatter, FileType,
@@ -16,8 +17,8 @@ import django
 django.setup()
 
 import requests
+import click
 from httpie.models import Environment
-from httpie.input import Parser
 from httpie.output import PygmentsProcessor
 from django.utils.encoding import force_text
 
@@ -49,79 +50,37 @@ class HTTPieHelpFormatter(RawDescriptionHelpFormatter):
         return text.splitlines()
 
 
-parser = ArgumentParser(
-    formatter_class=HTTPieHelpFormatter,
-    description='Keybar',
-    epilog=dedent('''
-    For every --OPTION there is also a --no-OPTION that reverts OPTION
-    to its default value.
-    Suggestions and bug reports are greatly appreciated:
-        https://github.com/keybar/keybar/issues
-    ''')
-)
-
-positional = parser.add_argument_group(
-    title='Positional Arguments',
-    description=dedent('''
-    These arguments come after any flags and in the order they are listed here.
-    Only URL is required.
-    ''')
-)
-
-positional.add_argument(
-    'endpoint',
-    metavar='ENDPOINT',
-    help='''
-    '''
-)
+class Environment(object):
+    verbose = False
+    debug = False
+    traceback = False
+    client = None
 
 
-troubleshooting = parser.add_argument_group(title='Troubleshooting')
+pass_env = click.make_pass_decorator(Environment)
 
-troubleshooting.add_argument(
-    '--traceback',
-    action='store_true',
-    default=True,
-    help='''
-    '''
-)
 
-troubleshooting.add_argument(
-    '--debug',
-    action='store_true',
-    default=True,
-    help='''
-    '''
-)
+@click.group()
+@click.version_option(pkg_resources.get_distribution('keybar').version)
+@click.option('--verbose', '-v', is_flag=True, help='Enables verbose mode.')
+@click.option('--traceback', is_flag=True, help='Shows traceback on error.')
+@click.option('--debug', is_flag=True, help='Enable debug mode.')
+@click.pass_context
+def cli(ctx, verbose, traceback, debug):
+    ctx.obj = Environment()
+    ctx.obj.traceback = traceback
+    ctx.obj.debug = debug
+    ctx.obj.start = time.time()
 
-def main(args=sys.argv[1:], env=Environment()):
-    """Run the main program and write the output to ``env.stdout``.
-    Return exit status code.
-    """
-    def error(msg, *args, **kwargs):
-        msg = msg % args
-        level = kwargs.get('level', 'error')
-        env.stderr.write('\nhttp: %s: %s\n' % (level, msg))
+    user = User.objects.get(email='admin@admin.admin')
+    secret = open('src/keybar/tests/resources/rsa_keys/id_rsa', 'rb').read()
+    device_id = user.devices.all().first().id.hex
+    ctx.obj.client = Client(device_id, secret)
 
-    debug = True
-    traceback = True
-    exit_status = 0
 
+def _request(env, method, endpoint):
     try:
-        args = parser.parse_args(args=args)
-
-        # TODO: allow customization
-        secret = open('src/keybar/tests/resources/rsa_keys/id_rsa', 'rb').read()
-        user = User.objects.get(email='admin@admin.admin')
-        device_id = user.devices.all().first().id.hex
-
-        start = time.time()
-
-        client = Client(device_id, secret)
-
-        endpoint = args.endpoint
-
-        response = client.get('https://keybar.local:8443{endpoint}'.format(
+        response = getattr(env.client, method)('https://keybar.local:8443{endpoint}'.format(
             endpoint=endpoint
         ))
 
@@ -132,28 +91,34 @@ def main(args=sys.argv[1:], env=Environment()):
 
         processor = PygmentsProcessor()
 
-        env.stdout.write('\n{headers}\n\n{body}\n\nTime Taken: {time}\n'.format(
+        click.echo('\n{headers}\n\n{body}\n\nTime Taken: {time}\n'.format(
             headers=processor.process_headers(headers),
             body=processor.process_body(formatted_body, 'application/json', 'json', 'utf-8'),
-            time=time.time() - start
+            time=time.time() - env.start
         ))
     except (KeyboardInterrupt, SystemExit):
-        if traceback:
+        if env.traceback:
             raise
-        env.stderr.write('\n')
-        exit_status = 1
-
-    except requests.Timeout:
-        exit_status = 1
-        error('Request timed out (%ss).', args.timeout)
-
-    except Exception as e:
-        if traceback:
+        click.echo('\n', file=sys.stderr)
+    except Exception as exc:
+        if env.traceback:
             raise
-        error('%s: %s', type(e).__name__, str(e))
-        exit_status = 1
-
-    return exit_status
+        click.echo('{0}: {1}'.format(type(exc).__name__, str(exc)), file=sys.stderr)
 
 
-main()
+@cli.command()
+@click.argument('endpoint')
+@pass_env
+def get(env, endpoint):
+    _request(env, 'get', endpoint)
+
+
+@cli.command()
+@click.argument('endpoint')
+@pass_env
+def post(env, endpoint):
+    _request(env, 'post', endpoint)
+
+
+if __name__ == '__main__':
+    cli()
