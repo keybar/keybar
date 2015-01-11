@@ -1,27 +1,30 @@
 import os
 
 import factory
+from Crypto.PublicKey import RSA
 from django.conf import settings
 
 from keybar.models.device import Device
 from keybar.tests.factories.user import UserFactory
 
 
-public_fpath = os.path.join(settings.BASE_DIR, 'tests', 'resources', 'rsa_keys', 'id_rsa.pub')
-private_fpath = os.path.join(settings.BASE_DIR, 'tests', 'resources', 'rsa_keys', 'id_rsa')
+public_fpath = os.path.join(
+    settings.BASE_DIR, 'tests', 'resources', 'rsa_keys', 'id_rsa.pub')
+private_fpath = os.path.join(
+    settings.BASE_DIR, 'tests', 'resources', 'rsa_keys', 'id_rsa')
 
 
 with open(public_fpath, 'rb') as fobj:
-    PUBLIC_KEY = fobj.read()
+    PUBLIC_KEY = RSA.importKey(fobj.read())
 
 
 with open(private_fpath, 'rb') as fobj:
-    PRIVATE_KEY = fobj.read()
+    PRIVATE_KEY = RSA.importKey(fobj.read())
 
 
 class DeviceFactory(factory.DjangoModelFactory):
     user = factory.SubFactory(UserFactory)
-    public_key = PUBLIC_KEY
+    public_key = PUBLIC_KEY.exportKey('PEM')
 
     class Meta:
         model = Device

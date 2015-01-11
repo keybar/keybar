@@ -5,10 +5,14 @@ import pytest
 
 from keybar.models.entry import Entry
 from keybar.tests.factories.entry import EntryFactory
+from keybar.tests.factories.device import DeviceFactory, PRIVATE_KEY
 
 
 @pytest.mark.django_db
 class TestEntry:
+
+    def setup(self):
+        self.device = DeviceFactory.create()
 
     def test_has_owner(self):
         entry = EntryFactory.create()
@@ -39,25 +43,27 @@ class TestEntry:
 
         assert entry.value == b''
 
-        entry.set_value('password', 'value')
+        entry.set_value(self.device, 'value')
+        entry.save()
 
-        assert entry.decrypt('password') == 'value'
+        assert entry.decrypt(entry.id, self.device.id, PRIVATE_KEY) == b'value'
 
     def test_set_value_specific_salt(self):
         entry = EntryFactory.create()
 
         assert entry.value == b''
 
-        entry.set_value('password', 'value', 'salt2')
+        entry.set_value(self.device, 'value', 'salt2')
+        entry.save()
 
-        assert entry.decrypt('password') == 'value'
+        assert entry.decrypt(entry.id, self.device.id, PRIVATE_KEY) == b'value'
 
     def test_set_value_does_not_save(self):
         entry = EntryFactory.create()
 
         assert entry.value == b''
 
-        entry.set_value(b'password', b'value', b'salt2')
+        entry.set_value(self.device, 'value', 'salt2')
 
         assert entry.value
 

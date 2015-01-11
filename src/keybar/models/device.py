@@ -7,6 +7,8 @@
 """
 import hashlib
 
+from Crypto.PublicKey import RSA
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import force_bytes
@@ -40,3 +42,11 @@ class Device(models.Model):
     def fingerprint(self):
         digest = hashlib.md5(force_bytes(self.public_key)).hexdigest()
         return prettify_fingerprint(digest)
+
+    def generate_keys(self, bits=4096):
+        new_key = RSA.generate(bits, e=65537)
+        return new_key, new_key.publickey()
+
+    @property
+    def loaded_public_key(self):
+        return RSA.importKey(self.public_key)
