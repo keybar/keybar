@@ -32,6 +32,7 @@ module.exports = function(grunt) {
 
 		sass: {
 			options: {
+				sourceMap: true,
 				includePaths: ['<%= paths.foundation %>'],
 			},
 			dist: {
@@ -86,7 +87,9 @@ module.exports = function(grunt) {
 					'!<%= paths.app %>/**/djangojs.js',
 					'!<%= paths.app %>/**/django.pot',
 					'!<%= paths.app %>/**/django.po',
-					'!<%= paths.app %>/resources/**'
+					'!<%= paths.app %>/resources/**',
+					'!<%= paths.app %>/tests/resources/**',
+					'!<%= paths.app %>/**/*.py'
 				],
 				options: {
 					editorconfig: '.editorconfig'
