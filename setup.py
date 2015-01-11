@@ -70,7 +70,8 @@ install_requires = [
     # All the crypto libs we ever need
     'cryptography>=0.7.1,<1.0',
     'certifi',
-    'qrcode==5.1',
+    'qrcode>=5.1,<5.2',
+    'pycrypto>=2.6.1,<2.7',
 
     # Used to generate QR Codes
     'Pillow>=2.7,<2.8',
