@@ -12,7 +12,7 @@ psycopg2.extras.register_default_json(loads=json.loads)
 psycopg2.extras.register_default_jsonb(loads=json.loads)
 
 
-class JSONField(models.Field):
+class JSONField(models.Field, metaclass=models.SubfieldBase):
     description = 'JSON Field'
 
     def get_internal_type(self):
