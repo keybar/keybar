@@ -44,7 +44,7 @@ class TestHttpSignatureAuth(object):
         headers = {
             'Host': keybar_liveserver.domain,
             'Method': 'GET',
-            'Path': '/api/v1/users/',
+            'Path': '/api/users/',
             'Accept': 'application/json',
             'X-Device-Id': device.id.hex,
             'Content-MD5': content_md5,
@@ -61,7 +61,7 @@ class TestHttpSignatureAuth(object):
         session.mount(keybar_liveserver.url, SSLAdapter(ssl.PROTOCOL_TLSv1_2))
 
         response = session.get(
-            '{0}/api/v1/users/'.format(keybar_liveserver.url),
+            '{0}/api/users/'.format(keybar_liveserver.url),
             auth=auth,
             headers=headers,
             cert=(settings.KEYBAR_CLIENT_CERTIFICATE, settings.KEYBAR_CLIENT_KEY),
@@ -76,7 +76,7 @@ class TestHttpSignatureAuth(object):
         session.mount(keybar_liveserver.url, SSLAdapter(ssl.PROTOCOL_TLSv1_2))
 
         response = session.get(
-            '{0}/api/v1/users/'.format(keybar_liveserver.url),
+            '{0}/api/users/'.format(keybar_liveserver.url),
             cert=(settings.KEYBAR_CLIENT_CERTIFICATE, settings.KEYBAR_CLIENT_KEY),
             verify=settings.KEYBAR_CA_BUNDLE)
 

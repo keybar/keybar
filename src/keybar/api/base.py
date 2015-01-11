@@ -10,7 +10,8 @@ from keybar.api.auth import KeybarApiSignatureAuthentication
 from keybar.api.parsers import JSONParser
 
 
-class Endpoint(RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin, GenericAPIView):
+class Endpoint(RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin,
+               CreateModelMixin, GenericAPIView):
     authentication_classes = (KeybarApiSignatureAuthentication,)
     permission_classes = (IsAuthenticated,)
     parser_classes = (JSONParser,)

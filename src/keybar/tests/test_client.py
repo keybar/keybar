@@ -26,7 +26,7 @@ class TestClient(object):
 
         client = Client(device.id.hex, PRIVATE_KEY)
 
-        endpoint = '{0}/api/v1/users/'.format(keybar_liveserver.url)
+        endpoint = '{0}/api/users/'.format(keybar_liveserver.url)
 
         response = client.get(endpoint)
 
@@ -45,7 +45,7 @@ class TestClient(object):
 
         client = Client(device.id.hex, wrong_secret)
 
-        endpoint = '{0}/api/v1/users/'.format(keybar_liveserver.url)
+        endpoint = '{0}/api/users/'.format(keybar_liveserver.url)
 
         response = client.get(endpoint)
         assert response.status_code == 401
