@@ -1,5 +1,6 @@
 import os
 import pytest
+from django.utils.encoding import force_bytes
 
 from keybar.utils.crypto import (
     derive_encryption_key, verify_encryption_key,
@@ -35,9 +36,9 @@ def test_encrypt_decrypt_cycle(salt, password, message):
 
     decrypted = decrypt(encrypted, salt, password)
 
-    assert isinstance(decrypted, str)
+    assert isinstance(decrypted, bytes)
 
-    assert decrypted == message
+    assert decrypted == force_bytes(message)
 
 
 def test_get_salt():

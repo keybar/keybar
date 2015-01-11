@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 from djorm_pgarray.fields import TextArrayField
 
@@ -37,7 +38,7 @@ class Entry(models.Model):
         self.salt = salt
 
     def decrypt(self, password):
-        return decrypt(self.value, password, self.salt)
+        return force_text(decrypt(self.value, password, self.salt))
 
     def __str__(self):
         if self.url and self.title:

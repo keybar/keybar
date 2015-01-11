@@ -3,7 +3,7 @@ import base64
 import ssl
 
 from django.conf import settings
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import force_bytes
 from cryptography.fernet import Fernet
 
 from cryptography.hazmat.backends import default_backend
@@ -69,7 +69,7 @@ def encrypt(text, password, salt):
 
 def decrypt(text, password, salt):
     fernet = Fernet(base64.urlsafe_b64encode(derive_encryption_key(salt, password)))
-    return force_text(fernet.decrypt(force_bytes(text)))
+    return force_bytes(fernet.decrypt(force_bytes(text)))
 
 
 def prettify_fingerprint(fingerprint):
