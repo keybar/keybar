@@ -30,6 +30,10 @@ class Client(requests.Session):
         self.device_id = device_id
 
         # TODO: find a way to avoid holding this in-memory for too long.
+
+        if secret and not isinstance(secret, (bytes, str)):
+            secret = secret.exportKey('PEM')
+
         self.secret = secret
 
     def request(self, method, url, *args, **kwargs):
