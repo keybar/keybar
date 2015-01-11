@@ -1,13 +1,14 @@
 from django.conf.urls import url, include
 
-from keybar.api import KeybarApiRouter
-from keybar.api.v1 import users
+from keybar.api import endpoints
 
-
-router = KeybarApiRouter()
-router.register('users', users.UserViewSet)
 
 urlpatterns = [
-    # Hookup our REST Api
-    url(r'^', include(router.urls)),
+    url(r'^users/(?P<pk>.+)/$',
+        endpoints.UserEndpoint.as_view(),
+        name='keybar-api-user'),
+
+    url(r'^',
+        endpoints.CatchallEndpoint.as_view(),
+        name='keybar-api-catchall'),
 ]
