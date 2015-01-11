@@ -130,6 +130,11 @@ setup(
         'redis': redis_requires,
     },
     zip_safe=False,
+    entry_points = {
+        'console_scripts': [
+            'keybar-server=keybar.server:run_server'
+        ]
+    },
     license='BSD',
     classifiers=[
         '__DO NOT UPLOAD__',
