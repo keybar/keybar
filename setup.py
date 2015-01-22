@@ -16,7 +16,7 @@ test_requires = [
     'tox>=1.8,<1.9',
     'py>=1.4.26,<1.5',
     'pytest>=2.6.4,<2.7',
-    'pytest-django>=2.7,<2.8',
+    'pytest-django>=2.8,<2.9',
 
     # Pep8 and code quality checkers
     'pyflakes>=0.8.1,<0.9',
@@ -35,7 +35,7 @@ test_requires = [
 
 install_requires = [
     # General dependencies
-    'django>=1.7.1,<1.8',
+    'django>=1.7.3,<1.8',
 
     # Configuration
     'django-configurations==0.8',
@@ -68,7 +68,7 @@ install_requires = [
     'tornado>=4.0.2,<5.0',
 
     # All the crypto libs we ever need
-    'cryptography>=0.7.1,<1.0',
+    'cryptography>=0.7.2,<1.0',
     'certifi',
     'qrcode>=5.1,<5.2',
     'pycrypto>=2.6.1,<2.7',
