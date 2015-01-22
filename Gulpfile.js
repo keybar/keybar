@@ -1,6 +1,8 @@
 var gulp = require('gulp'),
 	del = require('del'),
 	plugins = require('gulp-load-plugins')(),
+	livereload = require('gulp-livereload'),
+	read = require('fs').readFileSync,
 	base = 'src/keybar',
 	src = {
 		foundation: 'bower_components/foundation/scss',
@@ -34,7 +36,7 @@ gulp.task('clean:js', function (done) {
 /**
  * Compiling sass/scss files to css
  */
-gulp.task('sass', ['clean:css'], function () {
+gulp.task('scss', ['clean:css'], function () {
 	return gulp.src(src.scss + '/*.scss')
 		.pipe(plugins.plumber())
 		.pipe(plugins.sourcemaps.init())
@@ -42,7 +44,8 @@ gulp.task('sass', ['clean:css'], function () {
 			includePaths: [src.foundation]
 		}))
 		.pipe(plugins.sourcemaps.write('./'))
-		.pipe(gulp.dest(dest.css));
+		.pipe(gulp.dest(dest.css))
+		.pipe(livereload());
 });
 
 /**
@@ -75,11 +78,15 @@ gulp.task('validate:js', function () {
 gulp.task('validate', ['validate:scss', 'validate:js']);
 
 gulp.task('watch', function () {
+	livereload.listen({
+		key: read('src/keybar/tests/resources/certificates/KEYBAR-intermediate-SERVER.key'),
+		cert: read('src/keybar/tests/resources/certificates/KEYBAR-intermediate-SERVER.cert')
+	});
 	gulp.watch(src.js + '/**/*.js', ['validate:js']);
 	gulp.watch(src.scss + '/**/*.scss', ['validate:scss', 'scss']);
 });
 
-gulp.task('build', ['validate', 'sass']);
+gulp.task('build', ['validate', 'scss']);
 
 gulp.task('default', ['build']);
 
