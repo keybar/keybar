@@ -7,12 +7,14 @@
 """
 import hashlib
 
+from Crypto.PublicKey import RSA
+
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import force_bytes
-from uuidfield import UUIDField
 
 from keybar.utils.crypto import prettify_fingerprint
+from keybar.utils.db.uuid import UUIDField
 
 
 class Device(models.Model):
@@ -29,7 +31,7 @@ class Device(models.Model):
     user = models.ForeignKey('keybar.User', related_name='devices')
     name = models.TextField(_('Device name'), blank=True, default='')
 
-    public_key = models.TextField(_('Device Public Key'))
+    public_key = models.TextField(_('Device Public Key'), blank=False)
 
     # `None` specifies that the user did not yet authorize the device.
     # `False` specifies that the user explicitly deauthorized the device.
@@ -40,3 +42,11 @@ class Device(models.Model):
     def fingerprint(self):
         digest = hashlib.md5(force_bytes(self.public_key)).hexdigest()
         return prettify_fingerprint(digest)
+
+    def generate_keys(self, bits=4096):
+        new_key = RSA.generate(bits, e=65537)
+        return new_key, new_key.publickey()
+
+    @property
+    def loaded_public_key(self):
+        return RSA.importKey(self.public_key)

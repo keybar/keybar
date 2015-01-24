@@ -58,11 +58,3 @@ docs/_build/
 
 # Settings
 src/keybar/settings.py
-
-# Certificate specific metafiles
-extras/certificates/.0
-extras/certificates/ca.db.index
-extras/certificates/ca.db.index.attr
-extras/certificates/ca.db.index.old
-extras/certificates/ca.db.serial
-extras/certificates/ca.db.serial.old

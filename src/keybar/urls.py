@@ -1,10 +1,10 @@
 from django.contrib import admin
-from django.conf.urls import url, include, patterns
+from django.conf.urls import url, include
 
 from keybar.web import views
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$',
         views.IndexView.as_view(),
         name='keybar-index'),
@@ -37,11 +37,10 @@ urlpatterns = patterns('',
     url(r'account/sessions/delete/(?P<pk>.+)/$', views.SessionDeleteView.as_view(),
         name='keybar-account-session-delete'),
 
+    # Hookup our REST Api
+    url(r'^api/', include('keybar.api.urls', namespace='keybar-api')),
+    url(r'^api/docs/', include('rest_framework.urls', namespace='rest_framework')),
+
     # Admin
     url(r'^admin/', include(admin.site.urls)),
-
-    # Hookup our REST Api
-    url(r'^api/v1/', include('keybar.api.v1.urls', namespace='api-v1')),
-
-    url(r'^api/docs/', include('rest_framework.urls', namespace='rest_framework'))
-)
+]

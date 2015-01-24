@@ -28,7 +28,7 @@ class TestUserModel:
         send_mail_async.assert_called_once_with('subject', 'message',
             mock.ANY, [self.user.email])
 
-    @mock.patch('keybar.core.tasks.django_send_mail')
+    @mock.patch('keybar.tasks.mail.django_send_mail')
     @mock.patch('keybar.models.user.send_mail_async.retry')
     def test_send_mail_retried_on_error(self, retry, django_send_mail):
         django_send_mail.side_effect = Exception()

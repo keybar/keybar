@@ -3,7 +3,7 @@ import base64
 import ssl
 
 from django.conf import settings
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import force_bytes
 from cryptography.fernet import Fernet
 
 from cryptography.hazmat.backends import default_backend
@@ -69,7 +69,7 @@ def encrypt(text, password, salt):
 
 def decrypt(text, password, salt):
     fernet = Fernet(base64.urlsafe_b64encode(derive_encryption_key(salt, password)))
-    return force_text(fernet.decrypt(force_bytes(text)))
+    return force_bytes(fernet.decrypt(force_bytes(text)))
 
 
 def prettify_fingerprint(fingerprint):
@@ -94,6 +94,12 @@ def get_server_context(verify=True):
     # (cloudflare/sslconfig on GitHub) but is again just a tiny little bit
     # more restricted as we force best security available.
     server_ctx.set_ciphers('EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256')
+
+    # Disable that is not TSL 1.2, explicit is better than implicit
+    server_ctx.options |= ssl.OP_NO_SSLv2
+    server_ctx.options |= ssl.OP_NO_SSLv3
+    server_ctx.options |= ssl.OP_NO_TLSv1
+    server_ctx.options |= ssl.OP_NO_TLSv1_1
 
     # Mitigate CRIME
     server_ctx.options |= ssl.OP_NO_COMPRESSION
@@ -130,6 +136,12 @@ def get_client_context(verify=True):
 
     # Mitigate CRIME
     client_ctx.options |= ssl.OP_NO_COMPRESSION
+
+    # Disable that is not TSL 1.2, explicit is better than implicit
+    client_ctx.options |= ssl.OP_NO_SSLv2
+    client_ctx.options |= ssl.OP_NO_SSLv3
+    client_ctx.options |= ssl.OP_NO_TLSv1
+    client_ctx.options |= ssl.OP_NO_TLSv1_1
 
     # Load the certificates
     client_ctx.load_cert_chain(

@@ -8,7 +8,7 @@ from pytest_django.lazy_django import skip_if_no_django
 
 def pytest_configure(config):
     if not django_settings.configured:
-        os.environ['DJANGO_SETTINGS_MODULE'] = 'keybar.conf.test'
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'keybar.conf.test')
 
     # override a few things with our test specifics
     django_settings.INSTALLED_APPS = tuple(django_settings.INSTALLED_APPS) + (

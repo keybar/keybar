@@ -48,7 +48,6 @@ INSTALLED_APPS = (
 
     # Keybar apps
     'keybar',
-    'keybar.core',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -59,6 +58,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'keybar.middlewares.server_header.ServerHeaderMiddleware'
 )
 
 ROOT_URLCONF = 'keybar.urls'
@@ -82,7 +82,7 @@ TEMPLATE_CONTEXT_PROCESSORS = TEMPLATE_CONTEXT_PROCESSORS + (
 
     # Overwrite the allauth context processor because... it actively
     # verifies that the allauth processor exists.
-    'keybar.core.context_processors.socialaccount'
+    'keybar.context_processors.social.socialaccount'
 )
 
 STATICFILES_DIRS = (
@@ -122,7 +122,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Celery / Queue configuration
 from kombu import Queue
 
-BROKER_URL = 'redis://localhost:6379/0'
+BROKER_URL = 'redis://localhost:6379'
 
 # Just so that this won't be forgotten, see
 # http://docs.celeryproject.org/en/latest/getting-started/brokers/redis.html#caveats
@@ -146,6 +146,10 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
 # Track started tasks. This adds a new STARTED state once a task
 # is started by the celery worker.
 CELERY_TRACK_STARTED = True
+
+CELERY_IMPORTS = (
+    'keybar.tasks.mail',
+)
 
 CELERY_QUEUES = (
     Queue('default', routing_key='default'),
@@ -190,11 +194,17 @@ SESSION_SERIALIZER = 'keybar.utils.helpers.UUIDCapableJSONSerializer'
 # Django REST Framework related settings.
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'keybar.core.auth.KeybarApiSignatureAuthentication',
+        'keybar.api.auth.KeybarApiSignatureAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
-    )
+    ),
+    'DEFAULT_PARSER_CLASSES': (
+        'keybar.api.parsers.JSONParser',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
 }
 
 # (social-) auth related settings
@@ -241,6 +251,7 @@ KEYBAR_SERVER_KEY = None
 KEYBAR_CLIENT_CERTIFICATE = None
 KEYBAR_CLIENT_KEY = None
 
+KEYBAR_VERIFY_CLIENT_CERTIFICATE = True
 
 try:
     import certifi

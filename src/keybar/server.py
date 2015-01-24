@@ -2,12 +2,7 @@
 import sys
 
 from tornado import wsgi, web, httpserver, ioloop
-from django.contrib.staticfiles import finders
 from werkzeug.debug import DebuggedApplication
-
-from keybar.wsgi import application as django_application
-from keybar.core.logging import enable_error_logging_in_debug_mode
-from keybar.utils.crypto import get_server_context
 
 
 class MultiStaticFileHandler(web.StaticFileHandler):
@@ -15,17 +10,26 @@ class MultiStaticFileHandler(web.StaticFileHandler):
         self.root = ''
 
     def set_extra_headers(self, path):
-        self.set_header("Cache-control", "no-cache")
+        self.set_header('Cache-control', 'no-cache')
 
     @classmethod
     def get_absolute_path(cls, root, path):
+        from django.contrib.staticfiles import finders
         return finders.find(path)
 
     def validate_absolute_path(self, root, absolute_path):
         return absolute_path
 
 
-def get_server(debug=True):
+def get_server(debug=None):
+    from django.conf import settings
+    from keybar.wsgi import application as django_application
+    from keybar.utils.logging import enable_error_logging_in_debug_mode
+    from keybar.utils.crypto import get_server_context
+
+    if debug is None:
+        debug = settings.DEBUG
+
     app = DebuggedApplication(django_application, evalex=debug)
 
     enable_error_logging_in_debug_mode()
@@ -34,13 +38,13 @@ def get_server(debug=True):
 
     application = web.Application([
         (r'/static/(.*)', MultiStaticFileHandler, {}),
-        (r".*", web.FallbackHandler, dict(fallback=container)),
+        (r'.*', web.FallbackHandler, dict(fallback=container)),
     ], debug=debug)
 
     # TODO: enable verify
     server = httpserver.HTTPServer(
         application,
-        ssl_options=get_server_context(verify=False))
+        ssl_options=get_server_context(verify=settings.KEYBAR_VERIFY_CLIENT_CERTIFICATE))
     return server
 
 

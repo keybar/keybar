@@ -8,11 +8,11 @@ from django.views.generic import (
 from django.utils.translation import ugettext_lazy as _
 from user_sessions.views import SessionMixin as UserSessionMixin
 
-from keybar.core.mixins import LoginRequiredMixin
 from keybar.models.entry import Entry
 from keybar.web.forms import (
     EntryForm, UpdateEntryForm, ViewEntryForm, SetupTotpForm)
 from keybar.utils.totp import generate_qr_code_response
+from keybar.utils.mixins import LoginRequiredMixin
 
 
 class IndexView(TemplateView):

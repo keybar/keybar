@@ -1,5 +1,4 @@
 #!/bin/python
-
 import os
 import subprocess
 import babel

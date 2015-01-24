@@ -2,7 +2,7 @@
 import os
 import pkg_resources
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "keybar.conf.development")
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'keybar.conf.development')
 
 
 try:
@@ -34,10 +34,10 @@ exclude_patterns = []
 pygments_style = 'sphinx'
 
 if sphinx_rtd_theme:
-    html_theme = "sphinx_rtd_theme"
+    html_theme = 'sphinx_rtd_theme'
     html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 else:
-    html_theme = "default"
+    html_theme = 'default'
 
 html_static_path = ['_static']
 

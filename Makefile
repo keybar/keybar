@@ -17,15 +17,20 @@ help:
 
 clean: clean-build clean-pyc
 
+
 deps:
+	@echo "--> Installing python dependencies"
 	pip install --upgrade pip setuptools wheel
-	pip install --use-wheel --upgrade -r requirements/base.txt
 	pip install --use-wheel -e .
 	pip install --use-wheel "file://`pwd`#egg=keybar[tests]"
 	pip install --use-wheel "file://`pwd`#egg=keybar[postgresql]"
 	pip install --use-wheel "file://`pwd`#egg=keybar[redis]"
+	pip install --use-wheel --upgrade -r requirements/base.txt
+	@echo ""
+
 
 develop: deps
+	@echo "--> Installing npm and bower dependencies"
 	if test -z "$$TRAVIS"; then pip install nodeenv && nodeenv -p; fi; \
 
 	# Install nodejs dependencies
@@ -37,11 +42,13 @@ develop: deps
 	# Extract CLDR from babel source installation
 	@python extras/import_cldr.py
 
+
 docs: clean-build
 	pip install --use-wheel "file://`pwd`#egg=keybar[docs]"
 	sphinx-apidoc --force -o docs/source/modules/ src/keybar src/keybar/migrations src/keybar/tests src/keybar/settings.py
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
+
 
 clean-build:
 	@rm -fr build/ src/build
@@ -50,20 +57,26 @@ clean-build:
 	@rm -fr htmlcov/
 	$(MAKE) -C docs clean
 
+
 lint:
 	flake8 keybar --ignore='E122,E124,E125,E126,E128,E501,F403' --exclude="**/migrations/**"
+
 
 test:
 	@py.test ${PYTEST_OPTS} ${APP}
 
+
 coverage:
 	py.test --cov=${COVER} --cov-report=term-missing ${PYTEST_OPTS} ${APP}
+
 
 coverage-html:
 	py.test --cov=${COVER} --cov-report=html ${PYTEST_OPTS} ${APP}
 
+
 tox:
 	@tox
+
 
 i18n:
 	@python manage.py babel makemessages -d django -l de
@@ -71,6 +84,3 @@ i18n:
 	@python manage.py babel makemessages -d djangojs -l de
 	@python manage.py babel compilemessages -d djangojs -l de
 	@python manage.py compilejsi18n -d djangojs -l de
-
-install-dokku:
-	wget -qO- https://raw.github.com/progrium/dokku/v0.3.7/bootstrap.sh | sudo DOKKU_TAG=v0.3.7 bash

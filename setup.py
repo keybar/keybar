@@ -16,7 +16,7 @@ test_requires = [
     'tox>=1.8,<1.9',
     'py>=1.4.26,<1.5',
     'pytest>=2.6.4,<2.7',
-    'pytest-django>=2.7,<2.8',
+    'pytest-django>=2.8,<2.9',
 
     # Pep8 and code quality checkers
     'pyflakes>=0.8.1,<0.9',
@@ -30,13 +30,12 @@ test_requires = [
     # Fixtures, test helpers
     'factory-boy>=2.4.1,<2.5',
     'mock>=1.0.1,<1.1',
-    'httpretty>=0.8.0',
 ]
 
 
 install_requires = [
     # General dependencies
-    'django>=1.7.1,<1.8',
+    'django>=1.7.3,<1.8',
 
     # Configuration
     'django-configurations==0.8',
@@ -52,21 +51,14 @@ install_requires = [
 
     # i18n/l10n,
     # 'babel>=1.3', -> requirements.txt
-    'django-babel-underscore>=0.1.0',
     'django-statici18n>=1.1.1,<1.2',
-    'django-babel>=0.3.6',
+    'django-babel>=0.3.9',
 
     # For our REST Api
     'djangorestframework>=3.0.2,<3.1',
     'httpsig>=1.1.0,<1.2.0',
     'requests>=2.5.0,<2.6',
     'requests-toolbelt',
-
-    # Markdown support for browsable api
-    'markdown>=2.5.2,<2.6',
-
-    # Filtering support for the API
-    'django-filter',
 
     # Form helpers
     'django-floppyforms>=1.3.0',
@@ -76,15 +68,24 @@ install_requires = [
     'tornado>=4.0.2,<5.0',
 
     # All the crypto libs we ever need
-    'cryptography>=0.7.0,<1.0',
+    'cryptography>=0.7.2,<1.0',
     'certifi',
-    'qrcode==5.1',
+    'qrcode>=5.1,<5.2',
+    'pycrypto>=2.6.1,<2.7',
 
     # Used to generate QR Codes
-    'Pillow>=2.6.1,<2.7',
+    'Pillow>=2.7,<2.8',
 
     # WSGI utilities
     'werkzeug>=0.9',
+
+    # For the client... resides here until we split all the code
+    # to a separate repository. Keep it simple for now.
+    'httpie>=0.8.0,<1.0',
+    'click>=3.3,<3.4',
+
+    # for `generate_identities` script
+    'py509',
 ]
 
 
@@ -102,6 +103,7 @@ docs_requires = [
 postgresql_requires = [
     'psycopg2>=2.5.4',
 ]
+
 
 redis_requires = [
     'redis>=2.8.0',
@@ -129,6 +131,11 @@ setup(
         'redis': redis_requires,
     },
     zip_safe=False,
+    entry_points = {
+        'console_scripts': [
+            'keybar-server=keybar.server:run_server'
+        ]
+    },
     license='BSD',
     classifiers=[
         '__DO NOT UPLOAD__',
