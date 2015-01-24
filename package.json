@@ -25,6 +25,6 @@
     "tiny-lr": "^0.1.4"
   },
   "scripts": {
-    "postinstall": "bower install",
+    "postinstall": "bower install"
   }
 }
