@@ -78,12 +78,14 @@ gulp.task('validate:js', function () {
 gulp.task('validate', ['validate:scss', 'validate:js']);
 
 gulp.task('watch', function () {
-	livereload.listen({
-		key: read('src/keybar/tests/resources/certificates/KEYBAR-intermediate-SERVER.key'),
-		cert: read('src/keybar/tests/resources/certificates/KEYBAR-intermediate-SERVER.cert')
-	});
 	gulp.watch(src.js + '/**/*.js', ['validate:js']);
 	gulp.watch(src.scss + '/**/*.scss', ['validate:scss', 'scss']);
+	livereload.listen({
+		host: 'keybar.local',
+		port: 35729,
+		key: read('src/keybar/tests/resources/certificates/KEYBAR-intermediate-SERVER.key').toString(),
+		cert: read('src/keybar/tests/resources/certificates/KEYBAR-intermediate-SERVER.cert').toString()
+	});
 });
 
 gulp.task('build', ['validate', 'scss']);
@@ -91,6 +93,6 @@ gulp.task('build', ['validate', 'scss']);
 gulp.task('default', ['build']);
 
 gulp.task('serve', ['default', 'watch'], plugins.shell.task([
-	'python ' + src.serverScript,
-	'celery worker -A keybar.tasks -l INFO -E',
+		'env PYTHONUNBUFFERED=true python ' + src.serverScript,
+		'env PYTHONUNBUFFERED=true celery worker -A keybar.tasks -l INFO -E',
 ]));
