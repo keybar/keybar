@@ -36,9 +36,6 @@ develop: deps
 	# Install nodejs dependencies
 	@npm install
 
-	# Install bower dependencies
-	@bower update
-
 	# Extract CLDR from babel source installation
 	@python extras/import_cldr.py
 
