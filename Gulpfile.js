@@ -78,7 +78,7 @@ gulp.task('validate:js', function () {
 gulp.task('validate', ['validate:scss', 'validate:js']);
 
 gulp.task('watch', function () {
-	gulp.watch(src.js + '/**/*.js', ['validate:js']);
+	gulp.watch(src.js + '/src/*.js', ['validate:js']);
 	gulp.watch(src.scss + '/**/*.scss', ['validate:scss', 'scss']);
 	livereload.listen({
 		host: 'keybar.local',
