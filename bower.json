@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "foundation": "zurb/bower-foundation#5.4.7",
+    "foundation": "zurb/bower-foundation#5.5.0",
     "select2": "ivaynberg/select2#3.5.2"
   },
   "authors": [
