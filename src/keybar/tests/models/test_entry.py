@@ -43,7 +43,7 @@ class TestEntry:
 
         assert entry.value == b''
 
-        entry.set_value(self.device, 'value')
+        entry.set_value(self.device, 'value', PRIVATE_KEY)
         entry.save()
 
         assert entry.decrypt(entry.id, self.device.id, PRIVATE_KEY) == b'value'
@@ -53,7 +53,7 @@ class TestEntry:
 
         assert entry.value == b''
 
-        entry.set_value(self.device, 'value', 'salt2')
+        entry.set_value(self.device, 'value', 'salt2', PRIVATE_KEY)
         entry.save()
 
         assert entry.decrypt(entry.id, self.device.id, PRIVATE_KEY) == b'value'
@@ -63,7 +63,7 @@ class TestEntry:
 
         assert entry.value == b''
 
-        entry.set_value(self.device, 'value', 'salt2')
+        entry.set_value(self.device, 'value', 'salt2', PRIVATE_KEY)
 
         assert entry.value
 
