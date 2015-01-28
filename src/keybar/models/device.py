@@ -31,7 +31,7 @@ class Device(models.Model):
     user = models.ForeignKey('keybar.User', related_name='devices')
     name = models.TextField(_('Device name'), blank=True, default='')
 
-    public_key = models.TextField(_('Device Public Key'), blank=False)
+    public_key = models.TextField(_('Device Public Key'), blank=False, unique=True)
 
     # `None` specifies that the user did not yet authorize the device.
     # `False` specifies that the user explicitly deauthorized the device.
@@ -44,8 +44,8 @@ class Device(models.Model):
         return prettify_fingerprint(digest)
 
     def generate_keys(self, bits=4096):
-        new_key = RSA.generate(bits, e=65537)
-        return new_key, new_key.publickey()
+        private_key = RSA.generate(bits, e=65537)
+        return private_key, private_key.publickey()
 
     @property
     def loaded_public_key(self):

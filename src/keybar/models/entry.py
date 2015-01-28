@@ -2,7 +2,7 @@ import os
 import base64
 
 from django.db import models
-from django.utils.encoding import force_text, force_bytes
+from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 from djorm_pgarray.fields import TextArrayField
 
@@ -39,7 +39,7 @@ class Entry(models.Model):
     @classmethod
     def create(cls, device_id, value, private_key, **kwargs):
         salt = get_salt()
-        master_key = urandom(32)
+        master_key = os.urandom(32)
 
         device = Device.objects.get(pk=device_id)
         device_key = device.loaded_public_key.encrypt(master_key, 32)[0]
@@ -53,16 +53,21 @@ class Entry(models.Model):
         if not self.keys:
             raise ValueError('Please use Entry.create to create an initial entry')
 
+        salt = get_salt()
+
         # TODO: This might not be efficient, use id? I actually like the idea
         # of associating the device directly via the private key
-        device = Device.objects.get(public_key=private_key.publickey())
-        device_key = base64.b64decode(entry.keys[device.id.hex])
+        # TODO: This whole API and process kinda seems unreasonable.... :-/
+        # Somehow I think I need to regenerate the master-key and
+        # update all related device keys. Since I have the public-key I
+        # should be able to do that.
 
-        master_key = private_key.decrypt()
+        device = Device.objects.get(public_key=private_key.publickey().exportKey('PEM'))
+        device_key = base64.b64decode(self.keys[device.id.hex])
+
+        master_key = private_key.decrypt(device_key)
 
         self.value = encrypt(value, master_key, salt)
-        self.keys[device.id.hex] = force_text(base64.b64encode(device_key))
-
         self.salt = salt
 
     @classmethod

@@ -1,11 +1,11 @@
 import uuid
-import mock
 
 import pytest
 
 from keybar.models.entry import Entry
 from keybar.tests.factories.entry import EntryFactory
 from keybar.tests.factories.device import DeviceFactory, PRIVATE_KEY
+from keybar.tests.factories.user import UserFactory
 
 
 @pytest.mark.django_db
@@ -35,36 +35,19 @@ class TestEntry:
 
         assert Entry.objects.get(pk=entry.pk).tags == ['tag1', 'tag2']
 
-    @mock.patch('keybar.models.entry.get_salt')
-    def test_set_value_generates_salt(self, mock_get_salt):
-        mock_get_salt.return_value = b'salt1'
+    def test_create_update_decrypt(self):
+        user = UserFactory.create()
 
-        entry = EntryFactory.create()
+        entry = Entry.create(self.device.id, 'this is secret', PRIVATE_KEY, owner=user)
 
-        assert entry.value == b''
+        assert entry.salt is not None
+        assert entry.decrypt(entry.id, self.device.id, PRIVATE_KEY) == b'this is secret'
 
-        entry.set_value(self.device, 'value', PRIVATE_KEY)
+        old_salt = entry.salt
+        entry.update('this is a new secret', PRIVATE_KEY)
         entry.save()
 
-        assert entry.decrypt(entry.id, self.device.id, PRIVATE_KEY) == b'value'
+        # Always generates a new salt. TODO: Make sure this actually makes sense!
+        assert entry.salt != old_salt
 
-    def test_set_value_specific_salt(self):
-        entry = EntryFactory.create()
-
-        assert entry.value == b''
-
-        entry.set_value(self.device, 'value', 'salt2', PRIVATE_KEY)
-        entry.save()
-
-        assert entry.decrypt(entry.id, self.device.id, PRIVATE_KEY) == b'value'
-
-    def test_set_value_does_not_save(self):
-        entry = EntryFactory.create()
-
-        assert entry.value == b''
-
-        entry.set_value(self.device, 'value', 'salt2', PRIVATE_KEY)
-
-        assert entry.value
-
-        assert Entry.objects.get(pk=entry.pk).value == b''
+        assert entry.decrypt(entry.id, self.device.id, PRIVATE_KEY) == b'this is a new secret'
