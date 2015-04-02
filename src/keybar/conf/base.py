@@ -1,5 +1,4 @@
 import os
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 from django.core.urlresolvers import reverse_lazy
 
 
@@ -9,12 +8,6 @@ PROJECT_DIR = os.path.join(BASE_DIR, '..', '..')
 SECRET_KEY = 'na2p&yexkp-g83$2m^&b!r+a%nv2ci1!d9vh^a_7h!hv*7&h79'
 
 DEBUG = True
-
-TEMPLATE_DEBUG = True
-
-ALLOWED_HOSTS = []
-
-SITE_ID = 1
 
 INSTALLED_APPS = (
     # Django apps
@@ -75,24 +68,37 @@ DATABASES = {
     }
 }
 
-TEMPLATE_CONTEXT_PROCESSORS = TEMPLATE_CONTEXT_PROCESSORS + (
-    'django.core.context_processors.request',
-    'django.contrib.messages.context_processors.messages',
-    'allauth.account.context_processors.account',
-    'allauth.socialaccount.context_processors.socialaccount',
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [
+            os.path.join(PROJECT_DIR, 'src', 'keybar', 'templates'),
+        ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.core.context_processors.request',
+                'django.contrib.messages.context_processors.messages',
+                'allauth.account.context_processors.account',
+                'allauth.socialaccount.context_processors.socialaccount',
 
-    # Overwrite the allauth context processor because... it actively
-    # verifies that the allauth processor exists.
-    'keybar.context_processors.social.socialaccount'
-)
+                # Overwrite the allauth context processor because... it actively
+                # verifies that the allauth processor exists.
+                'keybar.context_processors.social.socialaccount'
+            ],
+        },
+    },
+]
 
 STATICFILES_DIRS = (
     os.path.join(PROJECT_DIR, 'bower_components'),
     os.path.join(PROJECT_DIR, 'src', 'keybar', 'static'),
-)
-
-TEMPLATE_DIRS = (
-    os.path.join(PROJECT_DIR, 'src', 'keybar', 'templates'),
 )
 
 AUTHENTICATION_BACKENDS = (
