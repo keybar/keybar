@@ -1,5 +1,6 @@
 import os
 import base64
+import uuid
 
 from django.db import models
 from django.utils.encoding import force_text
@@ -8,12 +9,11 @@ from djorm_pgarray.fields import TextArrayField
 
 from keybar.models.device import Device
 from keybar.utils.crypto import encrypt, decrypt, get_salt
-from keybar.utils.db.uuid import UUIDField
 from keybar.utils.db.json import JSONField
 
 
 class Entry(models.Model):
-    id = UUIDField(auto=True, primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
 
     owner = models.ForeignKey('keybar.User')
     title = models.TextField(_('Title'), blank=True, default='')

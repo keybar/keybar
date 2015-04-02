@@ -3,4 +3,4 @@
 
 # Django 1.7 enabled versions
 -e git+https://github.com/EnTeQuAk/django-allauth.git@bugfix/serialize-bytes#egg=django-allauth
--e git+https://github.com/EnTeQuAk/django-user-sessions.git@bugfix/django1.7#egg=django-user-sessions
+-e git+https://github.com/Bouke/django-user-sessions.git@555144f261893b678af986b57aa7784e3cac5f0b#egg=django-user-sessions

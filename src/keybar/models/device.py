@@ -6,6 +6,7 @@
     Device model.
 """
 import hashlib
+import uuid
 
 from Crypto.PublicKey import RSA
 
@@ -14,7 +15,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import force_bytes
 
 from keybar.utils.crypto import prettify_fingerprint
-from keybar.utils.db.uuid import UUIDField
 
 
 class Device(models.Model):
@@ -27,7 +27,8 @@ class Device(models.Model):
     each client is requested to get a initial device-id for the very
     first request.
     """
-    id = UUIDField(auto=True, primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+
     user = models.ForeignKey('keybar.User', related_name='devices')
     name = models.TextField(_('Device name'), blank=True, default='')
 

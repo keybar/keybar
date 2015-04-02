@@ -1,4 +1,5 @@
 from django.core.serializers.json import DjangoJSONEncoder
+from django.utils.encoding import force_text
 import json
 
 import datetime
@@ -23,8 +24,8 @@ def better_decoder(data):
 def dumps(value, **kwargs):
     if 'separators' not in kwargs:
         kwargs['separators'] = (',', ':')
-    return json.dumps(value, cls=BetterJSONEncoder, **kwargs)
+    return force_text(json.dumps(value, cls=BetterJSONEncoder, **kwargs))
 
 
 def loads(value, **kwargs):
-    return json.loads(value, object_hook=better_decoder)
+    return json.loads(force_text(value), object_hook=better_decoder)
