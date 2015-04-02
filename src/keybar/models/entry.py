@@ -5,7 +5,7 @@ import uuid
 from django.db import models
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
-from djorm_pgarray.fields import TextArrayField
+from django.contrib.postgres.fields import ArrayField
 
 from keybar.models.device import Device
 from keybar.utils.crypto import encrypt, decrypt, get_salt
@@ -26,7 +26,7 @@ class Entry(models.Model):
 
     description = models.TextField(_('Description'), blank=True, default='')
 
-    tags = TextArrayField(null=True, blank=True)
+    tags = ArrayField(models.TextField(blank=True), blank=True, null=True)
 
     salt = models.BinaryField(null=True, blank=True)
 

@@ -41,7 +41,6 @@ install_requires = [
     'django-configurations==0.8',
     'django-cache-url==0.8.0',
     'dj-database-url==0.3.0',
-    'djorm-pgarray>=1.2,<1.3',
 
     # Better user sessions
     'django_user_sessions>=1.1.0,<1.2.0',
