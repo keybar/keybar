@@ -7,6 +7,8 @@ PROJECT_DIR = os.path.join(BASE_DIR, '..', '..')
 
 SECRET_KEY = 'na2p&yexkp-g83$2m^&b!r+a%nv2ci1!d9vh^a_7h!hv*7&h79'
 
+SITE_ID = 1
+
 DEBUG = True
 
 INSTALLED_APPS = (
