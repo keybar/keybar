@@ -72,9 +72,9 @@ class EntryForm(forms.ModelForm):
         self.instance.owner = request.user
 
         if self.cleaned_data['value']:
-            self.instance.set_value(
-                self.cleaned_data['password'],
-                self.cleaned_data['value'])
+            self.instance.update(
+                self.cleaned_data['value'],
+                self.cleaned_data['password'])
 
         return super(EntryForm, self).save(commit=commit)
 
