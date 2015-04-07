@@ -3,6 +3,8 @@ python: "3.4"
 
 addons:
   postgresql: '9.4'
+  hosts:
+    - keybar.local
 
 services:
   - memcached
@@ -35,14 +37,6 @@ before_install:
   - sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.8 20
   - sudo g++ --version
   - npm config set python /usr/bin/python2.7
-
-  # Setup a wildcard local DNS for *.local
-  - sudo apt-get install -qq -y --force-yes dnsmasq
-  - echo "listen-address=127.0.0.1" | sudo tee -a /etc/dnsmasq.conf > /dev/null
-  - echo "bind-interfaces" | sudo tee -a /etc/dnsmasq.conf > /dev/null
-  - echo "address=/local/127.0.0.1" | sudo tee -a /etc/dnsmasq.conf > /dev/null
-  - echo "user=root" | sudo tee -a /etc/dnsmasq.conf > /dev/null
-  - sudo service dnsmasq restart
 
 before_script:
   - psql -c 'create database keybar_test;' -U postgres
