@@ -9,7 +9,7 @@ from base64 import encodebytes
 
 import requests
 from requests_toolbelt import SSLAdapter
-from requests_toolbelt.user_agent import user_agent
+from requests_toolbelt import user_agent
 from django.conf import settings
 from django.utils.encoding import force_bytes
 from httpsig.requests_auth import HTTPSignatureAuth

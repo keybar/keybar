@@ -57,7 +57,7 @@ install_requires = [
     'djangorestframework>=3.1.1,<3.2',
     'httpsig>=1.1.2,<1.2.0',
     'requests>=2.6.0,<2.7',
-    'requests-toolbelt',
+    'requests-toolbelt>=0.4,<0.5',
 
     # Form helpers
     'django-floppyforms>=1.3.0',
