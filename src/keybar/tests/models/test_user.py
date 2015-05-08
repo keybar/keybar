@@ -45,5 +45,5 @@ class TestUserModel:
 
     def test_check_password_unicode(self):
         user = User()
-        user.set_password(u'winter is coming ☃❄')
-        assert user.check_password(u'winter is coming ☃❄')
+        user.set_password('winter is coming ☃❄')
+        assert user.check_password('winter is coming ☃❄')
