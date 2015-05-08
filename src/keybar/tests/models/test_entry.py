@@ -47,7 +47,7 @@ class TestEntry:
         entry.update('this is a new secret', PRIVATE_KEY)
         entry.save()
 
-        # Always generates a new salt. TODO: Make sure this actually makes sense!
+        # Always generates a new salt.
         assert entry.salt != old_salt
 
         assert entry.decrypt(entry.id, self.device.id, PRIVATE_KEY) == b'this is a new secret'
