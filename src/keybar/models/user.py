@@ -6,7 +6,6 @@
     User model.
 """
 import os
-import uuid
 
 from django.db import models
 from django.core.urlresolvers import reverse
@@ -16,6 +15,7 @@ from django.contrib.auth.models import AbstractBaseUser, UserManager as BaseUser
 
 from keybar.tasks.mail import send_mail_async
 from keybar.utils.avatar import get_profile_image
+from keybar.utils.db import KeybarModel
 
 
 class UserManager(BaseUserManager):
@@ -40,9 +40,7 @@ class UserManager(BaseUserManager):
         return self._create_user(email, password, True, True, **extra_fields)
 
 
-class User(AbstractBaseUser):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-
+class User(KeybarModel, AbstractBaseUser):
     email = models.EmailField(_('Email'), unique=True)
     name = models.TextField(_('Name'), max_length=100, blank=True, null=True)
     is_active = models.BooleanField(

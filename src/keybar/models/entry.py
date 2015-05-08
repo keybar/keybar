@@ -1,6 +1,5 @@
 import os
 import base64
-import uuid
 
 from django.db import models
 from django.utils.encoding import force_text
@@ -9,12 +8,11 @@ from django.contrib.postgres.fields import ArrayField
 
 from keybar.models.device import Device
 from keybar.utils.crypto import encrypt, decrypt, get_salt
+from keybar.utils.db import KeybarModel, sane_repr
 from keybar.utils.db.json import JSONField
 
 
-class Entry(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-
+class Entry(KeybarModel):
     owner = models.ForeignKey('keybar.User')
     title = models.TextField(_('Title'), blank=True, default='')
     url = models.URLField(blank=True, default='')
@@ -35,6 +33,8 @@ class Entry(models.Model):
     log = JSONField(default={})
 
     force_two_factor_authorization = models.BooleanField(default=False)
+
+    __repr__ = sane_repr('id', 'identifier')
 
     @classmethod
     def create(cls, device_id, value, private_key, **kwargs):
