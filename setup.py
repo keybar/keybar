@@ -35,7 +35,7 @@ test_requires = [
 
 install_requires = [
     # General dependencies
-    'django>=1.8.0,<1.9',
+    'django>=1.8.1,<1.9',
 
     # Configuration
     'django-configurations==0.8',
