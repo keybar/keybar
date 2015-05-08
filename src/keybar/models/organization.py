@@ -29,6 +29,8 @@ class Organization(KeybarModel):
         related_name='organization_memberships'
     )
 
+    objects = OrganizationManager()
+
     __repr__ = sane_repr('owner_id', 'name')
 
     def __str__(self):
@@ -38,16 +40,6 @@ class Organization(KeybarModel):
         if not self.slug:
             self.slug = find_next_increment(Organization, 'slug', slugify(self.name))
         super(Organization, self).save(*args, **kwargs)
-
-
-class OrganizationMemberTeam(KeybarModel):
-    team = models.ForeignKey('keybar.Team')
-    organization_member = models.ForeignKey('keybar.OrganizationMember')
-
-    class Meta:
-        unique_together = (('team', 'organization_member'),)
-
-    __repr__ = sane_repr('team_id', 'organizationmember_id')
 
 
 class OrganizationMember(KeybarModel):
@@ -63,7 +55,7 @@ class OrganizationMember(KeybarModel):
 
     email = models.EmailField(null=True, blank=True)
 
-    type = models.PositiveIntegerField(choices=(
+    type = models.CharField(max_length=64, choices=(
         (MEMBER, _('Member')),
         (ADMIN, _('Admin')),
         (OWNER, _('Owner')),
@@ -73,7 +65,7 @@ class OrganizationMember(KeybarModel):
 
     teams = models.ManyToManyField(
         'keybar.Team', blank=True,
-        through=OrganizationMemberTeam)
+        through='keybar.OrganizationMemberTeam')
 
     class Meta:
         unique_together = (

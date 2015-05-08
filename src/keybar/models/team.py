@@ -31,3 +31,13 @@ class Team(KeybarModel):
     @property
     def member_set(self):
         return self.organization.member_set.filter(teams=self, user__is_active=True)
+
+
+class OrganizationMemberTeam(KeybarModel):
+    team = models.ForeignKey(Team)
+    organization_member = models.ForeignKey('keybar.OrganizationMember')
+
+    class Meta:
+        unique_together = (('team', 'organization_member'),)
+
+    __repr__ = sane_repr('team_id', 'organizationmember_id')

@@ -31,7 +31,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.UUIDField(serialize=False, default=uuid.uuid4, primary_key=True)),
                 ('email', models.EmailField(blank=True, max_length=254, null=True)),
-                ('type', models.PositiveIntegerField(default='member', choices=[('member', 'Member'), ('admin', 'Admin'), ('owner', 'Owner')])),
+                ('type', models.CharField(max_length=64, default='member', choices=[('member', 'Member'), ('admin', 'Admin'), ('owner', 'Owner')])),
                 ('date_added', models.DateTimeField(default=django.utils.timezone.now)),
                 ('organization', models.ForeignKey(to='keybar.Organization')),
             ],
