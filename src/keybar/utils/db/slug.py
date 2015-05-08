@@ -34,10 +34,10 @@ def slugify(string, convert_lowercase=True):
 
     for word in _slugify_word_re.split(string.strip()):
         if word:
-            for search, replace in _slugify_replacement_table.iteritems():
+            for search, replace in _slugify_replacement_table.items():
                 word = word.replace(search, replace)
             word = unicodedata.normalize('NFKD', word)
-            result.append(word.encode('ascii', 'ignore'))
+            result.append(force_text(word.encode('ascii', 'ignore')))
 
     return '-'.join(result) or '-'
 
