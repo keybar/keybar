@@ -43,7 +43,11 @@ def derive_encryption_key(salt, password):
         backend=backend
     )
 
-    return kdf.derive(force_bytes(password))
+    key = kdf.derive(force_bytes(password))
+
+    verify_encryption_key(salt, password, key)
+
+    return key
 
 
 def verify_encryption_key(salt, password, key):
