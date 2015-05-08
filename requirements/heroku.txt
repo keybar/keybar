@@ -1,5 +1,5 @@
 -e .
--e git+https://github.com/keybar/keybar.git#egg=keybar[postgresql]
+-e .[postgresql]
 
 -r base.txt
 
