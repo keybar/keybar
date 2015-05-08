@@ -19,7 +19,7 @@ from keybar.tests.factories.device import DeviceFactory
 
 
 @pytest.mark.django_db(transaction=True)
-class TestHttpSignatureAuth(object):
+class TestHttpSignatureAuth:
 
     def test_simple_success(self, settings, keybar_liveserver):
         settings.DEBUG = True

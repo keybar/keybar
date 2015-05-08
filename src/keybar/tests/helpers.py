@@ -53,7 +53,7 @@ class LiveServerThread(LiveServerThreadBase):
             self.loop.stop()
 
 
-class LiveServer(object):
+class LiveServer:
     def __init__(self, addr):
         host, possible_ports = parse_addr(addr)
         self.thread = LiveServerThread(host, possible_ports, None)

@@ -5,7 +5,7 @@ def test_func():
     pass
 
 
-class TestClass(object):
+class TestClass:
     def test(self):
         pass
 

@@ -10,7 +10,7 @@ from keybar.tests.factories.device import DeviceFactory, PRIVATE_KEY
 
 
 @pytest.mark.django_db(transaction=True)
-class TestClient(object):
+class TestClient:
 
     def test_url_must_be_https(self):
         client = Client(None, None)

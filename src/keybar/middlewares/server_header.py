@@ -2,7 +2,7 @@
 import pkg_resources
 
 
-class ServerHeaderMiddleware(object):
+class ServerHeaderMiddleware:
     distribution_version = pkg_resources.get_distribution('keybar').version
 
     def process_response(self, request, response):

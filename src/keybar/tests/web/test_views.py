@@ -2,7 +2,7 @@ import pytest
 
 
 @pytest.mark.django_db
-class TestIndexView(object):
+class TestIndexView:
 
     def test_index(self, client):
         response = client.get('/')

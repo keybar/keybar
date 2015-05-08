@@ -6,7 +6,7 @@ from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 
 
-class AccessMixin(object):
+class AccessMixin:
     login_url = None
     redirect_field_name = REDIRECT_FIELD_NAME  # Set by django.contrib.auth
     message = None

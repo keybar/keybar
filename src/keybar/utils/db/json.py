@@ -153,7 +153,7 @@ class Get(Transform):
         return '%s %s -> %s' % (filter_to, lhs, self.name), params
 
 
-class GetTransform(object):
+class GetTransform:
     def __init__(self, name):
         self.name = name
 
@@ -173,7 +173,7 @@ class Path(Transform):
         return "({0} @> '[]' OR {0} @> '{{}}') AND {0} #> '{1}'".format(lhs, self.path), params
 
 
-class PathTransformFactory(object):
+class PathTransformFactory:
     def __init__(self, path):
         self.path = path
 
