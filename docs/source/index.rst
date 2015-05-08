@@ -9,8 +9,6 @@ More documentation
 .. toctree::
    :maxdepth: 2
 
-   modules/modules
-
 
 Indices and tables
 ==================

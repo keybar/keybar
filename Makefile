@@ -42,7 +42,6 @@ develop: deps
 
 docs: clean-build
 	pip install --use-wheel "file://`pwd`#egg=keybar[docs]"
-	sphinx-apidoc --force -o docs/source/modules/ src/keybar src/keybar/migrations src/keybar/tests src/keybar/settings.py
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 
