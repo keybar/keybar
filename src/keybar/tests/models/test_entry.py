@@ -5,7 +5,7 @@ import pytest
 from keybar.models.entry import Entry
 from keybar.tests.factories.entry import EntryFactory
 from keybar.tests.factories.device import DeviceFactory, PRIVATE_KEY
-from keybar.tests.factories.user import UserFactory
+from keybar.tests.factories.vault import VaultFactory
 
 
 @pytest.mark.django_db
@@ -14,9 +14,9 @@ class TestEntry:
     def setup(self):
         self.device = DeviceFactory.create()
 
-    def test_has_owner(self):
+    def test_has_vault(self):
         entry = EntryFactory.create()
-        assert entry.owner is not None
+        assert entry.vault is not None
 
     def test_entry_has_uuid_as_primary_key(self):
         entry = EntryFactory.create()
@@ -36,9 +36,8 @@ class TestEntry:
         assert Entry.objects.get(pk=entry.pk).tags == ['tag1', 'tag2']
 
     def test_create_update_decrypt(self):
-        user = UserFactory.create()
-
-        entry = Entry.create(self.device.id, 'this is secret', PRIVATE_KEY, owner=user)
+        vault = VaultFactory.create()
+        entry = Entry.create(self.device.id, 'this is secret', PRIVATE_KEY, vault=vault)
 
         assert entry.salt is not None
         assert entry.decrypt(entry.id, self.device.id, PRIVATE_KEY) == b'this is secret'

@@ -7,4 +7,4 @@ class KeybarConfig(AppConfig):
     verbose_name = _('Keybar')
 
     def ready(self):
-        from keybar.models import user, entry, device, organization, team  # noqa
+        from keybar.models import user, vault, entry, device, organization, team  # noqa

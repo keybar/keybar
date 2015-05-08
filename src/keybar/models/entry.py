@@ -13,7 +13,8 @@ from keybar.utils.db.json import JSONField
 
 
 class Entry(KeybarModel):
-    owner = models.ForeignKey('keybar.User')
+    vault = models.ForeignKey('keybar.Vault')
+
     title = models.TextField(_('Title'), blank=True, default='')
     url = models.URLField(blank=True, default='')
 
