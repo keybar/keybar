@@ -4,7 +4,6 @@ from keybar.models.team import Team, OrganizationMemberTeam
 from keybar.models.organization import OrganizationMember
 from keybar.utils.test import get_random_name
 
-from keybar.tests.factories.user import UserFactory
 from keybar.tests.factories.organization import (
     OrganizationFactory, OrganizationMemberFactory)
 

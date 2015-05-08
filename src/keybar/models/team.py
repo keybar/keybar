@@ -1,7 +1,5 @@
-from django.conf import settings
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
 
 from keybar.utils.db import KeybarModel, sane_repr
 from keybar.utils.db.slug import slugify, find_next_increment

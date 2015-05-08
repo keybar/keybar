@@ -2,7 +2,6 @@ import re
 
 import unicodedata
 
-from django.conf import settings
 from django.utils.encoding import force_text
 
 
@@ -69,7 +68,8 @@ def find_next_increment(model, column, string, **query_opts):
     existing = model.objects.filter(**filter).values_list(column, flat=True)
 
     # strip of the common prefix
-    slug_numbers = [i[len(slug)+1:] for i in existing]
+    slug_length = len(slug) + 1
+    slug_numbers = [i[slug_length:] for i in existing]
 
     # find the next free slug number
     slug_numbers = [int(i) for i in slug_numbers if i.isdigit()]
