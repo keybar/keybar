@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-    keybar.models.device
-    ~~~~~~~~~~~~~~~~~~~~
-
-    Device model.
-"""
 import hashlib
 
 from Crypto.PublicKey import RSA
