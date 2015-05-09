@@ -1,8 +1,0 @@
--e .
--e .[postgresql]
-
--r base.txt
-
-# For heroku to pick up libffi support :-/
-cryptography>=0.5.4
-certifi
