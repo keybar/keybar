@@ -5,7 +5,6 @@
 
     User model.
 """
-import os
 
 from django.db import models
 from django.core.urlresolvers import reverse
@@ -59,9 +58,6 @@ class User(KeybarModel, AbstractBaseUser):
         help_text=_('Designates that this user has all permissions without '
                     'explicitly assigning them.'))
 
-    # TODO: find a way to store this more secure :(
-    secret = models.BinaryField()
-
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
@@ -73,11 +69,6 @@ class User(KeybarModel, AbstractBaseUser):
 
     def __str__(self):
         return self.email
-
-    def save(self, *args, **kwargs):
-        if not self.secret:
-            self.secret = os.urandom(30)
-        return super(User, self).save(*args, **kwargs)
 
     def has_module_perms(self, app_label):
         return self.is_superuser
