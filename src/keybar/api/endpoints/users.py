@@ -18,6 +18,8 @@ class UserListEndpoint(UserEndpoint, ListEndpoint):
 class UserRegisterEndpoint(UserEndpoint):
     """Endpoint to register a new user.
 
+    This explicitly is a new endpoint because it's unauthenticated.
+
     TODO:
 
      * Take email verification into account
