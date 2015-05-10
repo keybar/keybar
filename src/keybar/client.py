@@ -1,4 +1,5 @@
 import hashlib
+import uuid
 import ssl
 import urllib
 import pkg_resources
@@ -28,9 +29,11 @@ class Client(requests.Session):
 
         keybar_url = 'https://{0}'.format(settings.KEYBAR_HOST)
         self.mount(keybar_url, SSLAdapter(ssl.PROTOCOL_TLSv1_2))
-        self.device_id = device_id
 
-        # TODO: find a way to avoid holding this in-memory for too long.
+        if isinstance(device_id, uuid.UUID):
+            self.device_id = device_id.hex
+        else:
+            self.device_id = device_id
 
         if secret and not isinstance(secret, (bytes, str)):
             secret = secret.exportKey('PEM')
