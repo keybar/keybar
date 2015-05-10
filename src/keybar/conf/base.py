@@ -281,6 +281,5 @@ KEYBAR_HOST = None
 
 # NOTE: CHANGING THOSE VALUES REQUIRES RE-ENCRYPTION OF EVERYTHING
 # AND HAS SOME DEEP IMPACT. !! JUST DONT !!
-# In 2013 100,000 was the recommended value, so we settle with one million
-# for now.
-KEYBAR_KDF_ITERATIONS = 100000
+# In 2013 100,000 was the recommended value, so we settle with one million for now.
+KEYBAR_KDF_ITERATIONS = 1000000
