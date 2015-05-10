@@ -1,12 +1,10 @@
 from Crypto.PublicKey import RSA
 from rest_framework.response import Response
 from rest_framework import serializers, status
-from rest_framework.validators import UniqueValidator
 from django.db import models
 
 from keybar.api.base import Endpoint
 from keybar.models.device import Device
-
 
 
 class CreateDeviceSerializer(serializers.ModelSerializer):
