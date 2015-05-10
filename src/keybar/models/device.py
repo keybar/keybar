@@ -21,7 +21,7 @@ class Device(KeybarModel):
     each client is requested to get a initial device-id for the very
     first request.
     """
-    user = models.ForeignKey('keybar.User', related_name='devices')
+    user = models.ForeignKey('keybar.User', related_name='devices', null=True, blank=True)
     name = models.TextField(_('Device name'), blank=True, default='')
 
     public_key = models.TextField(_('Device Public Key'), blank=False, unique=True)
