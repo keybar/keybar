@@ -24,7 +24,7 @@ class Client(requests.Session):
     """Proof of concept client implementation."""
     content_type = 'application/json'
 
-    def __init__(self, device_id, secret):
+    def __init__(self, device_id=None, secret=None):
         super(Client, self).__init__()
 
         keybar_url = 'https://{0}'.format(settings.KEYBAR_HOST)
@@ -44,7 +44,7 @@ class Client(requests.Session):
         if not is_secure_transport(url):
             raise InsecureTransport('Please make sure to use HTTPS')
 
-        data = kwargs.pop('data', {})
+        data = kwargs.get('data', {})
 
         now = datetime.utcnow()
         stamp = mktime(now.timetuple())
@@ -69,15 +69,19 @@ class Client(requests.Session):
 
         headers.update(kwargs.pop('headers', {}))
 
-        auth = HTTPSignatureAuth(
-            key_id=self.device_id,
-            secret=self.secret,
-            headers=REQUIRED_HEADERS,
-            algorithm=ALGORITHM)
+        if self.device_id and self.secret:
+            auth = HTTPSignatureAuth(
+                key_id=self.device_id,
+                secret=self.secret,
+                headers=REQUIRED_HEADERS,
+                algorithm=ALGORITHM)
+        else:
+            auth = ()
 
         kwargs.update({
             'auth': auth,
             'headers': headers,
+            'data': data,
             'cert': (settings.KEYBAR_CLIENT_CERTIFICATE, settings.KEYBAR_CLIENT_KEY),
             'verify': settings.KEYBAR_CA_BUNDLE,
         })
