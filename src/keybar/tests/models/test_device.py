@@ -13,10 +13,6 @@ class TestDevice:
         device = DeviceFactory.create()
         assert device.user is not None
 
-    def test_device_requires_user_relation(self):
-        with pytest.raises(ValueError):
-            DeviceFactory.create(user=None)
-
     def test_device_can_have_unknown_authorized_status(self):
         device = DeviceFactory.create()
         assert device.authorized is None
