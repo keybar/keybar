@@ -14,7 +14,7 @@ class TestClient:
 
     @pytest.fixture(autouse=True)
     def setup(self, settings, keybar_liveserver):
-        self.liveserver_url = keybar_liveserver.url
+        self.liveserver = keybar_liveserver
         settings.DEBUG = True
 
     def test_url_must_be_https(self):
@@ -29,7 +29,7 @@ class TestClient:
 
         client = Client(device.id, PRIVATE_KEY)
 
-        endpoint = '{0}/api/users/'.format(self.liveserver_url)
+        endpoint = '{0}/api/users/'.format(self.liveserver.url)
 
         response = client.get(endpoint)
 
@@ -46,7 +46,7 @@ class TestClient:
 
         client = Client(device.id, wrong_secret)
 
-        endpoint = '{0}/api/users/'.format(self.liveserver_url)
+        endpoint = '{0}/api/users/'.format(self.liveserver.url)
 
         response = client.get(endpoint)
         assert response.status_code == 401

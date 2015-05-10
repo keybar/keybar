@@ -20,9 +20,12 @@ from keybar.tests.factories.device import DeviceFactory, PRIVATE_KEY
 @pytest.mark.django_db(transaction=True)
 class TestHttpSignatureAuth:
 
-    def test_simple_success(self, settings, keybar_liveserver):
+    @pytest.fixture(autouse=True)
+    def setup(self, settings, keybar_liveserver):
+        self.liveserver = keybar_liveserver
         settings.DEBUG = True
 
+    def test_simple_success(self):
         user = UserFactory.create(is_superuser=True)
         device = DeviceFactory.create(user=user)
 
@@ -36,7 +39,7 @@ class TestHttpSignatureAuth:
             force_bytes(json.dumps(data))).digest()).strip()
 
         headers = {
-            'Host': keybar_liveserver.domain,
+            'Host': self.liveserver.domain,
             'Method': 'GET',
             'Path': '/api/users/',
             'Accept': 'application/json',
@@ -52,10 +55,10 @@ class TestHttpSignatureAuth:
             algorithm='rsa-sha256')
 
         session = requests.Session()
-        session.mount(keybar_liveserver.url, SSLAdapter(ssl.PROTOCOL_TLSv1_2))
+        session.mount(self.liveserver.url, SSLAdapter(ssl.PROTOCOL_TLSv1_2))
 
         response = session.get(
-            '{0}/api/users/'.format(keybar_liveserver.url),
+            '{0}/api/users/'.format(self.liveserver.url),
             auth=auth,
             headers=headers,
             cert=(settings.KEYBAR_CLIENT_CERTIFICATE, settings.KEYBAR_CLIENT_KEY),
@@ -63,14 +66,12 @@ class TestHttpSignatureAuth:
 
         assert response.status_code == status.HTTP_200_OK
 
-    def test_simple_fail(self, settings, keybar_liveserver):
-        settings.DEBUG = True
-
+    def test_simple_fail(self):
         session = requests.Session()
-        session.mount(keybar_liveserver.url, SSLAdapter(ssl.PROTOCOL_TLSv1_2))
+        session.mount(self.liveserver.url, SSLAdapter(ssl.PROTOCOL_TLSv1_2))
 
         response = session.get(
-            '{0}/api/users/'.format(keybar_liveserver.url),
+            '{0}/api/users/'.format(self.liveserver.url),
             cert=(settings.KEYBAR_CLIENT_CERTIFICATE, settings.KEYBAR_CLIENT_KEY),
             verify=settings.KEYBAR_CA_BUNDLE)
 
