@@ -15,7 +15,6 @@ class TestClient:
     @pytest.fixture(autouse=True)
     def setup(self, settings, keybar_liveserver):
         self.liveserver = keybar_liveserver
-        settings.DEBUG = True
 
     def test_url_must_be_https(self):
         client = Client(None, None)

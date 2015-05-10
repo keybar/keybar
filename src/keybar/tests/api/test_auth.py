@@ -23,9 +23,8 @@ class TestHttpSignatureAuth:
     @pytest.fixture(autouse=True)
     def setup(self, settings, keybar_liveserver):
         self.liveserver = keybar_liveserver
-        settings.DEBUG = True
 
-    def test_simple_success(self):
+    def test_simple_success(self, settings):
         user = UserFactory.create(is_superuser=True)
         device = DeviceFactory.create(user=user)
 
@@ -66,7 +65,7 @@ class TestHttpSignatureAuth:
 
         assert response.status_code == status.HTTP_200_OK
 
-    def test_simple_fail(self):
+    def test_simple_fail(self, settings):
         session = requests.Session()
         session.mount(self.liveserver.url, SSLAdapter(ssl.PROTOCOL_TLSv1_2))
 
