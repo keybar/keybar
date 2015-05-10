@@ -1,5 +1,4 @@
 import hashlib
-import os
 import ssl
 import json
 from email.utils import formatdate
@@ -15,7 +14,7 @@ from rest_framework import status
 from httpsig.requests_auth import HTTPSignatureAuth
 
 from keybar.tests.factories.user import UserFactory
-from keybar.tests.factories.device import DeviceFactory
+from keybar.tests.factories.device import DeviceFactory, PRIVATE_KEY
 
 
 @pytest.mark.django_db(transaction=True)
@@ -23,11 +22,6 @@ class TestHttpSignatureAuth:
 
     def test_simple_success(self, settings, keybar_liveserver):
         settings.DEBUG = True
-
-        fpath = os.path.join(settings.BASE_DIR, 'tests', 'resources', 'rsa_keys', 'id_rsa')
-
-        with open(fpath, 'rb') as fobj:
-            secret = fobj.read()
 
         user = UserFactory.create(is_superuser=True)
         device = DeviceFactory.create(user=user)
@@ -53,7 +47,7 @@ class TestHttpSignatureAuth:
 
         auth = HTTPSignatureAuth(
             key_id=device.id.hex,
-            secret=secret,
+            secret=PRIVATE_KEY.exportKey('PEM'),
             headers=signature_headers,
             algorithm='rsa-sha256')
 

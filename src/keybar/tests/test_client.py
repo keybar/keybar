@@ -24,7 +24,7 @@ class TestClient:
         user = UserFactory.create(is_superuser=True)
         device = DeviceFactory.create(user=user)
 
-        client = Client(device.id.hex, PRIVATE_KEY)
+        client = Client(device.id, PRIVATE_KEY)
 
         endpoint = '{0}/api/users/'.format(keybar_liveserver.url)
 
@@ -43,7 +43,7 @@ class TestClient:
         with open(fpath, 'rb') as fobj:
             wrong_secret = fobj.read()
 
-        client = Client(device.id.hex, wrong_secret)
+        client = Client(device.id, wrong_secret)
 
         endpoint = '{0}/api/users/'.format(keybar_liveserver.url)
 
