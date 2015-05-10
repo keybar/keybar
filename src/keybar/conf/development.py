@@ -17,3 +17,20 @@ KEYBAR_DOMAIN = 'keybar.local'
 KEYBAR_HOST = 'keybar.local:8443'
 
 KEYBAR_VERIFY_CLIENT_CERTIFICATE = False
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
