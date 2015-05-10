@@ -20,6 +20,7 @@ from keybar.utils import json
 
 
 class Client(requests.Session):
+    """Proof of concept client implementation."""
     content_type = 'application/json'
 
     def __init__(self, device_id, secret):

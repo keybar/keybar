@@ -41,7 +41,6 @@ def get_server(debug=None):
         (r'.*', web.FallbackHandler, dict(fallback=container)),
     ], debug=debug)
 
-    # TODO: enable verify
     server = httpserver.HTTPServer(
         application,
         ssl_options=get_server_context(verify=settings.KEYBAR_VERIFY_CLIENT_CERTIFICATE))
