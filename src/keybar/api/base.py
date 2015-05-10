@@ -5,7 +5,6 @@ from rest_framework.mixins import (
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import JSONRenderer
 
-
 from keybar.api.auth import KeybarApiSignatureAuthentication
 from keybar.api.parsers import JSONParser
 
