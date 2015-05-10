@@ -45,8 +45,6 @@ def derive_encryption_key(salt, password):
 
     key = kdf.derive(force_bytes(password))
 
-    verify_encryption_key(salt, password, key)
-
     return key
 
 
