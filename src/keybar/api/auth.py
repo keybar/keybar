@@ -38,7 +38,7 @@ class HeaderVerifier(Verifier):
     """Custom header verifier to support django specific header-names..."""
 
     def __init__(self, request, secret, required_headers=None, method=None,
-                 path=None, host=None):
+                 path=None, host=None, force_authorized_device=True):
         self.request = request
         required_headers = required_headers or ['date']
 
@@ -58,6 +58,7 @@ class HeaderVerifier(Verifier):
         self.method = method
         self.path = path
         self.host = host
+        self.force_authorized_device = force_authorized_device
 
         super(HeaderVerifier, self).__init__(secret, algorithm=self.auth_fields['algorithm'])
 
@@ -92,6 +93,17 @@ class KeybarApiSignatureAuthentication(BaseAuthentication):
         device = Device.objects.get(pk=device_id)
         return device
 
+    def get_verifier(self, request, device, **kwargs):
+        return HeaderVerifier(
+            request=request,
+            secret=device.public_key,
+            required_headers=REQUIRED_HEADERS,
+            host=self.get_host(request),
+            method=request.method,
+            path=request.path,
+            **kwargs
+        )
+
     def authenticate(self, request):
         try:
             device = self.get_device(request)
@@ -99,13 +111,7 @@ class KeybarApiSignatureAuthentication(BaseAuthentication):
             raise exceptions.AuthenticationFailed('Bad device id')
 
         try:
-            verifier = HeaderVerifier(
-                request=request,
-                secret=device.public_key,
-                required_headers=REQUIRED_HEADERS,
-                host=self.get_host(request),
-                method=request.method,
-                path=request.path)
+            verifier = self.get_verifier(request, device)
         except HttpSigException as exc:
             raise exceptions.AuthenticationFailed(exc.message)
 
@@ -115,10 +121,26 @@ class KeybarApiSignatureAuthentication(BaseAuthentication):
         except HttpSigException as exc:
             raise exceptions.AuthenticationFailed(exc.message)
 
+        if verifier.force_authorized_device:
+            if device.user is None:
+                raise exceptions.AuthenticationFailed('No user associated with this device')
+
+            if not device.authorized:
+                raise exceptions.AuthenticationFailed('Device is not authorized')
+
         return (device.user, None)
 
     def authenticate_header(self, request):
         headers = ' '.join(REQUIRED_HEADERS)
         return 'Signature realm="{realm}",headers="{headers}"'.format(
             realm=self.www_authenticate_realm, headers=headers,
+        )
+
+
+class KeybarNoAuthorizedDeviceApiSignatureAuthentication(KeybarApiSignatureAuthentication):
+
+    def get_verifier(self, request, device, **kwargs):
+        kwargs['force_authorized_device'] = False
+        return super(KeybarApiSignatureAuthentication, self).get_verifier(
+            request, device, **kwargs
         )

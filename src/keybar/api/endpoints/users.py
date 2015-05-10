@@ -1,9 +1,16 @@
 from allauth.account.forms import SignupForm
 from rest_framework.response import Response
+from rest_framework import serializers
 
 from keybar.api.base import Endpoint, ListEndpoint
 from keybar.models.user import User
-from keybar.serializers.user import UserSerializer
+
+
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('id', 'email', 'date_joined')
 
 
 class UserEndpoint(Endpoint):
