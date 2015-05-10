@@ -141,6 +141,6 @@ class KeybarNoAuthorizedDeviceApiSignatureAuthentication(KeybarApiSignatureAuthe
 
     def get_verifier(self, request, device, **kwargs):
         kwargs['force_authorized_device'] = False
-        return super(KeybarApiSignatureAuthentication, self).get_verifier(
+        return super(KeybarNoAuthorizedDeviceApiSignatureAuthentication, self).get_verifier(
             request, device, **kwargs
         )

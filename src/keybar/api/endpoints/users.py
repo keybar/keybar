@@ -2,6 +2,7 @@ from allauth.account.forms import SignupForm
 from rest_framework.response import Response
 from rest_framework import serializers
 
+from keybar.api.auth import KeybarNoAuthorizedDeviceApiSignatureAuthentication
 from keybar.api.base import Endpoint, ListEndpoint
 from keybar.models.user import User
 
@@ -31,7 +32,7 @@ class UserRegisterEndpoint(UserEndpoint):
 
      * Take email verification into account
     """
-    authentication_classes = ()
+    authentication_classes = (KeybarNoAuthorizedDeviceApiSignatureAuthentication,)
     permission_classes = ()
 
     def create(self, request, *args, **kwargs):
@@ -39,6 +40,11 @@ class UserRegisterEndpoint(UserEndpoint):
 
         if form.is_valid():
             user = form.save(request)
+            device = request.successful_authenticator.get_device(request)
+            device.user = user
+            # TODO: Implement TOTP here
+            device.authorized = True
+            device.save()
             return Response(self.serializer_class(user).data)
         else:
             return Response(form.errors)
