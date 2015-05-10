@@ -4,7 +4,7 @@ import mock
 from keybar.client import Client
 
 from keybar.tests.factories.user import UserFactory
-from keybar.tests.factories.device import DeviceFactory, PRIVATE_KEY
+from keybar.tests.factories.device import AuthorizedDeviceFactory, PRIVATE_KEY
 
 
 @pytest.mark.django_db(transaction=True)
@@ -13,7 +13,7 @@ class TestUsersEndpoint:
     @pytest.fixture(autouse=True)
     def setup(self, settings, keybar_liveserver):
         user = UserFactory.create(email='test@none.none', is_superuser=True)
-        device = DeviceFactory.create(user=user)
+        device = AuthorizedDeviceFactory.create(user=user)
         self.client = Client(device.id, PRIVATE_KEY)
         self.liveserver = keybar_liveserver
 

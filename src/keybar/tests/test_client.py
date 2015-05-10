@@ -6,7 +6,7 @@ from keybar.client import Client
 from keybar.utils.http import InsecureTransport
 
 from keybar.tests.factories.user import UserFactory
-from keybar.tests.factories.device import DeviceFactory, PRIVATE_KEY
+from keybar.tests.factories.device import AuthorizedDeviceFactory, PRIVATE_KEY
 
 
 @pytest.mark.django_db(transaction=True)
@@ -24,7 +24,7 @@ class TestClient:
 
     def test_simple(self):
         user = UserFactory.create(is_superuser=True)
-        device = DeviceFactory.create(user=user)
+        device = AuthorizedDeviceFactory.create(user=user)
 
         client = Client(device.id, PRIVATE_KEY)
 
@@ -36,7 +36,7 @@ class TestClient:
 
     def test_simple_wrong_device_secret(self, settings):
         user = UserFactory.create(is_superuser=True)
-        device = DeviceFactory.create(user=user)
+        device = AuthorizedDeviceFactory.create(user=user)
 
         fpath = os.path.join(settings.BASE_DIR, 'tests', 'resources', 'rsa_keys', 'id_rsa2')
 

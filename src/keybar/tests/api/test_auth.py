@@ -14,7 +14,7 @@ from rest_framework import status
 from httpsig.requests_auth import HTTPSignatureAuth
 
 from keybar.tests.factories.user import UserFactory
-from keybar.tests.factories.device import DeviceFactory, PRIVATE_KEY
+from keybar.tests.factories.device import AuthorizedDeviceFactory, PRIVATE_KEY
 
 
 @pytest.mark.django_db(transaction=True)
@@ -26,7 +26,7 @@ class TestHttpSignatureAuth:
 
     def test_simple_success(self, settings):
         user = UserFactory.create(is_superuser=True)
-        device = DeviceFactory.create(user=user)
+        device = AuthorizedDeviceFactory.create(user=user)
 
         signature_headers = ['(request-target)', 'accept', 'date', 'host']
 
