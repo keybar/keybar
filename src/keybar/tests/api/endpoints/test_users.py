@@ -28,3 +28,20 @@ class TestUsersEndpoint:
             'email': 'test@none.none',
             'id': mock.ANY
         }]
+
+    def test_register(self):
+        client = Client()
+
+        endpoint = '{0}/api/users/register/'.format(self.liveserver.url)
+
+        response = client.post(endpoint, data={
+            'email': 'new-user@none.none',
+            'password1': '123456'
+        })
+
+        assert response.status_code == 200
+        assert response.json() == {
+            'date_joined': mock.ANY,
+            'email': 'new-user@none.none',
+            'id': mock.ANY
+        }
