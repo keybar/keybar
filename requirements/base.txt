@@ -3,4 +3,3 @@
 
 # Django 1.8 enabled versions
 -e git+https://github.com/EnTeQuAk/django-allauth.git@bugfix/serialize-bytes#egg=django-allauth
--e git+https://github.com/Bouke/django-user-sessions.git@555144f261893b678af986b57aa7784e3cac5f0b#egg=django-user-sessions

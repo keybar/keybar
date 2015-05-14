@@ -43,7 +43,7 @@ install_requires = [
     'dj-database-url==0.3.0',
 
     # Better user sessions
-    'django_user_sessions>=1.1.0,<1.2.0',
+    'django_user_sessions>=1.1.1,<1.2.0',
 
     # For async worker support
     'celery>=3.1.17,<3.2',
