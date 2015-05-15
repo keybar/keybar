@@ -13,15 +13,13 @@ from keybar.tests.factories.device import (
 @pytest.mark.django_db(transaction=True)
 class TestUsersEndpoint:
 
-    @pytest.fixture(autouse=True)
-    def setup(self, settings, keybar_liveserver):
+    def setup(self):
         user = UserFactory.create(email='test@none.none', is_superuser=True)
         device = AuthorizedDeviceFactory.create(user=user)
         self.client = Client(device.id, PRIVATE_KEY)
-        self.liveserver = keybar_liveserver
 
-    def test_list(self):
-        endpoint = '{0}/api/users/'.format(self.liveserver.url)
+    def test_list(self, keybar_liveserver):
+        endpoint = '{0}/api/users/'.format(keybar_liveserver.url)
 
         response = self.client.get(endpoint)
 
@@ -32,14 +30,14 @@ class TestUsersEndpoint:
             'id': mock.ANY
         }]
 
-    def test_register(self):
+    def test_register(self, keybar_liveserver):
         # Not using the fixture.
         Device.objects.all().delete()
 
         device = DeviceFactory.create(user=None)
         self.client = Client(device.id, PRIVATE_KEY)
 
-        endpoint = '{0}/api/users/register/'.format(self.liveserver.url)
+        endpoint = '{0}/api/users/register/'.format(keybar_liveserver.url)
 
         assert not device.authorized
 

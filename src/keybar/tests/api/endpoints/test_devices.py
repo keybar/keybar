@@ -9,14 +9,10 @@ from keybar.tests.factories.device import PUBLIC_KEY
 @pytest.mark.django_db(transaction=True)
 class TestDevicesEndpoint:
 
-    @pytest.fixture(autouse=True)
-    def setup(self, settings, keybar_liveserver):
-        self.liveserver = keybar_liveserver
-
-    def test_register(self):
+    def test_register(self, keybar_liveserver):
         client = Client()
 
-        endpoint = '{0}/api/devices/register/'.format(self.liveserver.url)
+        endpoint = '{0}/api/devices/register/'.format(keybar_liveserver.url)
 
         response = client.post(endpoint, data={
             'name': 'Test Device',
