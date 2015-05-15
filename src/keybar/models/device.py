@@ -4,6 +4,7 @@ import hashlib
 from Crypto.PublicKey import RSA
 
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import force_bytes
 
@@ -30,6 +31,8 @@ class Device(KeybarModel):
     # `False` specifies that the user explicitly deauthorized the device.
     # `True` specifies that the user authorized the device to access his data.
     authorized = models.NullBooleanField(_('Authorized?'), default=None)
+
+    date_added = models.DateTimeField(default=timezone.now)
 
     @property
     def fingerprint(self):
