@@ -85,13 +85,8 @@ def enable_error_logging_in_debug_mode():
             Create a technical server error response. The last three arguments
             are the values returned from sys.exc_info() and friends.
             """
-            logger = logging.getLogger('django.request')
-            logger.error(
-                'Internal Server Error: {0}'.format(request.path),
-                exc_info=(exc_type, exc_value, tb),
-                extra={'status_code': 500, 'request': request}
-            )
-            return orig_technical_500_response(
-                request, exc_type, exc_value, tb)
+            import traceback
+            traceback.print_exc()
+            return orig_technical_500_response(request, exc_type, exc_value, tb)
 
         debug.technical_500_response = custom_technical_500_response
