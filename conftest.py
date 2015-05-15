@@ -16,13 +16,15 @@ def pytest_configure(config):
     )
 
 
-@pytest.fixture(scope='session')
-def keybar_liveserver(request, autouse=True):
+@pytest.fixture(scope='function')
+def keybar_liveserver(request, settings):
     skip_if_no_django()
 
     from keybar.tests.helpers import LiveServer
 
     addr = request.config.getvalue('liveserver')
+
+    settings.DEBUG = True
 
     server = LiveServer('keybar.local:9999')
     request.addfinalizer(server.stop)
