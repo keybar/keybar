@@ -76,7 +76,6 @@ def enable_error_logging_in_debug_mode():
 
     if settings.DEBUG:
         from django.views import debug
-        import logging
 
         orig_technical_500_response = debug.technical_500_response
 
