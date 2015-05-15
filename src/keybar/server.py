@@ -24,12 +24,15 @@ class MultiStaticFileHandler(web.StaticFileHandler):
 def get_server(debug=None):
     from django.conf import settings
     from keybar.wsgi import application as django_application
+    from keybar.utils.logging import enable_error_logging_in_debug_mode
     from keybar.utils.crypto import get_server_context
 
     if debug is None:
         debug = settings.DEBUG
 
     app = DebuggedApplication(django_application, evalex=debug)
+
+    enable_error_logging_in_debug_mode()
 
     container = wsgi.WSGIContainer(app)
 
