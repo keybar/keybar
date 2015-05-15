@@ -19,11 +19,11 @@ class LiveServerThread(LiveServerThreadBase):
             for alias, conn in self.connections_override.items():
                 connections[alias] = conn
         try:
-            server = get_server(debug=False)
+            self.server = get_server(debug=False)
 
             for index, port in enumerate(self.possible_ports):
                 try:
-                    server.listen(port, 'keybar.local')
+                    self.server.listen(port, 'keybar.local')
                 except socket.error as exc:
                     if (index + 1 < len(self.possible_ports) and exc.errno == errno.EADDRINUSE):
                         # This port is already in use, so we go on and try with
@@ -50,6 +50,7 @@ class LiveServerThread(LiveServerThreadBase):
     def terminate(self):
         if hasattr(self, 'loop'):
             # Stop the WSGI server
+            self.server.stop()
             self.loop.stop()
 
 
@@ -66,8 +67,7 @@ class LiveServer:
 
     def stop(self):
         """Stop the server"""
-        terminate = getattr(self.thread, 'terminate', lambda: None)
-        terminate()
+        self.thread.terminate()
         self.thread.join()
 
     @property
