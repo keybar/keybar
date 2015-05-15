@@ -39,10 +39,6 @@ class Device(KeybarModel):
         digest = hashlib.md5(force_bytes(self.public_key)).hexdigest()
         return prettify_fingerprint(digest)
 
-    def generate_keys(self, bits=4096):
-        private_key = RSA.generate(bits, e=65537)
-        return private_key, private_key.publickey()
-
     @property
     def loaded_public_key(self):
         return RSA.importKey(self.public_key)

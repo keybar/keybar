@@ -4,8 +4,8 @@ import ssl
 
 from django.conf import settings
 from django.utils.encoding import force_bytes
+from Crypto.PublicKey import RSA
 from cryptography.fernet import Fernet
-
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives import hashes
@@ -25,6 +25,11 @@ def get_salt():
     It is recommended that the the salt-size matches the key-size.
     """
     return os.urandom(KEY_LENGTH)
+
+
+def generate_rsa_keys(bits=4096):
+    private_key = RSA.generate(bits, e=65537)
+    return (private_key, private_key.publickey())
 
 
 def derive_encryption_key(salt, password):
