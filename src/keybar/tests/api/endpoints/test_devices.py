@@ -2,6 +2,7 @@ import pytest
 import mock
 
 from keybar.client import Client
+from keybar.models.device import Device
 
 from keybar.tests.factories.device import PUBLIC_KEY
 
@@ -24,3 +25,5 @@ class TestDevicesEndpoint:
             'name': 'Test Device',
             'id': mock.ANY,
         }
+
+        assert Device.objects.get().user is None
