@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import serializers, status
 from django.db import models
 
-from keybar.api.base import Endpoint
+from keybar.api.base import Endpoint, ListEndpoint
 from keybar.models.device import Device
 
 
@@ -33,12 +33,20 @@ class DeviceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Device
-        fields = ('id', 'name',)
+        fields = ('id', 'name', 'authorized')
 
 
 class DeviceEndpoint(Endpoint):
-    queryset = Device.objects.all()
     serializer_class = DeviceSerializer
+
+    def get_queryset(self):
+        if self.request.user:
+            return Device.objects.filter(user=self.request.user)
+        return Device.objects.all()
+
+
+class DeviceListEndpoint(ListEndpoint, DeviceEndpoint):
+    pass
 
 
 class DeviceRegisterEndpoint(DeviceEndpoint):
