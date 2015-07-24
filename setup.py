@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import os
 import codecs
-from setuptools import setup, find_packages
+import os
+
+from setuptools import find_packages, setup
 
 
 def read(*parts):
@@ -17,6 +18,7 @@ test_requires = [
     'py>=1.4.26,<1.5',
     'pytest>=2.7.0,<2.8',
     'pytest-django>=2.8,<2.9',
+    'pytest-isort==0.1.0',
 
     # Pep8 and code quality checkers
     'pyflakes>=0.8.1,<0.9',
@@ -35,7 +37,7 @@ test_requires = [
 
 install_requires = [
     # General dependencies
-    'django>=1.8.1,<1.9',
+    'django>=1.8.3,<1.9',
 
     # Configuration
     'django-configurations==0.8',
