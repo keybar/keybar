@@ -20,6 +20,13 @@ services:
 compiler:
   - gcc
 
+cache:
+  directories:
+    - node_modules
+    - $HOME/.cache/pip/
+    - bower_components
+    - $HOME/virtualenv/python3.4.2
+
 env:
   global:
     - DJANGO_SETTINGS_MODULE="keybar.conf.travis"
