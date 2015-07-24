@@ -21,6 +21,7 @@ compiler:
   - gcc
 
 cache:
+  apt: true
   directories:
     - node_modules
     - $HOME/.cache/pip/
