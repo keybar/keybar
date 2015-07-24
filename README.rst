@@ -4,12 +4,15 @@ Keybar - secure password storage and exchange.
 
 .. image:: https://badge.fury.io/py/keybar.png
     :target: http://badge.fury.io/py/keybar
+    :alt: The keybar vault logo
 
 .. image:: https://travis-ci.org/keybar/keybar.png?branch=master
     :target: https://travis-ci.org/keybar/keybar
+    :alt: Travis build status
 
 .. image:: https://readthedocs.org/projects/keybar/badge/?version=latest
-    :target: http://keybar.readthedocs.org/en/latest/
+    :target: https://readthedocs.org/projects/keybar/?badge=latest
+    :alt: Documentation Statu
 
 .. warning::
 
