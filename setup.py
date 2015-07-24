@@ -44,8 +44,9 @@ install_requires = [
     'django-cache-url==0.8.0',
     'dj-database-url==0.3.0',
 
-    # Better user sessions
+    # User login, sessions, social integration
     'django_user_sessions>=1.1.1,<1.2.0',
+    'django-allauth>=0.22.0,<0.23',
 
     # For async worker support
     'celery>=3.1.17,<3.2',

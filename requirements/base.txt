@@ -1,5 +1,2 @@
 # Python3 enabled versions
 -e git+https://github.com/EnTeQuAk/babel.git@support/py3k#egg=babel
-
-# Django 1.8 enabled versions
--e git+https://github.com/EnTeQuAk/django-allauth.git@bugfix/serialize-bytes#egg=django-allauth
