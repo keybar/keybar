@@ -1,29 +1,31 @@
 # Some code stolen from httpie (https://github.com/jakubroztocil/httpie/) :)
 
+import json
 import os
 import sys
-import json
 import time
-import pkg_resources
+from argparse import (
+    OPTIONAL, SUPPRESS, ZERO_OR_MORE, ArgumentParser, FileType, RawDescriptionHelpFormatter)
 from textwrap import dedent
 
-from argparse import (RawDescriptionHelpFormatter, FileType,
-                      OPTIONAL, ZERO_OR_MORE, SUPPRESS, ArgumentParser)
+import click
+import django
+import pkg_resources
+import requests
+from django.utils.encoding import force_text
+from httpie.models import Environment
+from httpie.output import PygmentsProcessor
+
+from keybar.client import Client
+from keybar.models.user import User
+
 
 # Set default settings so that django.setup() works
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'keybar.settings')
 
-import django
 django.setup()
 
-import requests
-import click
-from httpie.models import Environment
-from httpie.output import PygmentsProcessor
-from django.utils.encoding import force_text
 
-from keybar.client import Client
-from keybar.models.user import User
 
 
 def format_body(body):

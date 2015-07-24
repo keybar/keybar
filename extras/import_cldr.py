@@ -1,7 +1,9 @@
 #!/bin/python
 import os
 import subprocess
+
 import babel
+
 
 babel_dir = os.path.join(os.path.dirname(babel.__file__), os.pardir)
 

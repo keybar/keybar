@@ -1,13 +1,11 @@
-import pytest
 import mock
+import pytest
 
 from keybar.client import Client
 from keybar.models.device import Device
-from keybar.utils.crypto import generate_rsa_keys
-
-from keybar.tests.factories.device import (
-    AuthorizedDeviceFactory, PUBLIC_KEY, PRIVATE_KEY)
+from keybar.tests.factories.device import PRIVATE_KEY, PUBLIC_KEY, AuthorizedDeviceFactory
 from keybar.tests.factories.user import UserFactory
+from keybar.utils.crypto import generate_rsa_keys
 
 
 @pytest.mark.django_db(transaction=True)

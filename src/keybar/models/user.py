@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-from django.db import models
+from django.contrib.auth.models import UserManager as BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser
 from django.core.urlresolvers import reverse
+from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import AbstractBaseUser, UserManager as BaseUserManager
 
 from keybar.tasks.mail import send_mail_async
 from keybar.utils.avatar import get_profile_image

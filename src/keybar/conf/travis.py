@@ -1,5 +1,7 @@
 import os
+
 from keybar.conf.test import *
+
 
 DATABASES = {
     'default': {

@@ -1,9 +1,8 @@
 import factory
 
 from keybar.models.organization import Organization, OrganizationMember
-from keybar.utils.test import get_random_name
-
 from keybar.tests.factories.user import UserFactory
+from keybar.utils.test import get_random_name
 
 
 class OrganizationFactory(factory.DjangoModelFactory):

@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 import os
+
+import django
 import pkg_resources
+
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'keybar.conf.development')
 
-import django
 django.setup()
 
 try:

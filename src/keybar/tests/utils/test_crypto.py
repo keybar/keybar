@@ -1,10 +1,10 @@
 import os
+
 import pytest
 from django.utils.encoding import force_bytes
 
 from keybar.utils.crypto import (
-    derive_encryption_key, verify_encryption_key,
-    encrypt, decrypt, get_salt)
+    decrypt, derive_encryption_key, encrypt, get_salt, verify_encryption_key)
 
 
 @pytest.mark.parametrize('salt,password,expected', (

@@ -7,6 +7,7 @@ from django.utils import six
 
 from keybar.utils import json
 
+
 psycopg2.extras.register_json(oid=3802, array_oid=3807)
 psycopg2.extras.register_default_json(loads=json.loads)
 psycopg2.extras.register_default_jsonb(loads=json.loads)

@@ -3,8 +3,8 @@ import uuid
 import pytest
 
 from keybar.models.entry import Entry
+from keybar.tests.factories.device import PRIVATE_KEY, DeviceFactory
 from keybar.tests.factories.entry import EntryFactory
-from keybar.tests.factories.device import DeviceFactory, PRIVATE_KEY
 from keybar.tests.factories.vault import VaultFactory
 
 

@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.db import models, migrations
-import django.contrib.postgres.fields
-import keybar.utils.db.json
 import uuid
+
+import django.contrib.postgres.fields
 import django.utils.timezone
-import keybar.models.user
 from django.conf import settings
+from django.db import migrations, models
+
+import keybar.models.user
+import keybar.utils.db.json
 
 
 class Migration(migrations.Migration):

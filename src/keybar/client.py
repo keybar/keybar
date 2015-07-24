@@ -1,23 +1,22 @@
 import hashlib
-import uuid
 import ssl
 import urllib
-import pkg_resources
-from email.utils import formatdate
-from datetime import datetime
-from time import mktime
+import uuid
 from base64 import encodebytes
+from datetime import datetime
+from email.utils import formatdate
+from time import mktime
 
+import pkg_resources
 import requests
-from requests_toolbelt import SSLAdapter
-from requests_toolbelt import user_agent
 from django.conf import settings
 from django.utils.encoding import force_bytes
 from httpsig.requests_auth import HTTPSignatureAuth
+from requests_toolbelt import SSLAdapter, user_agent
 
 from keybar.api.auth import ALGORITHM, REQUIRED_HEADERS
-from keybar.utils.http import is_secure_transport, InsecureTransport
 from keybar.utils import json
+from keybar.utils.http import InsecureTransport, is_secure_transport
 
 
 class Client(requests.Session):

@@ -1,18 +1,17 @@
 import itertools
 
-from django.core.urlresolvers import reverse, reverse_lazy
 from django.contrib import messages
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect, JsonResponse
-from django.views.generic import (
-    TemplateView, CreateView, UpdateView, DeleteView, ListView, View, FormView)
 from django.utils.translation import ugettext_lazy as _
-from user_sessions.views import SessionMixin as UserSessionMixin
+from django.views.generic import (
+    CreateView, DeleteView, FormView, ListView, TemplateView, UpdateView, View)
 
 from keybar.models.entry import Entry
-from keybar.web.forms import (
-    EntryForm, UpdateEntryForm, ViewEntryForm, SetupTotpForm)
-from keybar.utils.totp import generate_qr_code_response
 from keybar.utils.mixins import LoginRequiredMixin
+from keybar.utils.totp import generate_qr_code_response
+from keybar.web.forms import EntryForm, SetupTotpForm, UpdateEntryForm, ViewEntryForm
+from user_sessions.views import SessionMixin as UserSessionMixin
 
 
 class IndexView(TemplateView):

@@ -1,5 +1,4 @@
 import re
-
 import unicodedata
 
 from django.utils.encoding import force_text

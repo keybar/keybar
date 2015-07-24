@@ -1,8 +1,8 @@
 from django.conf import settings
-from rest_framework.authentication import BaseAuthentication, get_authorization_header
-from rest_framework import exceptions
 from httpsig import Verifier
-from httpsig.utils import HttpSigException, parse_authorization_header, generate_message
+from httpsig.utils import HttpSigException, generate_message, parse_authorization_header
+from rest_framework import exceptions
+from rest_framework.authentication import BaseAuthentication, get_authorization_header
 
 from keybar.models.device import Device
 

@@ -1,9 +1,7 @@
 import pytest
 
 from keybar.tests.factories.device import (
-    DeviceFactory,
-    AuthorizedDeviceFactory,
-    DeauthorizedDeviceFactory)
+    AuthorizedDeviceFactory, DeauthorizedDeviceFactory, DeviceFactory)
 
 
 @pytest.mark.django_db

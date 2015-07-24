@@ -1,9 +1,9 @@
+import datetime
+import json
+import uuid
+
 from django.core.serializers.json import DjangoJSONEncoder
 from django.utils.encoding import force_text
-import json
-
-import datetime
-import uuid
 
 
 class BetterJSONEncoder(DjangoJSONEncoder):

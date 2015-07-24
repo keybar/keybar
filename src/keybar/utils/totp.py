@@ -1,11 +1,11 @@
 import io
-import urllib
 import time
+import urllib
 from base64 import b32encode
 
 from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives.twofactor.totp import TOTP
 from cryptography.hazmat.primitives.hashes import SHA1
+from cryptography.hazmat.primitives.twofactor.totp import TOTP
 from django.http import HttpResponse
 from django.utils.encoding import force_bytes
 from qrcode import QRCode

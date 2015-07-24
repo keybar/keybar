@@ -1,5 +1,8 @@
 import os
+
 from django.core.urlresolvers import reverse_lazy
+# Celery / Queue configuration
+from kombu import Queue
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -128,8 +131,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'web', 'media')
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# Celery / Queue configuration
-from kombu import Queue
 
 BROKER_URL = 'redis://localhost:6379'
 

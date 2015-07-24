@@ -1,20 +1,20 @@
 import hashlib
-import ssl
 import json
-from email.utils import formatdate
-from datetime import datetime
-from time import mktime
+import ssl
 from base64 import encodebytes
+from datetime import datetime
+from email.utils import formatdate
+from time import mktime
 
 import pytest
 import requests
-from requests_toolbelt import SSLAdapter
 from django.utils.encoding import force_bytes
-from rest_framework import status
 from httpsig.requests_auth import HTTPSignatureAuth
+from requests_toolbelt import SSLAdapter
+from rest_framework import status
 
+from keybar.tests.factories.device import PRIVATE_KEY, AuthorizedDeviceFactory
 from keybar.tests.factories.user import UserFactory
-from keybar.tests.factories.device import AuthorizedDeviceFactory, PRIVATE_KEY
 
 
 @pytest.mark.django_db(transaction=True)

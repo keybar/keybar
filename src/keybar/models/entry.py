@@ -1,13 +1,13 @@
-import os
 import base64
+import os
 
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.postgres.fields import ArrayField
 
 from keybar.models.device import Device
-from keybar.utils.crypto import encrypt, decrypt, get_salt
+from keybar.utils.crypto import decrypt, encrypt, get_salt
 from keybar.utils.db import KeybarModel, sane_repr
 from keybar.utils.db.json import JSONField
 

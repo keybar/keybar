@@ -2,15 +2,15 @@ import datetime
 import time
 
 import floppyforms.__future__ as forms
-from django.forms import ValidationError
-from django.utils.translation import ugettext_lazy as _
 from cryptography.fernet import InvalidToken as InvalidFernetToken
 from cryptography.hazmat.primitives.twofactor.totp import InvalidToken as InvalidTotpToken
+from django.forms import ValidationError
+from django.utils.translation import ugettext_lazy as _
 
-from keybar.models.user import User
 from keybar.models.entry import Entry
-from keybar.widgets import Select2Widget
+from keybar.models.user import User
 from keybar.utils.totp import verify_totp_code
+from keybar.widgets import Select2Widget
 
 
 class RegisterForm(forms.ModelForm):

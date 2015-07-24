@@ -2,11 +2,10 @@
 import hashlib
 
 from Crypto.PublicKey import RSA
-
 from django.db import models
 from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import force_bytes
+from django.utils.translation import ugettext_lazy as _
 
 from keybar.utils.crypto import prettify_fingerprint
 from keybar.utils.db import KeybarModel

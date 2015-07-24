@@ -1,11 +1,9 @@
 import factory
 
-from keybar.models.team import Team, OrganizationMemberTeam
 from keybar.models.organization import OrganizationMember
+from keybar.models.team import OrganizationMemberTeam, Team
+from keybar.tests.factories.organization import OrganizationFactory, OrganizationMemberFactory
 from keybar.utils.test import get_random_name
-
-from keybar.tests.factories.organization import (
-    OrganizationFactory, OrganizationMemberFactory)
 
 
 class TeamFactory(factory.DjangoModelFactory):

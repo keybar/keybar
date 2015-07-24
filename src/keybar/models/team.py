@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 
 from keybar.utils.db import KeybarModel, sane_repr
-from keybar.utils.db.slug import slugify, find_next_increment
+from keybar.utils.db.slug import find_next_increment, slugify
 
 
 class Team(KeybarModel):

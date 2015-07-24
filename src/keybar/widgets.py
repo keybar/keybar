@@ -1,5 +1,5 @@
 import floppyforms.__future__ as forms
-from django.utils.datastructures import MultiValueDict, MergeDict
+from django.utils.datastructures import MergeDict, MultiValueDict
 
 
 class Select2Widget(forms.widgets.Input):

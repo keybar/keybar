@@ -1,13 +1,10 @@
-import pytest
 import mock
+import pytest
 
 from keybar.client import Client
 from keybar.models.device import Device
-
+from keybar.tests.factories.device import PRIVATE_KEY, AuthorizedDeviceFactory, DeviceFactory
 from keybar.tests.factories.user import UserFactory
-from keybar.tests.factories.device import (
-    DeviceFactory, AuthorizedDeviceFactory, PRIVATE_KEY
-)
 
 
 @pytest.mark.django_db(transaction=True)

@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.views import redirect_to_login
 from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth.views import redirect_to_login
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 

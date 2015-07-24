@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
-import logging
 import inspect
+import logging
 
 
 def get_logger(obj):

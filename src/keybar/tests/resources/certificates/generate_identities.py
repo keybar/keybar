@@ -2,13 +2,13 @@
 import argparse
 import os
 
-from py509.x509 import (
-    make_certificate_authority, make_certificate_signing_request,
-    make_certificate, make_pkey, make_serial)
-
 from OpenSSL import crypto
+from py509.x509 import (
+    make_certificate, make_certificate_authority, make_certificate_signing_request, make_pkey,
+    make_serial)
 
 from keybar.utils.logging import get_logger
+
 
 # Based on https://github.com/sholsapp/python-ssl-playground/blob/master/bin/generate-identities
 

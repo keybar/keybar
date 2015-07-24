@@ -1,4 +1,5 @@
 import random
+
 from django.contrib.messages.storage.cookie import CookieStorage
 from django.http import HttpRequest
 

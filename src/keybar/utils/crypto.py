@@ -1,14 +1,14 @@
-import os
 import base64
+import os
 import ssl
 
-from django.conf import settings
-from django.utils.encoding import force_bytes
 from Crypto.PublicKey import RSA
 from cryptography.fernet import Fernet
 from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+from django.conf import settings
+from django.utils.encoding import force_bytes
 
 
 # Verify we can use all feature we require.

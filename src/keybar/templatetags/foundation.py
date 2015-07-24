@@ -1,6 +1,6 @@
 from django import template
-from django.utils.safestring import mark_safe
 from django.contrib.messages import constants as message_constants
+from django.utils.safestring import mark_safe
 
 
 register = template.Library()

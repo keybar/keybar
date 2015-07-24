@@ -1,7 +1,6 @@
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import (
-    CreateModelMixin, ListModelMixin, RetrieveModelMixin,
-    UpdateModelMixin, DestroyModelMixin)
+    CreateModelMixin, DestroyModelMixin, ListModelMixin, RetrieveModelMixin, UpdateModelMixin)
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.renderers import JSONRenderer
 

@@ -2,6 +2,7 @@ import os
 
 from keybar.conf.base import *
 
+
 certificates_dir = os.path.join(BASE_DIR, 'tests', 'resources', 'certificates')
 
 KEYBAR_SERVER_CERTIFICATE = os.path.join(certificates_dir, 'KEYBAR-intermediate-SERVER.cert')

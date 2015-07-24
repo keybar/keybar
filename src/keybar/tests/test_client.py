@@ -3,10 +3,9 @@ import os
 import pytest
 
 from keybar.client import Client
-from keybar.utils.http import InsecureTransport
-
+from keybar.tests.factories.device import PRIVATE_KEY, AuthorizedDeviceFactory
 from keybar.tests.factories.user import UserFactory
-from keybar.tests.factories.device import AuthorizedDeviceFactory, PRIVATE_KEY
+from keybar.utils.http import InsecureTransport
 
 
 @pytest.mark.django_db(transaction=True)

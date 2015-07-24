@@ -1,9 +1,9 @@
-import socket
 import errno
+import socket
 
-from pytest_django.live_server_helper import parse_addr
-from django.test.testcases import LiveServerThread as LiveServerThreadBase
 from django.db import connections
+from django.test.testcases import LiveServerThread as LiveServerThreadBase
+from pytest_django.live_server_helper import parse_addr
 from tornado import ioloop
 
 from keybar.server import get_server

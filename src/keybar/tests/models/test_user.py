@@ -1,5 +1,5 @@
-import pytest
 import mock
+import pytest
 from django.core import mail
 
 from keybar.models.user import User

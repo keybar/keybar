@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 
-from tornado import wsgi, web, httpserver, ioloop
+from tornado import httpserver, ioloop, web, wsgi
 from werkzeug.debug import DebuggedApplication
 
 
