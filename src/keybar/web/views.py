@@ -6,12 +6,12 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import (
     CreateView, DeleteView, FormView, ListView, TemplateView, UpdateView, View)
+from user_sessions.views import SessionMixin as UserSessionMixin
 
 from keybar.models.entry import Entry
 from keybar.utils.mixins import LoginRequiredMixin
 from keybar.utils.totp import generate_qr_code_response
 from keybar.web.forms import EntryForm, SetupTotpForm, UpdateEntryForm, ViewEntryForm
-from user_sessions.views import SessionMixin as UserSessionMixin
 
 
 class IndexView(TemplateView):
