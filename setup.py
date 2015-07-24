@@ -23,8 +23,8 @@ test_requires = [
     'pyflakes>=0.8.1,<0.9',
     'coverage>=3.7.1,<3.8',
     'pytest-cov>=1.8.1,<1.9',
-    'pytest-flakes>=0.2,<1.0',
-    'pytest-pep8>=1.0.5,<1.1',
+    'pytest-flakes>=1.0,<1.1',
+    'pytest-pep8>=1.0.6,<1.1',
     'pep8>=1.6.2,<1.7',
     'coverage>=3.7.1,<3.8',
 
