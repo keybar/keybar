@@ -15,7 +15,6 @@ def read(*parts):
 test_requires = [
     # General test libraries
     'tox>=1.9.2,<2.0.0',
-    'py>=1.4.26,<1.5',
     'pytest>=2.7.0,<2.8',
     'pytest-django>=2.8,<2.9',
     'pytest-isort==0.1.0',
