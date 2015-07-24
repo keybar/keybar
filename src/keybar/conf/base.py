@@ -90,8 +90,6 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.core.context_processors.request',
                 'django.contrib.messages.context_processors.messages',
-                'allauth.account.context_processors.account',
-                'allauth.socialaccount.context_processors.socialaccount',
 
                 # Overwrite the allauth context processor because... it actively
                 # verifies that the allauth processor exists.

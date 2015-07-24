@@ -10,11 +10,13 @@
 {% block sub-title %}{% trans 'Login' %}{% endblock sub-title %}
 
 {% block main-content %}
+	{% get_providers as socialaccount_providers %}
+
 	<section class="row" role="login">
-		{% if socialaccount.providers  %}
+		{% if socialaccount.providerssocialaccount_providers  %}
 			<div class="small-12 medium-12 large-12 columns">
 				<ul class="social-providers button-group">
-					{% for provider in socialaccount.providers %}
+					{% for provider in socialaccount_providers %}
 						<li>
 						  <a title="{{ provider.name }}" class="button alert white glyphicons social {% provider_icon provider %}"
 							 href="{% provider_login_url provider.id process='login' %}">{% trans 'Sign in with' %} {{ provider.name }}</a>
