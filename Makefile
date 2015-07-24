@@ -1,5 +1,4 @@
 .PHONY: clean deps develop docs clean-build lint test coverage coverage-html tox migrate runserver
-PYTEST_OPTS :=
 COVER := keybar
 APP := src/
 
@@ -59,15 +58,15 @@ lint:
 
 
 test:
-	@py.test ${PYTEST_OPTS} ${APP}
+	py.test ${APP}
 
 
 coverage:
-	py.test --cov=${COVER} --cov-report=term-missing ${PYTEST_OPTS} ${APP}
+	py.test --cov=${COVER} --cov-report=term-missing ${APP}
 
 
 coverage-html:
-	py.test --cov=${COVER} --cov-report=html ${PYTEST_OPTS} ${APP}
+	py.test --cov=${COVER} --cov-report=html ${APP}
 
 
 tox:
