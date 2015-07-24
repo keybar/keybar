@@ -48,11 +48,11 @@ install_requires = [
     'django-allauth>=0.22.0,<0.23',
 
     # For async worker support
-    'celery>=3.1.17,<3.2',
+    'celery>=3.1.18,<3.2',
 
     # i18n/l10n,
     # 'babel>=1.3', -> requirements.txt
-    'django-statici18n>=1.1.2,<1.2',
+    'django-statici18n>=1.1.3,<1.2',
     'django-babel>=0.3.9',
 
     # For our REST Api
@@ -62,13 +62,13 @@ install_requires = [
     'requests-toolbelt>=0.4,<0.5',
 
     # Form helpers
-    'django-floppyforms>=1.3.0',
+    'django-floppyforms>=1.5.1,<1.6',
 
     # For our development (and probably production?) tls pre-configured server.
     'tornado>=4.1,<5.0',
 
     # All the crypto libs we ever need
-    'cryptography>=0.8.1,<1.0',
+    'cryptography>=0.9.3,<1.0',
     'certifi',
     'qrcode>=5.1,<5.2',
     'pycrypto>=2.6.1,<2.7',
