@@ -42,6 +42,7 @@ before_script:
   - psql -c 'create database keybar_test;' -U postgres
 
 script:
+  - openssl version
   - psql --version
   - make develop
   - make test
