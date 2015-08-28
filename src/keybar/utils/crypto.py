@@ -102,7 +102,7 @@ def get_server_context(verify=True):
     # more restricted as we force best security available.
     server_ctx.set_ciphers('EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256')
 
-    # Disable that is not TSL 1.2, explicit is better than implicit
+    # Disable everything that is not TSL 1.2, explicit is better than implicit
     server_ctx.options |= ssl.OP_NO_SSLv2
     server_ctx.options |= ssl.OP_NO_SSLv3
     server_ctx.options |= ssl.OP_NO_TLSv1

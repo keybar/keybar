@@ -46,7 +46,7 @@ class Client(requests.Session):
         self.secret = secret
 
         # Force enabling certificate checking for this session.
-        self.verify = settings.KEYBAR_CA_BUNDLE or True
+        self.verify = settings.KEYBAR_CA_BUNDLE
 
     def request(self, method, url, *args, **kwargs):
         if not is_secure_transport(url):
@@ -91,6 +91,7 @@ class Client(requests.Session):
             'headers': headers,
             'data': data,
             'cert': (settings.KEYBAR_CLIENT_CERTIFICATE, settings.KEYBAR_CLIENT_KEY),
+            'verify': settings.KEYBAR_CA_BUNDLE,
         })
 
         return super(Client, self).request(method, url, *args, **kwargs)
