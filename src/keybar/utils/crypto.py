@@ -129,6 +129,10 @@ def get_server_context(verify=True):
     return server_ctx
 
 
+# TODO: Unused for now, unfortunately python-requests does not support
+# passing in a SSLContext :(
+# We do verify the client certificate but a few more options would be
+# nice.
 def get_client_context(verify=True):
     """Matching TLS configuration for the client."""
     client_ctx = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
