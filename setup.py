@@ -31,6 +31,8 @@ test_requires = [
     # Fixtures, test helpers
     'factory-boy>=2.5.1,<2.6',
     'mock>=1.0.1,<1.1',
+    'hypothesis',
+    'hypothesis-pytest',
 ]
 
 
