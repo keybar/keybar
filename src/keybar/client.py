@@ -19,6 +19,13 @@ from keybar.utils import json
 from keybar.utils.http import InsecureTransport, is_secure_transport
 
 
+class TLS12SSLAdapter(SSLAdapter):
+
+    def __init__(self, *args, **kwargs):
+        self.ssl_version = ssl.PROTOCOL_TLSv1_2
+        super(TLS12SSLAdapter, self).__init__(**kwargs)
+
+
 class Client(requests.Session):
     """Proof of concept client implementation."""
     content_type = 'application/json'
@@ -26,8 +33,7 @@ class Client(requests.Session):
     def __init__(self, device_id=None, secret=None):
         super(Client, self).__init__()
 
-        keybar_url = 'https://{0}'.format(settings.KEYBAR_HOST)
-        self.mount(keybar_url, SSLAdapter(ssl.PROTOCOL_TLSv1_2))
+        self.mount('https://', TLS12SSLAdapter())
 
         if isinstance(device_id, uuid.UUID):
             self.device_id = device_id.hex
