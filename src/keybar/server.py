@@ -41,6 +41,8 @@ def get_server(debug=None):
         (r'.*', web.FallbackHandler, dict(fallback=container)),
     ], debug=debug)
 
+    assert settings.KEYBAR_VERIFY_CLIENT_CERTIFICATE
+
     server = httpserver.HTTPServer(
         application,
         ssl_options=get_server_context(verify=settings.KEYBAR_VERIFY_CLIENT_CERTIFICATE))

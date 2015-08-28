@@ -17,7 +17,7 @@ KEYBAR_CA_BUNDLE = os.path.join(certificates_dir, 'KEYBAR-ca-bundle.crt')
 KEYBAR_DOMAIN = 'keybar.local'
 KEYBAR_HOST = 'keybar.local:8443'
 
-KEYBAR_VERIFY_CLIENT_CERTIFICATE = False
+KEYBAR_VERIFY_CLIENT_CERTIFICATE = True
 
 LOGGING = {
     'version': 1,

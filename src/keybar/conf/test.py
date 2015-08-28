@@ -18,6 +18,8 @@ KEYBAR_CLIENT_KEY = os.path.join(certificates_dir, 'KEYBAR-intermediate-CLIENT.k
 
 KEYBAR_CA_BUNDLE = os.path.join(certificates_dir, 'KEYBAR-ca-bundle.crt')
 
+KEYBAR_VERIFY_CLIENT_CERTIFICATE = True
+
 KEYBAR_DOMAIN = 'keybar.local'
 KEYBAR_HOST = 'keybar.local:8443'
 
