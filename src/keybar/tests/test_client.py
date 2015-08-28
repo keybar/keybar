@@ -1,11 +1,25 @@
 import os
 
 import pytest
+import requests
 
-from keybar.client import Client
+from keybar.client import Client, TLS12SSLAdapter
 from keybar.tests.factories.device import PRIVATE_KEY, AuthorizedDeviceFactory
 from keybar.tests.factories.user import UserFactory
 from keybar.utils.http import InsecureTransport
+
+
+def verify_rejected_ssl(url):
+    """
+    The utility verifies that the url raises SSLError if the remote server
+    supports only weak ciphers.
+    """
+    with pytest.raises(requests.exceptions.SSLError):
+        session = requests.Session()
+        session.mount('https://', TLS12SSLAdapter())
+
+        session.get(url)
+    return True
 
 
 @pytest.mark.django_db(transaction=True)
@@ -49,3 +63,36 @@ class TestClient:
         response = client.get(endpoint)
         assert response.status_code == 401
         assert response.json()['detail'] == 'Bad signature'
+
+    def test_to_server_without_tls_10(self):
+        """
+        Verify that connection is possible to SFDC servers that disabled TLS 1.0
+        """
+        session = requests.Session()
+        session.mount('https://', TLS12SSLAdapter())
+
+        response = session.get('https://tls1test.salesforce.com/s/')
+        assert response.status_code == 200
+
+    def test_under_downgrade_attack_to_ssl_3(self):
+        """
+        Verify that the connection is rejected if the remote server (or man
+        in the middle) claims that SSLv3 is the best supported protocol.
+        """
+        url = 'https://ssl3.zmap.io/sslv3test.js'
+        assert verify_rejected_ssl(url)
+
+    def test_protocols_by_ssl_labs(self):
+        session = requests.Session()
+        session.mount('https://', TLS12SSLAdapter())
+        response = session.get('https://www.ssllabs.com/ssltest/viewMyClient.html')
+        assert 'Your user agent has good protocol support' in response.text
+
+    def test_vulnerability_logjam_by_ssl_labs(self):
+        assert verify_rejected_ssl('https://www.ssllabs.com:10445/')
+
+    def test_vulnerability_freak_by_ssl_labs(self):
+        assert verify_rejected_ssl('https://www.ssllabs.com:10444/')
+
+    def test_vulnerability_osx_by_ssl_labs(self):
+        assert verify_rejected_ssl('https://www.ssllabs.com:10443/')

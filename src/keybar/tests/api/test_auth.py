@@ -1,6 +1,5 @@
 import hashlib
 import json
-import ssl
 from base64 import encodebytes
 from datetime import datetime
 from email.utils import formatdate
@@ -10,9 +9,9 @@ import pytest
 import requests
 from django.utils.encoding import force_bytes
 from httpsig.requests_auth import HTTPSignatureAuth
-from requests_toolbelt import SSLAdapter
 from rest_framework import status
 
+from keybar.client import TLS12SSLAdapter
 from keybar.tests.factories.device import PRIVATE_KEY, AuthorizedDeviceFactory
 from keybar.tests.factories.user import UserFactory
 
@@ -50,7 +49,7 @@ class TestHttpSignatureAuth:
             algorithm='rsa-sha256')
 
         session = requests.Session()
-        session.mount(keybar_liveserver.url, SSLAdapter(ssl.PROTOCOL_TLSv1_2))
+        session.mount(keybar_liveserver.url, TLS12SSLAdapter())
 
         response = session.get(
             '{0}/api/users/'.format(keybar_liveserver.url),
@@ -63,7 +62,7 @@ class TestHttpSignatureAuth:
 
     def test_simple_fail(self, settings, keybar_liveserver):
         session = requests.Session()
-        session.mount(keybar_liveserver.url, SSLAdapter(ssl.PROTOCOL_TLSv1_2))
+        session.mount(keybar_liveserver.url, TLS12SSLAdapter())
 
         response = session.get(
             '{0}/api/users/'.format(keybar_liveserver.url),
