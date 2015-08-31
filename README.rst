@@ -76,6 +76,11 @@ Also, I don't like the idea of unlocking all my passwords with just one "key" - 
 Installation
 ------------
 
+.. note::
+
+   Keybar is being developed and tested on ArchLinux, Ubuntu and MacOSX. I doubt it'll work on Windows yet.
+
+
 .. code-block:: bash
 
     $ Create your virtualenv (recommended, use virtualenvwrapper)
