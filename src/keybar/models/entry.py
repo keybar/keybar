@@ -76,10 +76,12 @@ class Entry(KeybarModel):
         """
         device_key = base64.b64decode(self.keys[device.id.hex])
 
-        return fernet_decrypt(
-            self.values[key],
-            private_key_decrypt(private_key, device_key),
-            self.salt)
+        master_key = private_key_decrypt(private_key, device_key)
+
+        if master_key is None:
+            return
+
+        return fernet_decrypt(self.values[key], master_key, self.salt)
 
     def __str__(self):
         if self.url and self.title:
