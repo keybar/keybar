@@ -35,6 +35,11 @@ class TestEntry:
 
         assert Entry.objects.get(pk=entry.pk).tags == ['tag1', 'tag2']
 
+        entry.tags = ['tag1']
+        entry.save()
+
+        assert Entry.objects.get(pk=entry.pk).tags == ['tag1']
+
     def test_create_update_decrypt(self):
         vault = VaultFactory.create()
         entry = Entry.create(self.device.id, 'this is secret', PRIVATE_KEY, vault=vault)
