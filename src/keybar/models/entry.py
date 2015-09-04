@@ -7,7 +7,8 @@ from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
 
 from keybar.models.device import Device
-from keybar.utils.crypto import decrypt, encrypt, get_salt
+from keybar.utils.crypto import (
+    fernet_decrypt, fernet_encrypt, get_salt, private_key_decrypt, public_key_encrypt)
 from keybar.utils.db import KeybarModel, sane_repr
 from keybar.utils.db.json import JSONField
 
@@ -53,10 +54,10 @@ class Entry(KeybarModel):
         master_key = os.urandom(32)
 
         device = Device.objects.get(pk=device_id)
-        device_key = device.loaded_public_key.encrypt(master_key, 32)[0]
+        device_key = public_key_encrypt(device.loaded_public_key, master_key)
 
         encrypted = {
-            key: encrypt(value, master_key, salt)
+            key: fernet_encrypt(value, master_key, salt)
             for key, value in values.items()}
 
         keys = {device.id.hex: force_text(base64.b64encode(device_key))}
@@ -75,7 +76,10 @@ class Entry(KeybarModel):
         """
         device_key = base64.b64decode(self.keys[device.id.hex])
 
-        return decrypt(self.values[key], private_key.decrypt(device_key), self.salt)
+        return fernet_decrypt(
+            self.values[key],
+            private_key_decrypt(private_key, device_key),
+            self.salt)
 
     def __str__(self):
         if self.url and self.title:

@@ -4,8 +4,8 @@ import json
 import os
 import sys
 import time
-from argparse import (
-    OPTIONAL, SUPPRESS, ZERO_OR_MORE, ArgumentParser, FileType, RawDescriptionHelpFormatter)
+from argparse import OPTIONAL, SUPPRESS, ZERO_OR_MORE, \
+    ArgumentParser, FileType, RawDescriptionHelpFormatter
 from textwrap import dedent
 
 import click

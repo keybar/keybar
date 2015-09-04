@@ -5,7 +5,7 @@ from keybar.client import Client
 from keybar.models.device import Device
 from keybar.tests.factories.device import PRIVATE_KEY, PUBLIC_KEY, AuthorizedDeviceFactory
 from keybar.tests.factories.user import UserFactory
-from keybar.utils.crypto import generate_rsa_keys
+from keybar.utils.crypto import generate_rsa_keys, serialize_public_key
 
 
 @pytest.mark.django_db(transaction=True)
@@ -18,7 +18,7 @@ class TestDevicesEndpoint:
 
         response = client.post(endpoint, data={
             'name': 'Test Device',
-            'public_key': str(PUBLIC_KEY.exportKey('PEM'), 'ascii')
+            'public_key': serialize_public_key(PUBLIC_KEY)
         })
 
         assert response.status_code == 200
@@ -37,7 +37,7 @@ class TestDevicesEndpoint:
         # Create a second device that is not owned by the user
         # and should not show in the list.
         AuthorizedDeviceFactory.create(
-            public_key=generate_rsa_keys()[1].exportKey('DER')
+            public_key=serialize_public_key(generate_rsa_keys()[1])
         )
 
         client = Client(device.id, PRIVATE_KEY)

@@ -16,6 +16,7 @@ from requests_toolbelt import SSLAdapter, user_agent
 
 from keybar.api.auth import ALGORITHM, REQUIRED_HEADERS
 from keybar.utils import json
+from keybar.utils.crypto import serialize_private_key
 from keybar.utils.http import InsecureTransport, is_secure_transport
 
 
@@ -41,7 +42,7 @@ class Client(requests.Session):
             self.device_id = device_id
 
         if secret and not isinstance(secret, (bytes, str)):
-            secret = secret.exportKey('PEM')
+            secret = serialize_private_key(secret)
 
         self.secret = secret
 

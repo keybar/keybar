@@ -14,6 +14,7 @@ from rest_framework import status
 from keybar.client import TLS12SSLAdapter
 from keybar.tests.factories.device import PRIVATE_KEY, AuthorizedDeviceFactory
 from keybar.tests.factories.user import UserFactory
+from keybar.utils.crypto import serialize_private_key
 
 
 @pytest.mark.django_db(transaction=True)
@@ -44,7 +45,7 @@ class TestHttpSignatureAuth:
 
         auth = HTTPSignatureAuth(
             key_id=device.id.hex,
-            secret=PRIVATE_KEY.exportKey('PEM'),
+            secret=serialize_private_key(PRIVATE_KEY),
             headers=signature_headers,
             algorithm='rsa-sha256')
 
