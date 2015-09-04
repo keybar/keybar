@@ -8,7 +8,7 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from django.conf import settings
-from django.utils.encoding import force_bytes
+from django.utils.encoding import force_bytes, force_text
 
 
 # Verify we can use all feature we require.
@@ -70,8 +70,11 @@ def verify_encryption_key(salt, password, key):
 
 
 def encrypt(text, password, salt):
+    """Ecrypts ``text`` with ``password`` and ``salt``.
+
+    :returns: A base64 encoded fernet token"""
     fernet = Fernet(base64.urlsafe_b64encode(derive_encryption_key(salt, password)))
-    return fernet.encrypt(force_bytes(text))
+    return force_text(fernet.encrypt(force_bytes(text)))
 
 
 def decrypt(text, password, salt):

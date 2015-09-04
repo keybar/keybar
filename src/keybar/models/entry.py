@@ -19,9 +19,10 @@ class Entry(KeybarModel):
     url = models.URLField(blank=True, default='')
 
     identifier = models.TextField(_('Identifier for login'),
-        help_text=_('Usually a username or email address'))
-    value = models.BinaryField(_('The encrypted value for the entry.'),
-        help_text=_('Usually a password.'))
+        help_text=_('Usually a username or email address'),
+        blank=True)
+
+    values = JSONField(default={})
 
     description = models.TextField(_('Description'), blank=True, default='')
 
@@ -38,47 +39,43 @@ class Entry(KeybarModel):
     __repr__ = sane_repr('id', 'identifier')
 
     @classmethod
-    def create(cls, device_id, value, private_key, **kwargs):
+    def create(cls, device_id, values, **kwargs):
+        """Create a new entry.
+
+        This generates a master key and encrypts it with the public key
+        from the device from which the new entry get's created.
+
+        The master key is used to encrypt the values.
+
+        The master key is never stored.
+        """
         salt = get_salt()
         master_key = os.urandom(32)
 
         device = Device.objects.get(pk=device_id)
         device_key = device.loaded_public_key.encrypt(master_key, 32)[0]
 
-        encrypted_value = encrypt(value, master_key, salt)
+        encrypted = {
+            key: encrypt(value, master_key, salt)
+            for key, value in values.items()}
+
         keys = {device.id.hex: force_text(base64.b64encode(device_key))}
 
-        return cls.objects.create(salt=salt, keys=keys, value=encrypted_value, **kwargs)
+        return cls.objects.create(salt=salt, keys=keys, values=encrypted, **kwargs)
 
-    def update(self, value, private_key):
-        if not self.keys:
-            raise ValueError('Please use Entry.create to create an initial entry')
+    def decrypt(self, key, device, private_key):
+        """Decrypt the specific key on this entry for a specific device.
 
-        salt = get_salt()
+        ... note::
 
-        # TODO: This might not be efficient, use id? I actually like the idea
-        # of associating the device directly via the private key
-        # TODO: This whole API and process kinda seems unreasonable.... :-/
-        # Somehow I think I need to regenerate the master-key and
-        # update all related device keys. Since I have the public-key I
-        # should be able to do that.
+            This is only used for cloud-stored passwords so the code
+            can reside here in the model.
 
-        device = Device.objects.get(public_key=private_key.publickey().exportKey('PEM'))
+            Each client must implement this functionality itself.
+        """
         device_key = base64.b64decode(self.keys[device.id.hex])
 
-        master_key = private_key.decrypt(device_key)
-
-        self.value = encrypt(value, master_key, salt)
-        self.salt = salt
-
-    @classmethod
-    def decrypt(cls, entry_id, device_id, private_key):
-        entry = cls.objects.get(pk=entry_id)
-        device = Device.objects.get(id=device_id)
-
-        device_key = base64.b64decode(entry.keys[device.id.hex])
-
-        return decrypt(entry.value, private_key.decrypt(device_key), entry.salt)
+        return decrypt(self.values[key], private_key.decrypt(device_key), self.salt)
 
     def __str__(self):
         if self.url and self.title:
