@@ -34,7 +34,7 @@ class Entry(KeybarModel):
 
     log = JSONField(default={})
 
-    force_two_factor_authorization = models.BooleanField(default=False)
+    enable_two_factor_authorization = models.BooleanField(default=False)
 
     __repr__ = sane_repr('id', 'identifier')
 
