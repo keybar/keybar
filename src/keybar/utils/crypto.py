@@ -188,6 +188,7 @@ def get_server_context(verify=True):
     # Disable that is not TSL 1.0+
     server_ctx.options |= ssl.OP_NO_SSLv2
     server_ctx.options |= ssl.OP_NO_SSLv3
+    server_ctx.options |= ssl.OP_NO_TLSv1
 
     # Mitigate CRIME
     server_ctx.options |= ssl.OP_NO_COMPRESSION
