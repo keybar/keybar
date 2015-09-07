@@ -61,7 +61,7 @@ install_requires = [
     'djangorestframework>=3.2.3,<3.3',
     'httpsig>=1.1.2,<1.2.0',
     'requests>=2.7,<2.8',
-    'urllib3>=1.12,<1.2',
+    'urllib3>=1.12',
     'requests-toolbelt>=0.4,<0.5',
 
     # Form helpers
