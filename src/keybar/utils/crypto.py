@@ -183,10 +183,9 @@ def get_server_context(verify=True):
 
     server_ctx.set_ecdh_curve('prime256v1')
     server_ctx.verify_mode = ssl.CERT_OPTIONAL if not verify else ssl.CERT_REQUIRED
-
     server_ctx.set_ciphers(CIPHERS)
 
-    # Disable everything that is not TSL 1.0+, explicit is better than implicit
+    # Disable that is not TSL 1.0+
     server_ctx.options |= ssl.OP_NO_SSLv2
     server_ctx.options |= ssl.OP_NO_SSLv3
 
@@ -230,11 +229,9 @@ def get_client_context(verify=True):
     # Mitigate CRIME
     client_ctx.options |= ssl.OP_NO_COMPRESSION
 
-    # Disable that is not TSL 1.2, explicit is better than implicit
+    # Disable that is not TSL 1.0+
     client_ctx.options |= ssl.OP_NO_SSLv2
     client_ctx.options |= ssl.OP_NO_SSLv3
-    client_ctx.options |= ssl.OP_NO_TLSv1
-    client_ctx.options |= ssl.OP_NO_TLSv1_1
 
     # Load the certificates
     client_ctx.load_cert_chain(
