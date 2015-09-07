@@ -3,7 +3,7 @@ import uuid
 import pytest
 
 from keybar.models.entry import Entry
-from keybar.tests.factories.device import PRIVATE_KEY, DeviceFactory
+from keybar.tests.factories.device import PRIVATE_KEY, PRIVATE_KEY2, DeviceFactory
 from keybar.tests.factories.entry import EntryFactory
 from keybar.tests.factories.vault import VaultFactory
 
@@ -44,18 +44,23 @@ class TestEntry:
 
         assert Entry.objects.get(pk=entry.pk).tags == ['tag1']
 
-    def test_create_update_decrypt(self):
+    def test_values_can_contain_arbitrary_byte_values(self):
+        vault = VaultFactory.create()
+        entry = Entry.create(self.device.id, {'password': b'secret'}, vault=vault)
+
+        assert entry.salt is not None
+        assert tuple(entry.values.keys()) == ('password',)
+
+    def test_create_decrypt(self):
         vault = VaultFactory.create()
         entry = Entry.create(self.device.id, {'password': 'secret'}, vault=vault)
 
         assert entry.salt is not None
         assert entry.decrypt('password', self.device, PRIVATE_KEY) == b'secret'
 
-        # old_salt = entry.salt
-        # entry.update('this is a new secret', PRIVATE_KEY)
-        # entry.save()
+    def test_create_decrypt_wrong_private_key(self):
+        vault = VaultFactory.create()
+        entry = Entry.create(self.device.id, {'password': 'secret'}, vault=vault)
 
-        # # Always generates a new salt.
-        # assert entry.salt != old_salt
-
-        # assert entry.decrypt(entry.id, self.device.id, PRIVATE_KEY) == b'this is a new secret'
+        assert entry.salt is not None
+        assert entry.decrypt('password', self.device, PRIVATE_KEY2) is None

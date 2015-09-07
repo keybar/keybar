@@ -126,25 +126,31 @@ def fernet_decrypt(text, password, salt):
 
 
 def public_key_encrypt(public_key, data):
-    return public_key.encrypt(
-        data,
-        padding.OAEP(
-            mgf=padding.MGF1(algorithm=hashes.SHA1()),
-            algorithm=hashes.SHA1(),
-            label=None
+    try:
+        return public_key.encrypt(
+            data,
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA1()),
+                algorithm=hashes.SHA1(),
+                label=None
+            )
         )
-    )
+    except (AssertionError, ValueError):
+        return None
 
 
 def private_key_decrypt(private_key, data):
-    return private_key.decrypt(
-        data,
-        padding.OAEP(
-            mgf=padding.MGF1(algorithm=hashes.SHA1()),
-            algorithm=hashes.SHA1(),
-            label=None
+    try:
+        return private_key.decrypt(
+            data,
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA1()),
+                algorithm=hashes.SHA1(),
+                label=None
+            )
         )
-    )
+    except (AssertionError, ValueError):
+        return None
 
 
 def prettify_fingerprint(fingerprint):
