@@ -18,6 +18,19 @@ assert ssl.HAS_SNI
 
 KEY_LENGTH = 32
 
+# As per https://wiki.mozilla.org/Security/Server_Side_TLS#Recommended_configurations
+CIPHERS = (
+    'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256'
+    ':ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384'
+    ':DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM'
+    ':ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA'
+    ':ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384'
+    ':ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256'
+    ':DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256'
+    ':DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA'
+    ':!aNULL:!eNULL:!EXPORT:!DES:!RC4:!3DES:!MD5:!PSK'
+)
+
 
 def get_salt():
     """Helper method to get a salt.
@@ -174,13 +187,13 @@ def get_server_context(verify=True):
     # This list is based on the official supported ciphers by CloudFlare
     # (cloudflare/sslconfig on GitHub) but is again just a tiny little bit
     # more restricted as we force best security available.
-    server_ctx.set_ciphers('EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256')
+    server_ctx.set_ciphers(CIPHERS)
 
     # Disable everything that is not TSL 1.2, explicit is better than implicit
     server_ctx.options |= ssl.OP_NO_SSLv2
     server_ctx.options |= ssl.OP_NO_SSLv3
-    server_ctx.options |= ssl.OP_NO_TLSv1
-    server_ctx.options |= ssl.OP_NO_TLSv1_1
+    # server_ctx.options |= ssl.OP_NO_TLSv1
+    # server_ctx.options |= ssl.OP_NO_TLSv1_1
 
     # Mitigate CRIME
     server_ctx.options |= ssl.OP_NO_COMPRESSION
@@ -217,7 +230,7 @@ def get_client_context(verify=True):
     client_ctx.check_hostname = True
 
     # Same as the server.
-    client_ctx.set_ciphers('EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256')
+    client_ctx.set_ciphers(CIPHERS)
 
     # Mitigate CRIME
     client_ctx.options |= ssl.OP_NO_COMPRESSION
