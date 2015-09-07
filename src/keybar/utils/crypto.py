@@ -190,6 +190,7 @@ def get_server_context(verify=True):
     server_ctx.options |= ssl.OP_NO_SSLv2
     server_ctx.options |= ssl.OP_NO_SSLv3
     server_ctx.options |= ssl.OP_NO_TLSv1
+    server_ctx.options |= ssl.OP_NO_TLSv1_1
 
     # Mitigate CRIME
     server_ctx.options |= ssl.OP_NO_COMPRESSION
