@@ -86,7 +86,15 @@ class TestClient:
         session = requests.Session()
         session.mount('https://', TLS12SSLAdapter())
         response = session.get('https://www.ssllabs.com/ssltest/viewMyClient.html')
+
         assert 'Your user agent has good protocol support' in response.text
+
+    def test_sni_suport(self):
+        session = requests.Session()
+        session.mount('https://', TLS12SSLAdapter())
+        response = session.get('https://sni.velox.ch/')
+        assert 'sent the following TLS server name indication extension' in response.text
+        assert 'negotiated protocol: TLSv1.2' in response.text
 
     def test_vulnerability_logjam_by_ssl_labs(self):
         assert verify_rejected_ssl('https://www.ssllabs.com:10445/')
