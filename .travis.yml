@@ -13,8 +13,8 @@ addons:
     packages:
       - gcc-4.7
       - g++-4.8
-      - openssl/debian-sid
-      - libssl-dev/debian-sid
+      - openssl
+      - libssl-dev
 
 services:
   - memcached
