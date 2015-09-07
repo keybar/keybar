@@ -36,3 +36,11 @@ def test_encrypt_decrypt_cycle(salt, password, message):
 
 def test_get_salt():
     assert len(get_salt()) == 32
+
+
+def test_correct_settings():
+    from keybar.conf.base import KEYBAR_KDF_ITERATIONS
+    from keybar.conf.development import KEYBAR_KDF_ITERATIONS as DEV_KEYBAR_KDF_ITERATIONS
+
+    assert KEYBAR_KDF_ITERATIONS == 1000000
+    assert DEV_KEYBAR_KDF_ITERATIONS == 1000000
