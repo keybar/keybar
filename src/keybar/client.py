@@ -23,7 +23,7 @@ from keybar.utils.http import InsecureTransport, is_secure_transport
 class TLS12SSLAdapter(SSLAdapter):
 
     def __init__(self, *args, **kwargs):
-        self.ssl_version = ssl.PROTOCOL_TLSv1_2
+        kwargs['ssl_version'] = ssl.PROTOCOL_TLSv1_2
         super(TLS12SSLAdapter, self).__init__(**kwargs)
 
 

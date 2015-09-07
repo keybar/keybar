@@ -184,16 +184,11 @@ def get_server_context(verify=True):
     server_ctx.set_ecdh_curve('prime256v1')
     server_ctx.verify_mode = ssl.CERT_OPTIONAL if not verify else ssl.CERT_REQUIRED
 
-    # This list is based on the official supported ciphers by CloudFlare
-    # (cloudflare/sslconfig on GitHub) but is again just a tiny little bit
-    # more restricted as we force best security available.
     server_ctx.set_ciphers(CIPHERS)
 
-    # Disable everything that is not TSL 1.2, explicit is better than implicit
+    # Disable everything that is not TSL 1.0+, explicit is better than implicit
     server_ctx.options |= ssl.OP_NO_SSLv2
     server_ctx.options |= ssl.OP_NO_SSLv3
-    # server_ctx.options |= ssl.OP_NO_TLSv1
-    # server_ctx.options |= ssl.OP_NO_TLSv1_1
 
     # Mitigate CRIME
     server_ctx.options |= ssl.OP_NO_COMPRESSION
