@@ -43,6 +43,7 @@ before_script:
 
 script:
   - openssl version
+  - openssl ciphers -v 'TLSv1.2' | head -4
   - psql --version
   - make develop
   - make test
