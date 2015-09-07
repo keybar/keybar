@@ -9,9 +9,12 @@ addons:
   apt:
     sources:
       - ubuntu-toolchain-r-test
+      - debian-sid
     packages:
       - gcc-4.7
       - g++-4.8
+      - openssl/debian-sid
+      - libssl-dev/debian-sid
 
 services:
   - memcached
