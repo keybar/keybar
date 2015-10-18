@@ -1,7 +1,7 @@
 import mock
 import pytest
 
-from keybar.client import Client
+from keybar.client import TestClient
 from keybar.models.device import Device
 from keybar.tests.factories.device import PRIVATE_KEY, PUBLIC_KEY, AuthorizedDeviceFactory
 from keybar.tests.factories.user import UserFactory
@@ -12,14 +12,11 @@ from keybar.utils.crypto import generate_rsa_keys
 class TestDevicesEndpoint:
 
     def test_register(self, keybar_liveserver):
-        client = Client()
+        client = TestClient(keybar_liveserver)
 
-        endpoint = '{0}/api/devices/register/'.format(keybar_liveserver.url)
-
-        response = client.post(endpoint, data={
-            'name': 'Test Device',
-            'public_key': str(PUBLIC_KEY.exportKey('PEM'), 'ascii')
-        })
+        response = client.register_device(
+            'Test Device',
+            str(PUBLIC_KEY.exportKey('PEM'), 'ascii'))
 
         assert response.status_code == 200
         assert response.json() == {
@@ -40,11 +37,8 @@ class TestDevicesEndpoint:
             public_key=generate_rsa_keys()[1].exportKey('DER')
         )
 
-        client = Client(device.id, PRIVATE_KEY)
-
-        endpoint = '{0}/api/devices/'.format(keybar_liveserver.url)
-
-        response = client.get(endpoint)
+        client = TestClient(keybar_liveserver, device_id=device.id, secret=PRIVATE_KEY)
+        response = client.list_devices()
 
         assert response.status_code == 200
         assert response.json() == [{

@@ -6,9 +6,11 @@ from base64 import encodebytes
 from datetime import datetime
 from email.utils import formatdate
 from time import mktime
+from urllib.parse import urljoin, urlencode
 
 import pkg_resources
 import requests
+from urllib3.util.url import parse_url
 from django.conf import settings
 from django.utils.encoding import force_bytes
 from httpsig.requests_auth import HTTPSignatureAuth
@@ -16,7 +18,8 @@ from requests_toolbelt import SSLAdapter, user_agent
 
 from keybar.api.auth import ALGORITHM, REQUIRED_HEADERS
 from keybar.utils import json
-from keybar.utils.http import InsecureTransport, is_secure_transport
+from keybar.utils.http import (
+    InsecureTransport, InvalidHost, verify_host, is_secure_transport)
 
 
 class TLS12SSLAdapter(SSLAdapter):
@@ -26,9 +29,22 @@ class TLS12SSLAdapter(SSLAdapter):
         super(TLS12SSLAdapter, self).__init__(**kwargs)
 
 
+class APIError(Exception):
+    def __init__(self, message, code=0):
+        self.code = code
+        self.message = message
+
+    def __str__(self):
+        return '{}: {}'.format(self.message, self.code)
+
+
 class Client(requests.Session):
     """Proof of concept client implementation."""
     content_type = 'application/json'
+
+    host = 'keybar.me'
+    port = '443'
+    timeout = 3.0
 
     def __init__(self, device_id=None, secret=None):
         super(Client, self).__init__()
@@ -48,9 +64,22 @@ class Client(requests.Session):
         # Force enabling certificate checking for this session.
         self.verify = settings.KEYBAR_CA_BUNDLE
 
+    def build_url(self, endpoint, qs=None):
+        url = urljoin(
+            'https://{host}:{port}'.format(host=self.host, port=self.port),
+            endpoint)
+
+        if qs:
+            url += '?' + urlencode(qs)
+        return url
+
     def request(self, method, url, *args, **kwargs):
         if not is_secure_transport(url):
             raise InsecureTransport('Please make sure to use HTTPS')
+
+        if not verify_host(url, [self.host]):
+            raise InvalidHost(
+                'Please verify the client is using "{}" has host'.format(self.host))
 
         data = kwargs.get('data', {})
 
@@ -92,6 +121,49 @@ class Client(requests.Session):
             'data': data,
             'cert': (settings.KEYBAR_CLIENT_CERTIFICATE, settings.KEYBAR_CLIENT_KEY),
             'verify': settings.KEYBAR_CA_BUNDLE,
+            'timeout': self.timeout
         })
 
         return super(Client, self).request(method, url, *args, **kwargs)
+
+    def _api_request(self, method, *args, **kwargs):
+        try:
+            response = self.request(method, *args, **kwargs)
+        except requests.HTTPError as exc:
+            msg = 'lalalal' # TODO: Get this from API header or so...
+            code = exc.getcode()
+
+            if msg:
+                raise APIError(msg, code)
+            else:
+                raise exc
+
+        return response
+
+    def register_device(self, device_name, public_key):
+        url = self.build_url('/api/devices/register/')
+
+        return self._api_request('POST', url, data={
+            'name': device_name,
+            # TODO: Verify correct public key instance (pem exported)
+            'public_key': public_key
+        })
+
+    def list_devices(self):
+        url = self.build_url('/api/devices/')
+
+        return self._api_request('GET', url)
+
+
+class LocalClient(Client):
+    host = 'keybar.local'
+    port = '8443'
+
+
+class TestClient(LocalClient):
+    def __init__(self, liveserver, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        parsed_url = parse_url(liveserver.url)
+        self.host = parsed_url.host
+        self.port = parsed_url.port
