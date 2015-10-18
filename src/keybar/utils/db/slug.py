@@ -45,7 +45,7 @@ def find_next_increment(model, column, string, **query_opts):
 
     Example::
 
-        find_next_increment(Organization, 'slug', slugify('organization name'))
+        find_next_increment(Vault, 'slug', slugify('vault name'))
     """
     field = model._meta.get_field_by_name(column)[0]
     max_length = field.max_length if hasattr(field, 'max_length') else None
