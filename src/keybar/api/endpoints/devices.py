@@ -53,7 +53,7 @@ class DeviceRegisterEndpoint(DeviceEndpoint):
     """Endpoint to register a new device.
 
     This endpoint is used to register a new device
-    so thtat it can be used to create a new user account.
+    so that it can be used to create a new user account.
 
     To accociate a device with a user later on, use the `/users/` endpoint.
     """
