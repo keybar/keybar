@@ -1,20 +1,18 @@
 import mock
 import pytest
 
-from keybar.client import TestClient
 from keybar.models.device import Device
 from keybar.tests.factories.device import PRIVATE_KEY, PUBLIC_KEY, AuthorizedDeviceFactory
 from keybar.tests.factories.user import UserFactory
+from keybar.tests.helpers import LiveServerTest
 from keybar.utils.crypto import generate_rsa_keys
 
 
 @pytest.mark.django_db(transaction=True)
-class TestDevicesEndpoint:
+class TestDevicesEndpoint(LiveServerTest):
 
-    def test_register(self, keybar_liveserver):
-        client = TestClient(keybar_liveserver)
-
-        response = client.register_device(
+    def test_register(self):
+        response = self.get_client(None, None).register_device(
             'Test Device',
             str(PUBLIC_KEY.exportKey('PEM'), 'ascii'))
 
@@ -37,7 +35,7 @@ class TestDevicesEndpoint:
             public_key=generate_rsa_keys()[1].exportKey('DER')
         )
 
-        client = TestClient(keybar_liveserver, device_id=device.id, secret=PRIVATE_KEY)
+        client = self.get_client(device.id, PRIVATE_KEY)
         response = client.list_devices()
 
         assert response.status_code == 200

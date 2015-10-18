@@ -3,9 +3,10 @@ import os
 import pytest
 import requests
 
-from keybar.client import Client, TLS12SSLAdapter
+from keybar.client import TLS12SSLAdapter
 from keybar.tests.factories.device import PRIVATE_KEY, AuthorizedDeviceFactory
 from keybar.tests.factories.user import UserFactory
+from keybar.tests.helpers import LiveServerTest
 from keybar.utils.http import InsecureTransport
 
 
@@ -23,14 +24,9 @@ def verify_rejected_ssl(url):
 
 
 @pytest.mark.django_db(transaction=True)
-class TestClient:
-
-    @pytest.fixture(autouse=True)
-    def setup(self, settings, keybar_liveserver):
-        self.liveserver = keybar_liveserver
-
+class TestTestClient(LiveServerTest):
     def test_url_must_be_https(self):
-        client = Client(None, None)
+        client = self.get_client(None, None)
 
         with pytest.raises(InsecureTransport):
             client.get('http://fails.xy')
@@ -39,7 +35,7 @@ class TestClient:
         user = UserFactory.create(is_superuser=True)
         device = AuthorizedDeviceFactory.create(user=user)
 
-        client = Client(device.id, PRIVATE_KEY)
+        client = self.get_client(device.id, PRIVATE_KEY)
 
         endpoint = '{0}/api/users/'.format(self.liveserver.url)
 
@@ -56,7 +52,7 @@ class TestClient:
         with open(fpath, 'rb') as fobj:
             wrong_secret = fobj.read()
 
-        client = Client(device.id, wrong_secret)
+        client = self.get_client(device.id, wrong_secret)
 
         endpoint = '{0}/api/users/'.format(self.liveserver.url)
 

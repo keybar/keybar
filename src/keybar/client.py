@@ -6,11 +6,10 @@ from base64 import encodebytes
 from datetime import datetime
 from email.utils import formatdate
 from time import mktime
-from urllib.parse import urljoin, urlencode
+from urllib.parse import urlencode, urljoin
 
 import pkg_resources
 import requests
-from urllib3.util.url import parse_url
 from django.conf import settings
 from django.utils.encoding import force_bytes
 from httpsig.requests_auth import HTTPSignatureAuth
@@ -18,8 +17,7 @@ from requests_toolbelt import SSLAdapter, user_agent
 
 from keybar.api.auth import ALGORITHM, REQUIRED_HEADERS
 from keybar.utils import json
-from keybar.utils.http import (
-    InsecureTransport, InvalidHost, verify_host, is_secure_transport)
+from keybar.utils.http import InsecureTransport, InvalidHost, is_secure_transport, verify_host
 
 
 class TLS12SSLAdapter(SSLAdapter):
@@ -130,7 +128,8 @@ class Client(requests.Session):
         try:
             response = self.request(method, *args, **kwargs)
         except requests.HTTPError as exc:
-            msg = 'lalalal' # TODO: Get this from API header or so...
+            # TODO: Get this from API header or so...
+            msg = 'lalalal'
             code = exc.getcode()
 
             if msg:
@@ -142,7 +141,6 @@ class Client(requests.Session):
 
     def register_device(self, device_name, public_key):
         url = self.build_url('/api/devices/register/')
-
         return self._api_request('POST', url, data={
             'name': device_name,
             # TODO: Verify correct public key instance (pem exported)
@@ -151,19 +149,16 @@ class Client(requests.Session):
 
     def list_devices(self):
         url = self.build_url('/api/devices/')
-
         return self._api_request('GET', url)
+
+    def register_user(self, email, password):
+        url = self.build_url('/api/users/register/')
+        return self._api_request('POST', url, data={
+            'email': email,
+            'password1': password
+        })
 
 
 class LocalClient(Client):
     host = 'keybar.local'
     port = '8443'
-
-
-class TestClient(LocalClient):
-    def __init__(self, liveserver, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        parsed_url = parse_url(liveserver.url)
-        self.host = parsed_url.host
-        self.port = parsed_url.port

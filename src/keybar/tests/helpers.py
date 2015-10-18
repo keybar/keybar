@@ -1,11 +1,14 @@
 import errno
 import socket
 
+import pytest
 from django.db import connections
 from django.test.testcases import LiveServerThread as LiveServerThreadBase
 from pytest_django.live_server_helper import parse_addr
 from tornado import ioloop
+from urllib3.util.url import parse_url
 
+from keybar.client import LocalClient
 from keybar.server import get_server
 
 
@@ -86,3 +89,21 @@ class LiveServer:
 
     def __repr__(self):
         return '<LiveServer listening at {0}>'.format(self.url)
+
+
+class LiveServerTest:
+
+    @pytest.fixture(autouse=True)
+    def setup(self, settings, keybar_liveserver):
+        self.liveserver = keybar_liveserver
+
+        # XXX: HACK! Figure out how to use multiple setup-methods properly
+        # with pytest
+        getattr(self, '_setup', lambda: None)()
+
+    def get_client(self, device_id, secret):
+        client = LocalClient(device_id, secret)
+        parsed_url = parse_url(self.liveserver.url)
+        client.host = parsed_url.host
+        client.port = parsed_url.port
+        return client
