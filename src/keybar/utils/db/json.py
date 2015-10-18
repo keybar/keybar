@@ -1,10 +1,9 @@
 # Backport from Django 1.9a1
-from psycopg2.extras import Json
-
 from django.contrib.postgres import lookups
 from django.core import exceptions
 from django.db.models import Field, Transform
 from django.utils.translation import ugettext_lazy as _
+from psycopg2.extras import Json
 
 from keybar.utils import json
 
@@ -68,7 +67,8 @@ class JSONField(Field):
         return value
 
     def formfield(self, **kwargs):
-        defaults = {'form_class': forms.JSONField}
+        # TODO: Use ´postgres.forms.JSONField´ if needed.
+        defaults = {'form_class': forms.CharField}
         defaults.update(kwargs)
         return super(JSONField, self).formfield(**defaults)
 
