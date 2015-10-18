@@ -1,4 +1,5 @@
 # Backport from Django 1.9a1
+from django import forms
 from django.contrib.postgres import lookups
 from django.core import exceptions
 from django.db.models import Field, Transform
