@@ -25,7 +25,7 @@ class Entry(KeybarModel):
 
     description = models.TextField(_('Description'), blank=True, default='')
 
-    tags = ArrayField(models.TextField(blank=True), blank=True, null=True)
+    tags = ArrayField(models.TextField(blank=True), blank=True, default=[])
 
     salt = models.BinaryField(null=True, blank=True)
 
