@@ -1,182 +1,113 @@
-from __future__ import unicode_literals
+# Backport from Django 1.9a1
+from psycopg2.extras import Json
 
-import psycopg2.extras
-from django.db import models
-from django.db.models.lookups import BuiltinLookup, Transform
-from django.utils import six
+from django.contrib.postgres import lookups
+from django.core import exceptions
+from django.db.models import Field, Transform
+from django.utils.translation import ugettext_lazy as _
 
 from keybar.utils import json
 
 
-psycopg2.extras.register_json(oid=3802, array_oid=3807)
-psycopg2.extras.register_default_json(loads=json.loads)
-psycopg2.extras.register_default_jsonb(loads=json.loads)
+class HasKey(lookups.PostgresSimpleLookup):
+    lookup_name = 'has_key'
+    operator = '?'
 
 
-class JSONField(models.Field, metaclass=models.SubfieldBase):
-    description = 'JSON Field'
+class HasKeys(lookups.PostgresSimpleLookup):
+    lookup_name = 'has_keys'
+    operator = '?&'
 
-    def get_internal_type(self):
-        return 'JSONField'
+
+class HasAnyKeys(lookups.PostgresSimpleLookup):
+    lookup_name = 'has_any_keys'
+    operator = '?|'
+
+
+class JSONField(Field):
+    empty_strings_allowed = False
+    description = _('A JSON object')
+    default_error_messages = {
+        'invalid': _("Value must be valid JSON."),
+    }
 
     def db_type(self, connection):
         return 'jsonb'
-
-    def get_db_prep_value(self, value, connection=None, prepared=None):
-        return self.get_prep_value(value)
-
-    def get_prep_value(self, value):
-        if value is None:
-            if not self.null and self.blank:
-                return ""
-            return None
-        return json.dumps(value)
-
-    def get_prep_lookup(self, lookup_type, value, prepared=False):
-        if lookup_type == 'has_key':
-            # Need to ensure we have a string, as no other
-            # values is appropriate.
-            if not isinstance(value, six.string_types):
-                value = '%s' % value
-        if lookup_type in ['all_keys', 'any_keys']:
-            # This lookup type needs a list of strings.
-            if isinstance(value, six.string_types):
-                value = [value]
-            # This will cast numbers to strings, but also grab the keys
-            # from a dict.
-            value = ['%s' % v for v in value]
-
-        return value
-
-    def get_db_prep_lookup(self, lookup_type, value, connection, prepared=False):
-        if lookup_type in ['contains', 'in']:
-            value = self.get_prep_value(value)
-            return [value]
-
-        return super(JSONField, self).get_db_prep_lookup(
-            lookup_type, value, connection, prepared)
-
-    def deconstruct(self):
-        name, path, args, kwargs = super(JSONField, self).deconstruct()
-        path = 'keybar.utils.db.json.JSONField'
-        return name, path, args, kwargs
-
-    def to_python(self, value):
-        if value is None and not self.null and self.blank:
-            return ''
-
-        if isinstance(value, six.string_types):
-            value = json.loads(value)
-        return value
 
     def get_transform(self, name):
         transform = super(JSONField, self).get_transform(name)
         if transform:
             return transform
+        return KeyTransformFactory(name)
 
-        if name.startswith('path_'):
-            path = '{%s}' % ','.join(name.replace('path_', '').split('_'))
-            return PathTransformFactory(path)
+    def get_prep_value(self, value):
+        if value is not None:
+            return Json(value)
+        return value
 
+    def get_prep_lookup(self, lookup_type, value):
+        if lookup_type in ('has_key', 'has_keys', 'has_any_keys'):
+            return value
+        if isinstance(value, (dict, list)):
+            return Json(value)
+        return super(JSONField, self).get_prep_lookup(lookup_type, value)
+
+    def validate(self, value, model_instance):
+        super(JSONField, self).validate(value, model_instance)
         try:
-            name = int(name)
+            json.dumps(value)
+        except TypeError:
+            raise exceptions.ValidationError(
+                self.error_messages['invalid'],
+                code='invalid',
+                params={'value': value},
+            )
+
+    def value_to_string(self, obj):
+        value = self.value_from_object(obj)
+        return value
+
+    def formfield(self, **kwargs):
+        defaults = {'form_class': forms.JSONField}
+        defaults.update(kwargs)
+        return super(JSONField, self).formfield(**defaults)
+
+
+JSONField.register_lookup(lookups.DataContains)
+JSONField.register_lookup(lookups.ContainedBy)
+JSONField.register_lookup(HasKey)
+JSONField.register_lookup(HasKeys)
+JSONField.register_lookup(HasAnyKeys)
+
+
+class KeyTransform(Transform):
+
+    def __init__(self, key_name, *args, **kwargs):
+        super(KeyTransform, self).__init__(*args, **kwargs)
+        self.key_name = key_name
+
+    def as_sql(self, compiler, connection):
+        key_transforms = [self.key_name]
+        previous = self.lhs
+        while isinstance(previous, KeyTransform):
+            key_transforms.insert(0, previous.key_name)
+            previous = previous.lhs
+        lhs, params = compiler.compile(previous)
+        if len(key_transforms) > 1:
+            return "{} #> %s".format(lhs), [key_transforms] + params
+        try:
+            int(self.key_name)
         except ValueError:
-            pass
-
-        return GetTransform(name)
-
-
-class PostgresLookup(BuiltinLookup):
-    def process_lhs(self, qn, connection, lhs=None):
-        lhs = lhs or self.lhs
-        return qn.compile(lhs)
-
-    def get_rhs_op(self, connection, rhs):
-        return '%s %s' % (self.operator, rhs)
+            lookup = "'%s'" % self.key_name
+        else:
+            lookup = "%s" % self.key_name
+        return "%s -> %s" % (lhs, lookup), params
 
 
-class Has(PostgresLookup):
-    lookup_name = 'has'
-    operator = '?'
+class KeyTransformFactory(object):
 
-JSONField.register_lookup(Has)
-
-
-class Contains(PostgresLookup):
-    lookup_name = 'contains'
-    operator = '@>'
-
-JSONField.register_lookup(Contains)
-
-
-class In(PostgresLookup):
-    lookup_name = 'in'
-    operator = '<@'
-
-JSONField.register_lookup(In)
-
-
-class HasAll(PostgresLookup):
-    lookup_name = 'has_all'
-    operator = '?&'
-
-JSONField.register_lookup(HasAll)
-
-
-class HasAny(PostgresLookup):
-    lookup_name = 'has_any'
-    operator = '?|'
-
-JSONField.register_lookup(HasAny)
-
-
-class Get(Transform):
-    def __init__(self, name, *args, **kwargs):
-        super(Get, self).__init__(*args, **kwargs)
-        self.name = name
-
-    def as_sql(self, qn, connection):
-        lhs, params = qn.compile(self.lhs)
-        # So we can run a query of this type against a column that contains
-        # both array-based and object-based (and possibly scalar) values,
-        # we need to add an additional WHERE clause that ensures we only
-        # get json objects/arrays, as per the input type.
-        # It would be really nice to be able to see if these clauses
-        # have already been applied.
-        if isinstance(self.name, six.string_types):
-            # Also filter on objects.
-            filter_to = "%s @> '{}' AND" % lhs
-            self.name = "'%s'" % self.name
-        elif isinstance(self.name, int):
-            # Also filter on arrays.
-            filter_to = "%s @> '[]' AND" % lhs
-
-        return '%s %s -> %s' % (filter_to, lhs, self.name), params
-
-
-class GetTransform:
-    def __init__(self, name):
-        self.name = name
+    def __init__(self, key_name):
+        self.key_name = key_name
 
     def __call__(self, *args, **kwargs):
-        return Get(self.name, *args, **kwargs)
-
-
-class Path(Transform):
-    def __init__(self, path, *args, **kwargs):
-        super(Path, self).__init__(*args, **kwargs)
-        self.path = path
-
-    def as_sql(self, qn, connection):
-        lhs, params = qn.compile(self.lhs)
-        # Because path operations only work on non-scalar types, we
-        # need to filter out scalar types as part of the query.
-        return "({0} @> '[]' OR {0} @> '{{}}') AND {0} #> '{1}'".format(lhs, self.path), params
-
-
-class PathTransformFactory:
-    def __init__(self, path):
-        self.path = path
-
-    def __call__(self, *args, **kwargs):
-        return Path(self.path, *args, **kwargs)
+        return KeyTransform(self.key_name, *args, **kwargs)
