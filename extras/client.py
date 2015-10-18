@@ -26,8 +26,6 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'keybar.settings')
 django.setup()
 
 
-
-
 def format_body(body):
     try:
         obj = json.loads(body)

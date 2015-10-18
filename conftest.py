@@ -1,6 +1,7 @@
 import os
 import os.path
 
+import requests
 import pytest
 from django.conf import settings as django_settings
 from pytest_django.lazy_django import skip_if_no_django
@@ -30,3 +31,11 @@ def keybar_liveserver(request, settings):
     request.addfinalizer(server.stop)
 
     return server
+
+
+@pytest.fixture(scope='function')
+def allow_offline(request, settings):
+    try:
+        response = requests.get('http://google.com')
+    except requests.exceptions.ConnectionError:
+        pytest.skip('Test skipped since no internet connection is present.')

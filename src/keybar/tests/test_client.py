@@ -64,7 +64,7 @@ class TestClient:
         assert response.status_code == 401
         assert response.json()['detail'] == 'Bad signature'
 
-    def test_to_server_without_tls_10(self):
+    def test_to_server_without_tls_10(self, allow_offline):
         """
         Verify that connection is possible to SFDC servers that disabled TLS 1.0
         """
@@ -74,7 +74,7 @@ class TestClient:
         response = session.get('https://tls1test.salesforce.com/s/')
         assert response.status_code == 200
 
-    def test_under_downgrade_attack_to_ssl_3(self):
+    def test_under_downgrade_attack_to_ssl_3(self, allow_offline):
         """
         Verify that the connection is rejected if the remote server (or man
         in the middle) claims that SSLv3 is the best supported protocol.
@@ -82,17 +82,17 @@ class TestClient:
         url = 'https://ssl3.zmap.io/sslv3test.js'
         assert verify_rejected_ssl(url)
 
-    def test_protocols_by_ssl_labs(self):
+    def test_protocols_by_ssl_labs(self, allow_offline):
         session = requests.Session()
         session.mount('https://', TLS12SSLAdapter())
         response = session.get('https://www.ssllabs.com/ssltest/viewMyClient.html')
         assert 'Your user agent has good protocol support' in response.text
 
-    def test_vulnerability_logjam_by_ssl_labs(self):
+    def test_vulnerability_logjam_by_ssl_labs(self, allow_offline):
         assert verify_rejected_ssl('https://www.ssllabs.com:10445/')
 
-    def test_vulnerability_freak_by_ssl_labs(self):
+    def test_vulnerability_freak_by_ssl_labs(self, allow_offline):
         assert verify_rejected_ssl('https://www.ssllabs.com:10444/')
 
-    def test_vulnerability_osx_by_ssl_labs(self):
+    def test_vulnerability_osx_by_ssl_labs(self, allow_offline):
         assert verify_rejected_ssl('https://www.ssllabs.com:10443/')
