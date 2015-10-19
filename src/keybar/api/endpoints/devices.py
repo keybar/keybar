@@ -1,10 +1,10 @@
-from Crypto.PublicKey import RSA
 from django.db import models
 from rest_framework import serializers, status
 from rest_framework.response import Response
 
 from keybar.api.base import Endpoint, ListEndpoint
 from keybar.models.device import Device
+from keybar.utils.crypto import load_public_key, serialize_public_key
 
 
 class CreateDeviceSerializer(serializers.ModelSerializer):
@@ -19,7 +19,7 @@ class CreateDeviceSerializer(serializers.ModelSerializer):
     def validate_public_key(self, value):
         try:
 
-            public_key = RSA.importKey(value).exportKey('DER')
+            public_key = serialize_public_key(load_public_key(value))
         except ValueError:
             raise serializers.ValidationError('Invalid public key.')
 

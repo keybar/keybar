@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 import hashlib
 
-from Crypto.PublicKey import RSA
 from django.db import models
 from django.utils import timezone
 from django.utils.encoding import force_bytes
 from django.utils.translation import ugettext_lazy as _
 
-from keybar.utils.crypto import prettify_fingerprint
+from keybar.utils.crypto import load_public_key, prettify_fingerprint
 from keybar.utils.db import KeybarModel
 
 
@@ -24,7 +23,7 @@ class Device(KeybarModel):
     user = models.ForeignKey('keybar.User', related_name='devices', null=True, blank=True)
     name = models.TextField(_('Device name'), blank=True, default='')
 
-    public_key = models.BinaryField(_('Device Public Key'), unique=True)
+    public_key = models.TextField(_('Device Public Key'), unique=True)
 
     # `None` specifies that the user did not yet authorize the device.
     # `False` specifies that the user explicitly deauthorized the device.
@@ -40,4 +39,4 @@ class Device(KeybarModel):
 
     @property
     def loaded_public_key(self):
-        return RSA.importKey(self.public_key)
+        return load_public_key(self.public_key)

@@ -53,14 +53,14 @@ class EntryForm(forms.ModelForm):
         widget=forms.PasswordInput())
     password = forms.CharField(label=_('Password to unlock this entry.'),
         widget=forms.PasswordInput())
-    force_two_factor_authorization = forms.BooleanField(
-        label=_('Force Two-Factor Authentication'), required=False)
+    enable_two_factor_authorization = forms.BooleanField(
+        label=_('Enable Two-Factor Authentication'), required=False)
 
     class Meta:
         model = Entry
         fields = (
             'title', 'url', 'identifier', 'value', 'tags', 'description',
-            'force_two_factor_authorization')
+            'enable_two_factor_authorization')
         widgets = {
             'title': forms.TextInput(),
             'identifier': forms.TextInput(),
@@ -98,13 +98,13 @@ class ViewEntryForm(EntryForm):
     def __init__(self, request, *args, **kwargs):
         self.request = request
         super(ViewEntryForm, self).__init__(*args, **kwargs)
-        if not self.instance.force_two_factor_authorization:
+        if not self.instance.enable_two_factor_authorization:
             del self.fields['totp_code']
 
         if 'unlock' not in self.request.POST:
             del self.fields['value']
 
-        del self.fields['force_two_factor_authorization']
+        del self.fields['enable_two_factor_authorization']
 
     def clean_password(self):
         if 'unlock' in self.request.POST:
@@ -118,7 +118,7 @@ class ViewEntryForm(EntryForm):
 
     def clean_totp_code(self):
         try:
-            if self.instance.force_two_factor_authorization:
+            if self.instance.enable_two_factor_authorization:
                 verify_totp_code(self.request.user, self.data['totp_code'])
         except InvalidTotpToken:
             raise ValidationError('Invalid verification code!')

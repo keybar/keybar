@@ -2,13 +2,13 @@ import base64
 import os
 import ssl
 
-from Crypto.PublicKey import RSA
 from cryptography.fernet import Fernet
 from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives import hashes, serialization
+from cryptography.hazmat.primitives.asymmetric import padding, rsa
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from django.conf import settings
-from django.utils.encoding import force_bytes
+from django.utils.encoding import force_bytes, force_text
 
 
 # Verify we can use all feature we require.
@@ -17,6 +17,20 @@ assert ssl.HAS_SNI
 
 
 KEY_LENGTH = 32
+
+# As per https://wiki.mozilla.org/Security/Server_Side_TLS#Recommended_configurations
+CIPHERS = (
+    'ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256'
+    ':ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384'
+    ':DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM'
+    ':ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA'
+    ':ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384'
+    ':ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256'
+    ':DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256'
+    ':DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA'
+    ':!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK:!aECDH:!EDH-DSS-DES-CBC3-SHA'
+    ':!EDH-RSA-DES-CBC3-SHA:!KRB5-DES-CBC3-SHA'
+)
 
 
 def get_salt():
@@ -27,9 +41,52 @@ def get_salt():
     return os.urandom(KEY_LENGTH)
 
 
-def generate_rsa_keys(bits=4096):
-    private_key = RSA.generate(bits, e=65537)
-    return (private_key, private_key.publickey())
+def generate_rsa_keys(key_size=4096):
+    private_key = rsa.generate_private_key(
+        key_size=key_size,
+        public_exponent=65537,
+        backend=default_backend())
+
+    return (private_key, private_key.public_key())
+
+
+def serialize_public_key(public_key):
+    return force_text(public_key.public_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PublicFormat.SubjectPublicKeyInfo))
+
+
+def serialize_private_key(private_key, password=None):
+    if password is None:
+        return force_text(private_key.private_bytes(
+            encoding=serialization.Encoding.PEM,
+            format=serialization.PrivateFormat.TraditionalOpenSSL,
+            encryption_algorithm=serialization.NoEncryption()
+        ))
+
+    assert isinstance(password, bytes)
+
+    return force_text(private_key.private_bytes(
+        encoding=serialization.Encoding.PEM,
+        format=serialization.PrivateFormat.PKCS8,
+        encryption_algorithm=serialization.BestAvailableEncryption(password)
+    ))
+
+
+def load_public_key(key):
+    """This assumes PEM for now."""
+    return serialization.load_pem_public_key(
+        force_bytes(key),
+        backend=default_backend()
+    )
+
+
+def load_private_key(key, password=None):
+    return serialization.load_pem_private_key(
+        force_bytes(key),
+        password=password,
+        backend=default_backend()
+    )
 
 
 def derive_encryption_key(salt, password):
@@ -69,14 +126,45 @@ def verify_encryption_key(salt, password, key):
     return key
 
 
-def encrypt(text, password, salt):
+def fernet_encrypt(text, password, salt):
+    """Ecrypts ``text`` with ``password`` and ``salt``.
+
+    :returns: A base64 encoded fernet token"""
     fernet = Fernet(base64.urlsafe_b64encode(derive_encryption_key(salt, password)))
-    return fernet.encrypt(force_bytes(text))
+    return force_text(fernet.encrypt(force_bytes(text)))
 
 
-def decrypt(text, password, salt):
+def fernet_decrypt(text, password, salt):
     fernet = Fernet(base64.urlsafe_b64encode(derive_encryption_key(salt, password)))
     return force_bytes(fernet.decrypt(force_bytes(text)))
+
+
+def public_key_encrypt(public_key, data):
+    try:
+        return public_key.encrypt(
+            data,
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA1()),
+                algorithm=hashes.SHA1(),
+                label=None
+            )
+        )
+    except (AssertionError, ValueError):
+        return None
+
+
+def private_key_decrypt(private_key, data):
+    try:
+        return private_key.decrypt(
+            data,
+            padding.OAEP(
+                mgf=padding.MGF1(algorithm=hashes.SHA1()),
+                algorithm=hashes.SHA1(),
+                label=None
+            )
+        )
+    except (AssertionError, ValueError):
+        return None
 
 
 def prettify_fingerprint(fingerprint):
@@ -96,13 +184,9 @@ def get_server_context(verify=True):
 
     server_ctx.set_ecdh_curve('prime256v1')
     server_ctx.verify_mode = ssl.CERT_OPTIONAL if not verify else ssl.CERT_REQUIRED
+    server_ctx.set_ciphers(CIPHERS)
 
-    # This list is based on the official supported ciphers by CloudFlare
-    # (cloudflare/sslconfig on GitHub) but is again just a tiny little bit
-    # more restricted as we force best security available.
-    server_ctx.set_ciphers('EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256')
-
-    # Disable everything that is not TSL 1.2, explicit is better than implicit
+    # Disable that is not TSL 1.0+
     server_ctx.options |= ssl.OP_NO_SSLv2
     server_ctx.options |= ssl.OP_NO_SSLv3
     server_ctx.options |= ssl.OP_NO_TLSv1
@@ -143,16 +227,14 @@ def get_client_context(verify=True):
     client_ctx.check_hostname = True
 
     # Same as the server.
-    client_ctx.set_ciphers('EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256')
+    client_ctx.set_ciphers(CIPHERS)
 
     # Mitigate CRIME
     client_ctx.options |= ssl.OP_NO_COMPRESSION
 
-    # Disable that is not TSL 1.2, explicit is better than implicit
+    # Disable that is not TSL 1.0+
     client_ctx.options |= ssl.OP_NO_SSLv2
     client_ctx.options |= ssl.OP_NO_SSLv3
-    client_ctx.options |= ssl.OP_NO_TLSv1
-    client_ctx.options |= ssl.OP_NO_TLSv1_1
 
     # Load the certificates
     client_ctx.load_cert_chain(

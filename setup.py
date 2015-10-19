@@ -61,6 +61,7 @@ install_requires = [
     'djangorestframework>=3.2.3,<3.3',
     'httpsig>=1.1.2,<1.2.0',
     'requests>=2.7,<2.8',
+    'urllib3>=1.12',
     'requests-toolbelt>=0.4,<0.5',
 
     # Form helpers
@@ -73,7 +74,6 @@ install_requires = [
     'cryptography>=1.0,<1.1',
     'certifi',
     'qrcode>=5.1,<5.2',
-    'pycrypto>=2.6.1,<2.7',
 
     # Used to generate QR Codes
     'Pillow>=2.9,<3.0',

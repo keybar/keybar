@@ -18,12 +18,13 @@ from requests_toolbelt import SSLAdapter, user_agent
 from keybar.api.auth import ALGORITHM, REQUIRED_HEADERS
 from keybar.utils import json
 from keybar.utils.http import InsecureTransport, InvalidHost, is_secure_transport, verify_host
+from keybar.utils.crypto import serialize_private_key
 
 
 class TLS12SSLAdapter(SSLAdapter):
 
     def __init__(self, *args, **kwargs):
-        self.ssl_version = ssl.PROTOCOL_TLSv1_2
+        kwargs['ssl_version'] = ssl.PROTOCOL_TLSv1_2
         super(TLS12SSLAdapter, self).__init__(**kwargs)
 
 
@@ -55,7 +56,7 @@ class Client(requests.Session):
             self.device_id = device_id
 
         if secret and not isinstance(secret, (bytes, str)):
-            secret = secret.exportKey('PEM')
+            secret = serialize_private_key(secret)
 
         self.secret = secret
 
