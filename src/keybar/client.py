@@ -98,6 +98,7 @@ class Client(requests.Session):
             'Method': method,
             'Path': parse_result.path,
             'Accept': self.content_type,
+            'Content-Type': self.content_type,
             'X-Device-Id': self.device_id,
             'Content-MD5': content_md5,
             'Date': formatdate(timeval=stamp, localtime=False, usegmt=True)
