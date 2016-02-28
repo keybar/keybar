@@ -14,25 +14,24 @@ def read(*parts):
 
 test_requires = [
     # General test libraries
-    'tox>=2.1.1,<2.2.0',
-    'pytest>=2.7.0,<2.8',
-    'pytest-django>=2.8,<2.9',
+    'tox==2.1.1',
+    'pytest==2.7.3,<2.8',
+    'pytest-django==2.8.0',
     'pytest-isort==0.1.0',
 
     # Pep8 and code quality checkers
-    'pyflakes>=0.9.2,<0.10',
-    'coverage>=3.7.1,<3.8',
-    'pytest-cov>=2.1,<2.2',
-    'pytest-flakes>=1.0,<1.1',
-    'pytest-pep8>=1.0.6,<1.1',
-    'pep8>=1.6.2,<1.7',
-    'coverage>=3.7.1,<3.8',
+    'pyflakes==0.9.2',
+    'pytest-cov==2.1.0',
+    'pytest-flakes==1.0.1',
+    'pytest-pep8==1.0.6',
+    'pep8==1.6.2',
+    'coverage==3.7.1',
 
     # Fixtures, test helpers
-    'factory-boy>=2.5.1,<2.6',
-    'mock>=1.3.0,<1.4',
-    'hypothesis',
-    'hypothesis-pytest',
+    'factory-boy==2.5.2',
+    'mock==1.3.0',
+    'hypothesis==3.0.5',
+    'hypothesis-pytest==0.19.0',
 ]
 
 
