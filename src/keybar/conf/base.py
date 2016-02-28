@@ -1,7 +1,5 @@
 import os
 
-from django.core.urlresolvers import reverse_lazy
-# Celery / Queue configuration
 from kombu import Queue
 
 
@@ -21,7 +19,10 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'user_sessions',
+
+    # Disabled until we have proper Django 1.9 support
+    # 'user_sessions',
+
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
@@ -34,24 +35,18 @@ INSTALLED_APPS = (
     # For our REST Api
     'rest_framework',
 
-    # user (social-) account management
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.google',
-
     # Keybar apps
     'keybar',
 )
 
 MIDDLEWARE_CLASSES = (
-    'user_sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
+    #'user_sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'keybar.middlewares.server_header.ServerHeaderMiddleware'
 )
@@ -86,23 +81,17 @@ TEMPLATES = [
                 'django.template.context_processors.tz',
                 'django.core.context_processors.request',
                 'django.contrib.messages.context_processors.messages',
-
-                # Overwrite the allauth context processor because... it actively
-                # verifies that the allauth processor exists.
-                'keybar.context_processors.social.socialaccount'
             ],
         },
     },
 ]
 
 STATICFILES_DIRS = (
-    os.path.join(PROJECT_DIR, 'bower_components'),
     os.path.join(PROJECT_DIR, 'src', 'keybar', 'static'),
 )
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend'
 )
 
 LANGUAGE_CODE = 'en-us'
@@ -189,7 +178,7 @@ SESSION_COOKIE_SECURE = True
 
 SESSION_COOKIE_HTTPONLY = True
 
-SESSION_ENGINE = 'user_sessions.backends.db'
+# SESSION_ENGINE = 'user_sessions.backends.db'
 
 GEOIP_PATH = os.path.join(BASE_DIR, 'resources', 'geoip')
 
@@ -210,43 +199,6 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
     ),
 }
-
-# (social-) auth related settings
-LOGIN_URL = reverse_lazy('account_login')
-LOGIN_REDIRECT_URL = reverse_lazy('keybar-index')
-
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-
-ACCOUNT_EMAIL_REQUIRED = True
-
-ACCOUNT_EMAIL_VERIFICATION = 'optional'
-
-ACCOUNT_EMAIL_SUBJECT_PREFIX = 'Keybar - '
-
-ACCOUNT_SIGNUP_FORM_CLASS = 'keybar.web.forms.RegisterForm'
-
-ACCOUNT_SIGNUP_PASSWORD_VERIFICATION = False
-
-ACCOUNT_UNIQUE_EMAIL = True
-
-ACCOUNT_USER_DISPLAY = 'keybar.utils.get_user_name'
-
-ACCOUNT_USER_MODEL_USERNAME_FIELD = 'email'
-
-ACCOUNT_USERNAME_REQUIRED = False
-
-ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = False
-
-ACCOUNT_SESSION_REMEMBER = False
-
-ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
-
-# Directly logout once the user visits /account/logout/
-ACCOUNT_LOGOUT_ON_GET = True
-
-SOCIALACCOUNT_QUERY_EMAIL = ACCOUNT_EMAIL_REQUIRED
-
-SOCIALACCOUNT_AUTO_SIGNUP = True
 
 # Keybar related settings
 KEYBAR_SERVER_CERTIFICATE = None

@@ -12,10 +12,8 @@ import pkg_resources
 import requests
 from django.conf import settings
 from django.utils.encoding import force_bytes
-from httpsig.requests_auth import HTTPSignatureAuth
 from requests_toolbelt import SSLAdapter, user_agent
 
-from keybar.api.auth import ALGORITHM, REQUIRED_HEADERS
 from keybar.utils import json
 from keybar.utils.http import InsecureTransport, InvalidHost, is_secure_transport, verify_host
 from keybar.utils.crypto import serialize_private_key
@@ -107,11 +105,7 @@ class Client(requests.Session):
         headers.update(kwargs.pop('headers', {}))
 
         if self.device_id and self.secret:
-            auth = HTTPSignatureAuth(
-                key_id=self.device_id,
-                secret=self.secret,
-                headers=REQUIRED_HEADERS,
-                algorithm=ALGORITHM)
+            auth = ()
         else:
             auth = ()
 
