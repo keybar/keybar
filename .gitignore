@@ -58,3 +58,6 @@ docs/_build/
 
 # Settings
 src/keybar/settings.py
+
+# Hypothesis
+.hypothesis
