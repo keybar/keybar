@@ -1,7 +1,7 @@
 import base64
 import os
 
-from django.contrib.postgres.fields import ArrayField
+from django.contrib.postgres.fields import ArrayField, JSONField
 from django.db import models
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext_lazy as _
@@ -10,7 +10,6 @@ from keybar.models.device import Device
 from keybar.utils.crypto import (
     fernet_decrypt, fernet_encrypt, get_salt, private_key_decrypt, public_key_encrypt)
 from keybar.utils.db import KeybarModel, sane_repr
-from keybar.utils.db.json import JSONField
 
 
 class Entry(KeybarModel):

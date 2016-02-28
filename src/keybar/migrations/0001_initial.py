@@ -9,7 +9,6 @@ from django.conf import settings
 from django.db import migrations, models
 
 import keybar.models.user
-import keybar.utils.db.json
 
 
 class Migration(migrations.Migration):
@@ -63,8 +62,8 @@ class Migration(migrations.Migration):
                 ('description', models.TextField(default='', verbose_name='Description', blank=True)),
                 ('tags', django.contrib.postgres.fields.ArrayField(size=None, base_field=models.TextField(blank=True), null=True, blank=True)),
                 ('salt', models.BinaryField(null=True, blank=True)),
-                ('keys', keybar.utils.db.json.JSONField(default={})),
-                ('log', keybar.utils.db.json.JSONField(default={})),
+                ('keys', django.contrib.postgres.fields.JSONField(default={})),
+                ('log', django.contrib.postgres.fields.JSONField(default={})),
                 ('force_two_factor_authorization', models.BooleanField(default=False)),
             ],
             options={

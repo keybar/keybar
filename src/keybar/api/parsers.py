@@ -24,4 +24,4 @@ class JSONParser(BaseParser):
             data = stream.read().decode(encoding)
             return json.loads(data)
         except ValueError as exc:
-            raise ParseError('JSON parse error - %s' % str(exc))
+            raise ParseError('JSON parse error - {}%s'.format(exc))

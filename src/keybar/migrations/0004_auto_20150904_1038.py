@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import django.contrib.postgres.fields
 from django.db import migrations, models
-
-import keybar.utils.db.json
 
 
 class Migration(migrations.Migration):
@@ -20,7 +19,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='entry',
             name='values',
-            field=keybar.utils.db.json.JSONField(default={}),
+            field=django.contrib.postgres.fields.JSONField(default={}),
         ),
         migrations.AlterField(
             model_name='entry',

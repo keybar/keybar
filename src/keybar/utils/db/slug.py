@@ -61,7 +61,7 @@ def find_next_increment(model, column, string, **query_opts):
     if not model.objects.filter(**filter).exists():
         return slug
 
-    filter = {'%s__startswith' % column: slug + '-'}
+    filter = {'{}__startswith'.format(column): slug + '-'}
     filter.update(query_opts)
 
     existing = model.objects.filter(**filter).values_list(column, flat=True)
@@ -76,4 +76,4 @@ def find_next_increment(model, column, string, **query_opts):
 
     assert max_length is None or num < 1000
 
-    return '{0}-{1}'.format(slug, num)
+    return '{}-{}'.format(slug, num)

@@ -16,7 +16,7 @@ class Vault(KeybarModel):
     __repr__ = sane_repr('owner_id', 'slug')
 
     def __str__(self):
-        return '%s (%s)' % (self.name, self.slug)
+        return '{} ({})'.format(self.name, self.slug)
 
     def save(self, *args, **kwargs):
         if not self.slug:
