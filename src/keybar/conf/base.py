@@ -30,13 +30,9 @@ INSTALLED_APPS = (
 
     # i18n/l10n
     'django_babel',
-    'statici18n',
 
     # For our REST Api
     'rest_framework',
-
-    # Form helpers
-    'floppyforms',
 
     # user (social-) account management
     'allauth',
