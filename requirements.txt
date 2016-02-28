@@ -1,4 +1,3 @@
--r requirements/base.txt
 -e .
 -e .[docs]
 -e .[tests]

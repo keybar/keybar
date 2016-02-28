@@ -25,15 +25,6 @@ deps:
 
 
 develop: deps
-	@echo "--> Installing npm and bower dependencies"
-	if test -z "$$TRAVIS"; then pip install nodeenv && nodeenv -p; fi; \
-
-	# Install nodejs dependencies
-	@npm install
-
-	# Extract CLDR from babel source installation
-	@python extras/import_cldr.py
-
 
 docs: clean-build
 	pip install --use-wheel "file://`pwd`#egg=keybar[docs]"

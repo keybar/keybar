@@ -1,5 +1,7 @@
 language: python
-python: '3.4'
+python:
+  - '3.4'
+  - '3.5'
 sudo: false
 
 addons:
@@ -26,10 +28,7 @@ compiler:
 cache:
   apt: true
   directories:
-    - node_modules
     - $HOME/.cache/pip/
-    - bower_components
-    - $HOME/virtualenv/python3.4.2
 
 env:
   global:

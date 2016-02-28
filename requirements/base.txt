@@ -1,2 +1,0 @@
-# Python3 enabled versions
--e git+https://github.com/EnTeQuAk/babel.git@support/py3k#egg=babel
