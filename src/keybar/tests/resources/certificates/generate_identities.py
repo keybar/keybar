@@ -68,12 +68,12 @@ def make_tls_chain(path, dry_run, chain_name):
     server = '%s-SERVER' % intermediate
     server_key = make_pkey(key_bits=1024)
     server_csr = make_certificate_signing_request(
-        server_key, CN='keybar.local', OU=server)
+        server_key, CN='local.keybar.io', OU=server)
     server_cert = make_certificate(
         server_csr, intermediate_key, intermediate_cert, make_serial(), NOW,
         TEN_YEARS,
         exts=[crypto.X509Extension(
-            b'subjectAltName', True, b'URI:https://keybar.local/')])
+            b'subjectAltName', True, b'URI:https://local.keybar.io/')])
 
     if not dry_run:
         write_key(path, server, server_key)
@@ -85,11 +85,11 @@ def make_tls_chain(path, dry_run, chain_name):
 
     client = '%s-CLIENT' % intermediate
     client_key = make_pkey(key_bits=1024)
-    client_csr = make_certificate_signing_request(client_key, CN='keybar.local', OU=client)
+    client_csr = make_certificate_signing_request(client_key, CN='local.keybar.io', OU=client)
     client_cert = make_certificate(
         client_csr, intermediate_key, intermediate_cert, make_serial(), NOW, TEN_YEARS,
         exts=[crypto.X509Extension(
-            b'subjectAltName', True, b'URI:https://keybar.local/')])
+            b'subjectAltName', True, b'URI:https://local.keybar.io/')])
 
     if not dry_run:
         write_key(path, client, client_key)

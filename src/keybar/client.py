@@ -156,5 +156,5 @@ class Client(requests.Session):
 
 
 class LocalClient(Client):
-    host = 'keybar.local'
+    host = 'local.keybar.io'
     port = '8443'

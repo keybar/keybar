@@ -151,18 +151,17 @@ Run the server, celery and other services
 Other services being used:
 
 * Celery, is being used to run [regular] tasks, e.g for mail output.
-* gulp-sass, is being used to compile our scss files and the foundation framework.
 
 
 To start all of them (including the tls-server):
 
 .. code-block:: bash
 
-   $ gulp serve
+   $
 
 .. note::
 
-    You can find the SSL version on `port 8443 <https://keybar.local:8443/>`_
+    You can find the SSL version on `port 8443 <https://local.keybar:8443/>`_
 
 .. note::
 
@@ -175,7 +174,7 @@ Run the test-suite
 
 .. note::
 
-    The test-suite requires to have access to the ``keybar.local`` domain.
+    The test-suite requires to have access to the ``local.keybar.io`` domain.
     You might need to add it to your ``/etc/hosts`` or use a DNS server like
     ``dnsmasq``.
 

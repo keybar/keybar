@@ -27,7 +27,7 @@ def keybar_liveserver(request, settings):
 
     settings.DEBUG = True
 
-    server = LiveServer('keybar.local:9999')
+    server = LiveServer('local.keybar.io:9999')
     request.addfinalizer(server.stop)
 
     return server

@@ -52,9 +52,9 @@ def get_server(debug=None):
 def run_server():
     server = get_server()
 
-    print('Start server on https://keybar.local:8443')
+    print('Start server on https://local.keybar.io:8443')
 
-    server.listen(8443, 'keybar.local')
+    server.listen(8443, 'local.keybar.io')
 
     try:
         ioloop.IOLoop.instance().start()

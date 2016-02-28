@@ -20,8 +20,8 @@ KEYBAR_CA_BUNDLE = os.path.join(certificates_dir, 'KEYBAR-ca-bundle.crt')
 
 KEYBAR_VERIFY_CLIENT_CERTIFICATE = True
 
-KEYBAR_DOMAIN = 'keybar.local'
-KEYBAR_HOST = 'keybar.local:8443'
+KEYBAR_DOMAIN = 'local.keybar.io'
+KEYBAR_HOST = 'local.keybar.io:8443'
 
 PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.MD5PasswordHasher',
@@ -30,6 +30,6 @@ PASSWORD_HASHERS = (
 CELERY_ALWAYS_EAGER = True
 CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
 
-KEYBAR_HOST = 'keybar.local:9999'
+KEYBAR_HOST = 'local.keybar.io:9999'
 
 KEYBAR_KDF_ITERATIONS = 100

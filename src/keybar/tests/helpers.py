@@ -26,7 +26,7 @@ class LiveServerThread(LiveServerThreadBase):
 
             for index, port in enumerate(self.possible_ports):
                 try:
-                    self.server.listen(port, 'keybar.local')
+                    self.server.listen(port, 'local.keybar.io')
                 except socket.error as exc:
                     if (index + 1 < len(self.possible_ports) and exc.errno == errno.EADDRINUSE):
                         # This port is already in use, so we go on and try with
