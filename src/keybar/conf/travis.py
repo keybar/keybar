@@ -11,4 +11,4 @@ DATABASES = {
     }
 }
 
-os.environ['ON_TRAVIS'] = True
+os.environ['ON_TRAVIS'] = 'true'
