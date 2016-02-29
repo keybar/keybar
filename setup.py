@@ -14,21 +14,21 @@ def read(*parts):
 
 test_requires = [
     # General test libraries
-    'tox==2.1.1',
-    'pytest==2.7.3,<2.8',
-    'pytest-django==2.8.0',
+    'tox==2.3.1',
+    'pytest==2.8.7',
+    'pytest-django==2.9.1',
     'pytest-isort==0.1.0',
 
     # Pep8 and code quality checkers
-    'pyflakes==0.9.2',
-    'pytest-cov==2.1.0',
+    'pyflakes==1.0.0',
+    'pytest-cov==2.2.1',
     'pytest-flakes==1.0.1',
     'pytest-pep8==1.0.6',
-    'pep8==1.6.2',
-    'coverage==3.7.1',
+    'pep8==1.7.0',
+    'coverage==4.0.3',
 
     # Fixtures, test helpers
-    'factory-boy==2.5.2',
+    'factory-boy==2.6.1',
     'mock==1.3.0',
     'hypothesis==3.0.5',
     'hypothesis-pytest==0.19.0',
@@ -40,28 +40,28 @@ install_requires = [
     'django==1.9.2',
 
     # User login, sessions, social integration
-    'django_user_sessions==1.2.0',
-    'django-allauth==0.23.0',
+    'django_user_sessions==1.3.0',
+    'django-allauth==0.24.1',
 
     # For async worker support
     'celery==3.1.20',
 
     # i18n/l10n,
     'babel==2.2.0',
-    'django-babel==0.4.0',
+    'django-babel==0.5.0',
 
     # For our REST Api
     'djangorestframework==3.3.2',
     'requests==2.9.1',
     'urllib3==1.14',
-    'requests-toolbelt==0.4',
+    'requests-toolbelt==0.6.0',
 
     # For our development (and probably production?) tls pre-configured server.
     'tornado==4.3',
 
     # All the crypto libs we ever need
     'cryptography==1.2.2',
-    'certifi==2015.11.20.1',
+    'certifi==2016.2.28',
     'qrcode==5.2.2',
 
     # Used to generate QR Codes
@@ -83,7 +83,7 @@ install_requires = [
 
 
 docs_requires = [
-    'sphinx==1.3.5',
+    'sphinx==1.3.6',
     'sphinx_rtd_theme'
 ]
 
