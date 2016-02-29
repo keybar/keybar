@@ -8,22 +8,10 @@ addons:
   postgresql: '9.4'
   hosts:
     - local.keybar.io
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-      - debian-sid
-    packages:
-      - gcc-4.7
-      - g++-4.8
-      - openssl
-      - libssl-dev
 
 services:
   - memcached
   - redis-server
-
-compiler:
-  - gcc
 
 cache:
   apt: true
@@ -35,10 +23,6 @@ env:
     - DJANGO_SETTINGS_MODULE="keybar.conf.travis"
     - KEYBAR_TEST_DB_NAME=keybar_test
     - KEYBAR_TEST_DB_USER=travis
-
-before_install:
-  - g++ --version
-  - npm config set python /usr/bin/python2.7
 
 before_script:
   - psql -c 'create database keybar_test;' -U postgres
