@@ -83,7 +83,7 @@ class TestTestClient(LiveServerTest):
 
         assert 'Your user agent has good protocol support' in response.text
 
-    @pytest.mark.xfail(os.environ.get('ON_TRAVIS', False), reason='on travis')
+    @pytest.mark.xfail(os.environ.get('ON_TRAVIS', None) == 'true', reason='on travis')
     def test_sni_suport(self, allow_offline):
         session = requests.Session()
         session.mount('https://', TLS12SSLAdapter())
@@ -91,7 +91,7 @@ class TestTestClient(LiveServerTest):
         assert 'sent the following TLS server name indication extension' in response.text
         assert 'negotiated protocol: TLSv1.2' in response.text
 
-    @pytest.mark.xfail(os.environ.get('ON_TRAVIS', False), reason='on travis')
+    @pytest.mark.xfail(os.environ.get('ON_TRAVIS', None) == 'true', reason='on travis')
     def test_vulnerability_logjam_by_ssl_labs(self, allow_offline):
         assert verify_rejected_ssl('https://www.ssllabs.com:10445/')
 
