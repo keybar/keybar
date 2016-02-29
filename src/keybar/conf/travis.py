@@ -10,3 +10,5 @@ DATABASES = {
         'USER': os.environ['KEYBAR_TEST_DB_USER']
     }
 }
+
+os.environ['ON_TRAVIS'] = True
