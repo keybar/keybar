@@ -9,7 +9,7 @@ from keybar.utils.crypto import load_private_key, serialize_public_key
 
 
 private_fpath = os.path.join(
-    settings.BASE_DIR, 'tests', 'resources', 'rsa_keys', 'id_rsa')
+    settings.BASE_DIR, 'tests', 'resources', 'keys', 'id_rsa')
 
 private_fpath2 = os.path.join(
     settings.BASE_DIR, 'tests', 'resources', 'rsa_keys', 'id_rsa2')
