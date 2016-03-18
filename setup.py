@@ -20,11 +20,8 @@ test_requires = [
     'pytest-isort==0.1.0',
 
     # Pep8 and code quality checkers
-    'pyflakes==1.1.0',
+    'flake8==2.5.4',
     'pytest-cov==2.2.1',
-    'pytest-flakes==1.0.1',
-    'pytest-pep8==1.0.6',
-    'pep8==1.7.0',
     'coverage==4.0.3',
 
     # Fixtures, test helpers

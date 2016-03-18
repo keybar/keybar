@@ -41,10 +41,10 @@ clean-build:
 
 
 lint:
-	flake8 keybar --ignore='E122,E124,E125,E126,E128,E501,F403' --exclude="**/migrations/**"
+	flake8 src/
 
 
-test:
+test: lint
 	py.test ${APP}
 
 
