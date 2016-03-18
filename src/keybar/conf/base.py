@@ -20,9 +20,6 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
 
-    # Disabled until we have proper Django 1.9 support
-    # 'user_sessions',
-
     'django.contrib.messages',
     'django.contrib.staticfiles',
 

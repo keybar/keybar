@@ -15,12 +15,12 @@ def read(*parts):
 test_requires = [
     # General test libraries
     'tox==2.3.1',
-    'pytest==2.8.7',
+    'pytest==2.9.0',
     'pytest-django==2.9.1',
     'pytest-isort==0.1.0',
 
     # Pep8 and code quality checkers
-    'pyflakes==1.0.0',
+    'pyflakes==1.1.0',
     'pytest-cov==2.2.1',
     'pytest-flakes==1.0.1',
     'pytest-pep8==1.0.6',
@@ -30,28 +30,24 @@ test_requires = [
     # Fixtures, test helpers
     'factory-boy==2.6.1',
     'mock==1.3.0',
-    'hypothesis==3.0.5',
+    'hypothesis==3.1.0',
     'hypothesis-pytest==0.19.0',
 ]
 
 
 install_requires = [
     # General dependencies
-    'django==1.9.2',
-
-    # User login, sessions, social integration
-    'django_user_sessions==1.3.0',
-    'django-allauth==0.24.1',
+    'django==1.9.4',
 
     # For async worker support
-    'celery==3.1.20',
+    'celery==3.1.23',
 
     # i18n/l10n,
     'babel==2.2.0',
     'django-babel==0.5.0',
 
     # For our REST Api
-    'djangorestframework==3.3.2',
+    'djangorestframework==3.3.3',
     'requests==2.9.1',
     'urllib3==1.14',
     'requests-toolbelt==0.6.0',
@@ -78,7 +74,7 @@ install_requires = [
     'py509==0.1.0',
 
     # For proper timezone support.
-    'pytz==2015.7',
+    'pytz==2016.1',
 ]
 
 
