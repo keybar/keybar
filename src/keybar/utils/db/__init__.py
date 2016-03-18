@@ -32,3 +32,4 @@ class KeybarModel(models.Model):
         abstract = True
 
     __repr__ = sane_repr('id')
+    __str__ = sane_str('id')
