@@ -60,7 +60,7 @@ install_requires = [
     'tornado==4.3',
 
     # All the crypto libs we ever need
-    'cryptography==1.2.2',
+    'cryptography==1.3',
     'certifi==2016.2.28',
     'qrcode==5.2.2',
 
