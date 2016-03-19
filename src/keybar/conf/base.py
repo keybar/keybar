@@ -184,7 +184,7 @@ SESSION_SERIALIZER = 'keybar.utils.helpers.UUIDCapableJSONSerializer'
 # Django REST Framework related settings.
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'keybar.api.auth.KeybarApiSignatureAuthentication',
+        'keybar.api.auth.JSONWebTokenAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',

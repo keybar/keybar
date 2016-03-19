@@ -1,22 +1,16 @@
-import hashlib
 import ssl
 import urllib
 import uuid
-from base64 import encodebytes
-from datetime import datetime
-from email.utils import formatdate
-from time import mktime
 from urllib.parse import urlencode, urljoin
 
 import pkg_resources
 import requests
 from django.conf import settings
-from django.utils.encoding import force_bytes
 from requests_toolbelt import SSLAdapter, user_agent
 
-from keybar.utils import json
 from keybar.utils.http import InsecureTransport, InvalidHost, is_secure_transport, verify_host
 from keybar.utils.crypto import serialize_private_key
+from keybar.utils.jwt import encode_token
 
 
 class TLS12SSLAdapter(SSLAdapter):
@@ -80,12 +74,6 @@ class Client(requests.Session):
 
         data = kwargs.get('data', {})
 
-        now = datetime.utcnow()
-        stamp = mktime(now.timetuple())
-
-        raw_data = force_bytes(json.dumps(data))
-        content_md5 = encodebytes(hashlib.md5(raw_data).digest()).strip()
-
         parse_result = urllib.parse.urlparse(url)
 
         dist = pkg_resources.get_distribution('keybar')
@@ -97,20 +85,16 @@ class Client(requests.Session):
             'Path': parse_result.path,
             'Accept': self.content_type,
             'Content-Type': self.content_type,
-            'X-Device-Id': self.device_id,
-            'Content-MD5': content_md5,
-            'Date': formatdate(timeval=stamp, localtime=False, usegmt=True)
         }
+
+        if self.device_id and self.secret:
+            headers['Authorization'] = 'JWT {}'.format(
+                encode_token(self.device_id, self.secret)
+            )
 
         headers.update(kwargs.pop('headers', {}))
 
-        if self.device_id and self.secret:
-            auth = ()
-        else:
-            auth = ()
-
         kwargs.update({
-            'auth': auth,
             'headers': headers,
             'data': data,
             'cert': (settings.KEYBAR_CLIENT_CERTIFICATE, settings.KEYBAR_CLIENT_KEY),

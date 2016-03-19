@@ -45,6 +45,7 @@ install_requires = [
 
     # For our REST Api
     'djangorestframework==3.3.3',
+    'PyJWT==1.4.0',
     'requests==2.9.1',
     'urllib3==1.14',
     'requests-toolbelt==0.6.0',

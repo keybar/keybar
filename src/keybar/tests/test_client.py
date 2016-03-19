@@ -5,6 +5,9 @@ import requests
 
 from keybar.client import TLS12SSLAdapter
 from keybar.tests.helpers import LiveServerTest
+from keybar.tests.factories.user import UserFactory
+from keybar.tests.factories.device import (
+    AuthorizedDeviceFactory, PRIVATE_KEY, PRIVATE_KEY2)
 from keybar.utils.http import InsecureTransport
 
 
@@ -29,34 +32,42 @@ class TestTestClient(LiveServerTest):
         with pytest.raises(InsecureTransport):
             client.get('http://fails.xy')
 
-    # def test_simple(self):
-    #     user = UserFactory.create(is_superuser=True)
-    #     device = AuthorizedDeviceFactory.create(user=user)
+    def test_simple_unauthorized(self):
+        user = UserFactory.create()
+        device = AuthorizedDeviceFactory.create(user=user)
 
-    #     client = self.get_client(device.id, PRIVATE_KEY)
+        client = self.get_client(device.id, None)
 
-    #     endpoint = '{0}/api/users/'.format(self.liveserver.url)
+        endpoint = '{0}/api/dummy/'.format(self.liveserver.url)
 
-    #     response = client.get(endpoint)
+        response = client.get(endpoint)
 
-    #     assert response.status_code == 200
+        assert response.status_code == 401
 
-    # def test_simple_wrong_device_secret(self, settings):
-    #     user = UserFactory.create(is_superuser=True)
-    #     device = AuthorizedDeviceFactory.create(user=user)
+    def test_simple_authorized(self):
+        user = UserFactory.create(is_superuser=True)
+        device = AuthorizedDeviceFactory.create(user=user)
 
-    #     fpath = os.path.join(settings.BASE_DIR, 'tests', 'resources', 'rsa_keys', 'id_rsa2')
+        client = self.get_client(device.id, PRIVATE_KEY)
 
-    #     with open(fpath, 'rb') as fobj:
-    #         wrong_secret = fobj.read()
+        endpoint = '{0}/api/dummy/'.format(self.liveserver.url)
 
-    #     client = self.get_client(device.id, wrong_secret)
+        response = client.get(endpoint)
 
-    #     endpoint = '{0}/api/users/'.format(self.liveserver.url)
+        assert response.status_code == 200
+        assert response.content == b'"{\\"dummy\\":\\"ok\\"}"'
 
-    #     response = client.get(endpoint)
-    #     assert response.status_code == 401
-    #     assert response.json()['detail'] == 'Bad signature'
+    def test_simple_wrong_device_secret(self, settings):
+        user = UserFactory.create(is_superuser=True)
+        device = AuthorizedDeviceFactory.create(user=user)
+
+        client = self.get_client(device.id, PRIVATE_KEY2)
+
+        endpoint = '{0}/api/dummy/'.format(self.liveserver.url)
+
+        response = client.get(endpoint)
+        assert response.status_code == 401
+        assert response.json()['detail'] == 'Error decoding signature.'
 
     def test_to_server_without_tls_10(self, allow_offline):
         """
