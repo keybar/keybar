@@ -24,7 +24,7 @@ class TestDevice:
         assert device.authorized is False
 
     def test_fingerprint(self):
-        expected = '1bc1 bf91 73d0 dd6a  7038 8ab9 566f 03c5'
+        expected = 'a4a4 aeca b361 a574  83d4 8fa8 e5f3 5efa'
 
         device = DeviceFactory.create()
         assert device.fingerprint == expected
