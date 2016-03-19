@@ -23,12 +23,16 @@ env:
     - KEYBAR_TEST_DB_NAME=keybar_test
     - KEYBAR_TEST_DB_USER=travis
 
+before_install:
+  - openssl version
+  - psql --version
+
+install:
+  - make develop
+
 before_script:
   - psql -c 'create database keybar_test;' -U postgres
 
 script:
-  - openssl version
-  - psql --version
-  - make develop
   - make test
   - make lint
