@@ -51,12 +51,18 @@ def generate_rsa_keys(key_size=4096):
 
 
 def serialize_public_key(public_key):
+    if isinstance(public_key, str):
+        public_key = load_public_key(public_key)
+
     return force_text(public_key.public_bytes(
         encoding=serialization.Encoding.PEM,
         format=serialization.PublicFormat.SubjectPublicKeyInfo))
 
 
 def serialize_private_key(private_key, password=None):
+    if isinstance(private_key, str):
+        private_key = load_private_key(private_key)
+
     if password is None:
         return force_text(private_key.private_bytes(
             encoding=serialization.Encoding.PEM,
