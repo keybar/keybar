@@ -79,13 +79,11 @@ class TestTestClient(LiveServerTest):
         response = session.get('https://tls1test.salesforce.com/s/')
         assert response.status_code == 200
 
-    @pytest.mark.skip(reason='intermediate failure')
     def test_under_downgrade_attack_to_ssl_3(self, allow_offline):
         """
         Verify that the connection is rejected if the remote server (or man
         in the middle) claims that SSLv3 is the best supported protocol.
         """
-        # TODO: Investigate why this fails :-/
         url = 'https://ssl3.zmap.io/sslv3test.js'
         assert verify_rejected_ssl(url)
 
