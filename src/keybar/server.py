@@ -41,7 +41,10 @@ def get_server(debug=None):
         (r'.*', web.FallbackHandler, dict(fallback=container)),
     ], debug=debug)
 
-    assert settings.KEYBAR_VERIFY_CLIENT_CERTIFICATE
+    # TODO: Make it possible to enable client-certificate verification
+    # only for parts of our urls, e.g the API but not directly
+    # the website.
+    # assert settings.KEYBAR_VERIFY_CLIENT_CERTIFICATE
 
     server = httpserver.HTTPServer(
         application,
