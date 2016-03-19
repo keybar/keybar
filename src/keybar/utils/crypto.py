@@ -192,7 +192,7 @@ def get_server_context(verify=True):
     server_ctx.verify_mode = ssl.CERT_OPTIONAL if not verify else ssl.CERT_REQUIRED
     server_ctx.set_ciphers(CIPHERS)
 
-    # Disable that is not TSL 1.0+
+    # Disable that is not TSL 1.2+
     server_ctx.options |= ssl.OP_NO_SSLv2
     server_ctx.options |= ssl.OP_NO_SSLv3
     server_ctx.options |= ssl.OP_NO_TLSv1
