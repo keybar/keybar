@@ -79,7 +79,7 @@ class TestTestClient(LiveServerTest):
         response = session.get('https://tls1test.salesforce.com/s/')
         assert response.status_code == 200
 
-    @pytest.mark.xfail
+    @pytest.mark.skip(reason='intermediate failure')
     def test_under_downgrade_attack_to_ssl_3(self, allow_offline):
         """
         Verify that the connection is rejected if the remote server (or man
@@ -96,7 +96,7 @@ class TestTestClient(LiveServerTest):
 
         assert 'Your user agent has good protocol support' in response.text
 
-    @pytest.mark.xfail(os.environ.get('ON_TRAVIS', None) == 'true', reason='on travis')
+    @pytest.mark.skipif(os.environ.get('ON_TRAVIS', None) == 'true', reason='on travis')
     def test_sni_suport(self, allow_offline):
         session = requests.Session()
         session.mount('https://', TLS12SSLAdapter())
@@ -104,7 +104,7 @@ class TestTestClient(LiveServerTest):
         assert 'sent the following TLS server name indication extension' in response.text
         assert 'negotiated protocol: TLSv1.2' in response.text
 
-    @pytest.mark.xfail(os.environ.get('ON_TRAVIS', None) == 'true', reason='on travis')
+    @pytest.mark.skipif(os.environ.get('ON_TRAVIS', None) == 'true', reason='on travis')
     def test_vulnerability_logjam_by_ssl_labs(self, allow_offline):
         assert verify_rejected_ssl('https://www.ssllabs.com:10445/')
 
