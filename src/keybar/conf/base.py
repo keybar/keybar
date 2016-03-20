@@ -196,8 +196,6 @@ PASSWORD_HASHERS = [
 
 GEOIP_PATH = os.path.join(BASE_DIR, 'resources', 'geoip')
 
-SESSION_SERIALIZER = 'keybar.utils.helpers.UUIDCapableJSONSerializer'
-
 # Django REST Framework related settings.
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
