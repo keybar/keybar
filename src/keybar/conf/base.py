@@ -208,7 +208,7 @@ REST_FRAMEWORK = {
         'keybar.api.parsers.JSONParser',
     ),
     'DEFAULT_RENDERER_CLASSES': (
-        'rest_framework.renderers.JSONRenderer',
+        'keybar.api.renderers.JSONRenderer',
     ),
 }
 
@@ -239,6 +239,6 @@ KEYBAR_DOMAIN = None
 KEYBAR_HOST = None
 
 # NOTE: CHANGING THOSE VALUES REQUIRES RE-ENCRYPTION OF EVERYTHING
-# AND HAS SOME DEEP IMPACT. !! JUST DONT !!
+# AND HAS SOME HUGE IMPACT. !! JUST DONT !!
 # In 2013 100,000 was the recommended value, so we settle with one million for now.
 KEYBAR_KDF_ITERATIONS = 1000000

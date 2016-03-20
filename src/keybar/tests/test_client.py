@@ -55,7 +55,7 @@ class TestTestClient(LiveServerTest):
         response = client.get(endpoint)
 
         assert response.status_code == 200
-        assert response.content == b'"{\\"dummy\\":\\"ok\\"}"'
+        assert response.content == b'"{\\"dummy\\": \\"ok\\"}"'
 
     def test_simple_wrong_device_secret(self, settings):
         user = UserFactory.create(is_superuser=True)

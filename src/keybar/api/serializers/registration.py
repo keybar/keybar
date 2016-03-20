@@ -7,12 +7,20 @@ from keybar.utils.crypto import load_public_key
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    device_name = serializers.CharField(max_length=256, required=False)
-    public_key = serializers.CharField(required=True)
+    device_name = serializers.CharField(
+        max_length=256, required=False, write_only=True)
+    public_key = serializers.CharField(
+        required=True, write_only=True)
+
+    # Device ID will be inserted into the response.
+    device_id = serializers.UUIDField(source='_saved_device.id', read_only=True)
 
     class Meta:
         model = User
-        fields = ('email', 'password', 'device_name', 'public_key')
+        fields = ('email', 'password', 'device_name', 'device_id', 'public_key')
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
 
     def validate_password(self, password):
         password_validation.validate_password(password)
@@ -35,9 +43,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
 
-        Device.objects.create(
+        device = Device.objects.create(
             public_key=public_key,
             name=device_name,
             user=user,
             authorized=True)
+        user._saved_device = device
         return user

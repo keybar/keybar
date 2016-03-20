@@ -31,7 +31,7 @@ class APIError(Exception):
 
 class Client(requests.Session):
     """Proof of concept client implementation."""
-    content_type = 'application/json'
+    content_type = 'application/vnd.keybar+json'
 
     host = 'keybar.me'
     port = '443'
