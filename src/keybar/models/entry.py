@@ -13,7 +13,7 @@ from keybar.utils.db import KeybarModel, sane_repr
 
 
 class Entry(KeybarModel):
-    vault = models.ForeignKey('keybar.Vault', related_name='entries')
+    user = models.ForeignKey('keybar.User', related_name='entries')
 
     title = models.TextField(_('Title'), blank=True, default='')
     url = models.URLField(blank=True, default='')
