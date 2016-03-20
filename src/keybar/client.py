@@ -119,25 +119,6 @@ class Client(requests.Session):
 
         return response
 
-    def register_device(self, device_name, public_key):
-        url = self.build_url('/api/devices/register/')
-        return self._api_request('POST', url, data={
-            'name': device_name,
-            # TODO: Verify correct public key instance (pem exported)
-            'public_key': public_key
-        })
-
-    def list_devices(self):
-        url = self.build_url('/api/devices/')
-        return self._api_request('GET', url)
-
-    def register_user(self, email, password):
-        url = self.build_url('/api/users/register/')
-        return self._api_request('POST', url, data={
-            'email': email,
-            'password1': password
-        })
-
 
 class LocalClient(Client):
     host = 'local.keybar.io'
