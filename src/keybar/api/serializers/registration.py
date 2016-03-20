@@ -20,7 +20,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def validate_public_key(self, public_key):
         try:
-            loaded = load_public_key(public_key)
+            load_public_key(public_key)
         except ValueError:
             raise serializers.ValidationError('Invalid public key')
 
