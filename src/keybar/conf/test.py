@@ -23,12 +23,7 @@ KEYBAR_VERIFY_CLIENT_CERTIFICATE = True
 KEYBAR_DOMAIN = 'local.keybar.io'
 KEYBAR_HOST = 'local.keybar.io:9999'
 
-PASSWORD_HASHERS = (
-    'django.contrib.auth.hashers.MD5PasswordHasher',
-)
-
 CELERY_ALWAYS_EAGER = True
 CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
-
 
 KEYBAR_KDF_ITERATIONS = 100
