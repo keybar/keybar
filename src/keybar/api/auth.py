@@ -53,6 +53,7 @@ class JSONWebTokenAuthentication(BaseAuthentication):
             return None
 
         unverified_data = jwt.decode(jwt_value, verify=False)
+
         if 'iss' not in unverified_data:
             msg = 'JWT iss (issuer) claim is missing'
             raise exceptions.AuthenticationFailed(detail=msg)
