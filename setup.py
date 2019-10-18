@@ -62,7 +62,7 @@ install_requires = [
     'Pillow==3.1.1',
 
     # WSGI utilities
-    'werkzeug==0.11.4',
+    'werkzeug==0.15.3',
 
     # For the client... resides here until we split all the code
     # to a separate repository. Keep it simple for now.
