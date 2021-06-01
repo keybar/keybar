@@ -47,7 +47,7 @@ install_requires = [
     'djangorestframework==3.3.3',
     'PyJWT==1.4.0',
     'requests==2.9.1',
-    'urllib3==1.14',
+    'urllib3==1.26.5',
     'requests-toolbelt==0.6.0',
 
     # For our development (and probably production?) tls pre-configured server.
