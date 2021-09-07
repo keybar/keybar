@@ -59,7 +59,7 @@ install_requires = [
     'qrcode==5.2.2',
 
     # Used to generate QR Codes
-    'Pillow==3.1.1',
+    'Pillow==8.3.2',
 
     # WSGI utilities
     'werkzeug==0.11.4',
