@@ -40,7 +40,7 @@ install_requires = [
     'celery==3.1.23',
 
     # i18n/l10n,
-    'babel==2.2.0',
+    'babel==2.9.1',
     'django-babel==0.5.0',
 
     # For our REST Api
