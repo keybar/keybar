@@ -37,7 +37,7 @@ install_requires = [
     'django==1.9.4',
 
     # For async worker support
-    'celery==3.1.23',
+    'celery==5.2.2',
 
     # i18n/l10n,
     'babel==2.2.0',
