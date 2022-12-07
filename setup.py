@@ -55,7 +55,7 @@ install_requires = [
 
     # All the crypto libs we ever need
     'cryptography==1.3',
-    'certifi==2016.2.28',
+    'certifi==2022.12.7',
     'qrcode==5.2.2',
 
     # Used to generate QR Codes
